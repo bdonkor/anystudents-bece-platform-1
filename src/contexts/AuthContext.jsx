@@ -77,12 +77,12 @@ export function AuthProvider({ children }) {
     setProfile(data || null)
   }
 
-  async function signUp(email, password, fullName, role = 'student') {
+  async function signUp(email, password, fullName, role = 'student', level = 'jhs', program = '') {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        data: { full_name: fullName, role }
+        data: { full_name: fullName, role, level, program }
       }
     })
     return { data, error }

@@ -25,9 +25,15 @@ export default function PaymentSuccessPage() {
     setActivating(true)
     setError('')
     try {
-      // 1. Activate subscription (30 days)
-      const { error: actError } = await activateSubscription(user.id, 1)
-      if (actError) throw actError
+      // 1. Call the secure Edge Function to verify and activate
+      const { data, error: functionError } = await translateSupabaseError(
+        supabase.functions.invoke('verify-payment', {
+          body: { reference, userId: user.id }
+        })
+      )
+      
+      if (functionError) throw new Error(functionError)
+      if (data?.error) throw new Error(data.error)
 
       // 2. Refresh local auth state
       await refreshAuthProfile()
@@ -41,10 +47,17 @@ export default function PaymentSuccessPage() {
     }
   }
 
+  // Small helper to handle supabase function response format
+  async function translateSupabaseError(promise) {
+    const res = await promise
+    if (res.error) return { data: null, error: res.error.message || 'Unknown error' }
+    return { data: res.data, error: null }
+  }
+
   return (
     <div className="min-h-screen flex flex-col bg-cream">
       <Helmet>
-        <title>Payment Success | AnyStudents BECE</title>
+        <title>Payment Success | AnyStudents</title>
         <meta name="robots" content="noindex" />
       </Helmet>
       <Navbar />
@@ -76,7 +89,7 @@ export default function PaymentSuccessPage() {
               ) : (
                 <>
                   <p className="font-body text-gray-600 text-lg mb-2">
-                    Welcome to AnyStudents BECE Standard!
+                    Welcome to AnyStudents Standard!
                   </p>
                   <p className="font-body text-gray-500 text-sm mb-8">
                     {profile?.subscription_status === 'active'
@@ -91,11 +104,11 @@ export default function PaymentSuccessPage() {
                 <h3 className="font-display font-semibold text-brand-800 mb-3">You now have access to:</h3>
                 <ul className="space-y-2 text-sm font-body text-brand-700">
                   {[
-                    'Standard mock exams for all 10 BECE subjects',
+                    'Standard mock exams for all subjects',
                     'Unique papers every time',
                     'Full marking schemes with every exam',
                     'Performance tracker and readiness score',
-                    'Timed exam mode — real BECE conditions',
+                    `Timed exam mode — real ${profile?.level === 'shs' ? 'WASSCE' : 'BECE'} conditions`,
                   ].map(item => (
                     <li key={item} className="flex items-center gap-2">
                       <CheckCircle size={14} className="text-brand-500 shrink-0" />

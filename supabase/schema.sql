@@ -13,12 +13,15 @@ CREATE TABLE profiles (
   full_name TEXT,
   role TEXT NOT NULL DEFAULT 'student' CHECK (role IN ('student', 'teacher', 'admin')),
   school TEXT,
+  level TEXT DEFAULT 'jhs' CHECK (level IN ('jhs', 'shs')),
+  program TEXT,
   free_exam_used BOOLEAN DEFAULT false,
   subscription_status TEXT DEFAULT 'inactive' CHECK (subscription_status IN ('inactive', 'active', 'suspended')),
   subscription_expiry TIMESTAMPTZ,
   exam_count_today INTEGER DEFAULT 0,
   exam_count_reset_date DATE DEFAULT CURRENT_DATE,
   is_suspended BOOLEAN DEFAULT false,
+  guardian_email TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -41,6 +44,7 @@ CREATE TABLE exams (
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
   user_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
   subject TEXT NOT NULL,
+  level TEXT DEFAULT 'jhs' CHECK (level IN ('jhs', 'shs')),
   version TEXT DEFAULT 'A',
   exam_content JSONB NOT NULL,
   exam_seed TEXT UNIQUE NOT NULL,
@@ -141,12 +145,14 @@ CREATE POLICY "Users can insert own payments"
 CREATE OR REPLACE FUNCTION handle_new_user()
 RETURNS TRIGGER AS $$
 BEGIN
-  INSERT INTO profiles (id, email, full_name, role)
+  INSERT INTO profiles (id, email, full_name, role, level, program)
   VALUES (
     NEW.id,
     NEW.email,
     NEW.raw_user_meta_data->>'full_name',
-    COALESCE(NEW.raw_user_meta_data->>'role', 'student')
+    COALESCE(NEW.raw_user_meta_data->>'role', 'student'),
+    COALESCE(NEW.raw_user_meta_data->>'level', 'jhs'),
+    NEW.raw_user_meta_data->>'program'
   );
   RETURN NEW;
 END;

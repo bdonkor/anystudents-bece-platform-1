@@ -7,35 +7,33 @@ import Footer from '../components/Footer'
 import { CheckCircle, Zap, Trophy, Shield, BookOpen, Clock, Star, ArrowRight, ChevronDown } from 'lucide-react'
 
 const SUBJECTS = [
-  { name: 'English Language', icon: '✍️', color: 'bg-purple-50 border-purple-200 text-purple-800', gradient: 'from-purple-100 to-purple-50', hoverBorder: 'hover:border-purple-400', ringColor: 'focus:ring-purple-300' },
-  { name: 'Mathematics', icon: '📐', color: 'bg-blue-50 border-blue-200 text-blue-800', gradient: 'from-blue-100 to-blue-50', hoverBorder: 'hover:border-blue-400', ringColor: 'focus:ring-blue-300' },
-  { name: 'Integrated Science', icon: '🔬', color: 'bg-sky-50 border-sky-200 text-sky-800', gradient: 'from-sky-100 to-sky-50', hoverBorder: 'hover:border-sky-400', ringColor: 'focus:ring-sky-300' },
-  { name: 'Social Studies', icon: '🌍', color: 'bg-amber-50 border-amber-200 text-amber-800', gradient: 'from-amber-100 to-amber-50', hoverBorder: 'hover:border-amber-400', ringColor: 'focus:ring-amber-300' },
-  { name: 'RME', icon: '🕊️', color: 'bg-orange-50 border-orange-200 text-orange-800', gradient: 'from-orange-100 to-orange-50', hoverBorder: 'hover:border-orange-400', ringColor: 'focus:ring-orange-300' },
-  { name: 'Ghanaian Language and Culture', icon: '🗣️', color: 'bg-red-50 border-red-200 text-red-800', gradient: 'from-red-100 to-red-50', hoverBorder: 'hover:border-red-400', ringColor: 'focus:ring-red-300' },
-  { name: 'French', icon: '🇫🇷', color: 'bg-pink-50 border-pink-200 text-pink-800', gradient: 'from-pink-100 to-pink-50', hoverBorder: 'hover:border-pink-400', ringColor: 'focus:ring-pink-300' },
-  { name: 'ICT', icon: '💻', color: 'bg-indigo-50 border-indigo-200 text-indigo-800', gradient: 'from-indigo-100 to-indigo-50', hoverBorder: 'hover:border-indigo-400', ringColor: 'focus:ring-indigo-300' },
-  { name: 'Career Technology', icon: '🛠️', color: 'bg-teal-50 border-teal-200 text-teal-800', gradient: 'from-teal-100 to-teal-50', hoverBorder: 'hover:border-teal-400', ringColor: 'focus:ring-teal-300' },
-  { name: 'Creative Arts and Design', icon: '🎨', color: 'bg-rose-50 border-rose-200 text-rose-800', gradient: 'from-rose-100 to-rose-50', hoverBorder: 'hover:border-rose-400', ringColor: 'focus:ring-rose-300' },
+  { name: 'English Language', icon: '✍️', color: 'bg-purple-50 border-purple-200 text-purple-800' },
+  { name: 'Mathematics', icon: '📐', color: 'bg-blue-50 border-blue-200 text-blue-800' },
+  { name: 'Integrated Science', icon: '🔬', color: 'bg-sky-50 border-sky-200 text-sky-800' },
+  { name: 'Social Studies', icon: '🌍', color: 'bg-amber-50 border-amber-200 text-amber-800' },
+  { name: 'Elective Mathematics', icon: '📈', color: 'bg-indigo-50 border-indigo-200 text-indigo-800' },
+  { name: 'Physics', icon: '⚛️', color: 'bg-blue-50 border-blue-200 text-blue-800' },
+  { name: 'Financial Accounting', icon: '📊', color: 'bg-emerald-50 border-emerald-200 text-emerald-800' },
+  { name: 'Government', icon: '🏛️', color: 'bg-red-50 border-red-200 text-red-800' },
 ]
 
 const STATS = [
-  { value: '10,000+', label: 'Students Practising' },
-  { value: '50,000+', label: 'Exams Generated' },
-  { value: '10', label: 'BECE Subjects' },
-  { value: '100%', label: 'Official Standard' },
+  { value: '15,000+', label: 'Students Practising' },
+  { value: '75,000+', label: 'Exams Generated' },
+  { value: '35+', label: 'JHS / SHS Subjects' },
+  { value: '100%', label: 'WAEC Standards' },
 ]
 
 const FEATURES = [
   {
     icon: <Zap size={22} className="text-gold-500" />,
     title: 'Instant Exam Generation',
-    desc: 'Get a full 40-question BECE mock exam generated in seconds. New unique paper every time.'
+    desc: 'Get a full BECE or WASSCE mock exam generated in seconds. New unique paper every time.'
   },
   {
     icon: <Trophy size={22} className="text-gold-500" />,
     title: 'Highest-Quality Questions',
-    desc: 'Questions follow the exact BECE format, difficulty, and marking scheme used in the national exams.'
+    desc: 'Questions follow the exact WAEC format, difficulty, and marking scheme used in the national exams.'
   },
   {
     icon: <BookOpen size={22} className="text-gold-500" />,
@@ -61,20 +59,20 @@ const FEATURES = [
 
 const TESTIMONIALS = [
   {
-    name: 'Akosua Mensah',
-    school: 'Achimota Junior High, Accra',
-    text: 'I practised every subject on AnyStudents and passed my BECE with flying colours. The questions were exactly like the real exam!',
+    name: 'Akosua',
+    location: 'Accra',
+    text: 'I practised every subject on AnyStudents and passed my exams with flying colours. The questions were exactly like the real SHS papers!',
     grade: 'Aggregate 6'
   },
   {
-    name: 'Kofi Asante',
-    school: 'Kumasi Methodist JHS',
+    name: 'Kofi',
+    location: 'Kumasi',
     text: 'My teacher used AnyStudents to give us different exam versions so nobody could copy. I improved my Maths from fail to B.',
     grade: 'Aggregate 9'
   },
   {
-    name: 'Ama Boateng',
-    school: 'Cape Coast RC JHS',
+    name: 'Ama',
+    location: 'Cape Coast',
     text: 'The marking scheme helped me understand the examiners\' requirements. I could see exactly where I was losing marks.',
     grade: 'Aggregate 8'
   },
@@ -96,22 +94,15 @@ export default function HomePage() {
     }
     document.addEventListener("mousedown", handleClickOutside)
 
-    // Redirect logged-in users to their dashboard
-    if (user) {
-      const path = profile?.role === 'admin' ? '/admin' : 
-                   profile?.role === 'teacher' ? '/teacher' : '/student';
-      navigate(path);
-    }
-
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [user, profile, navigate])
 
   return (
     <div className="min-h-screen flex flex-col bg-cream">
       <Helmet>
-        <title>AnyStudents BECE | Standard Mock Exams for Ghana JHS 3</title>
-        <meta name="description" content="AnyStudents BECE Exam Platform - Practice Standard BECE mock exams for Ghana JHS 3 students. Official WAEC-style questions, instant marking schemes, and performance tracking." />
-        <link rel="canonical" href="https://anystudents.com/" />
+        <title>AnyStudents | Standard BECE & WASSCE Mock Exams Platform</title>
+        <meta name="description" content="AnyStudents Mock Exams - Practice Standard BECE (JHS) and WASSCE (SHS) mock exams. Official WAEC-style questions, instant marking schemes, and performance tracking." />
+        <link rel="canonical" href="https://mockexams.anystudents.com/" />
       </Helmet>
       <Navbar />
 
@@ -121,17 +112,17 @@ export default function HomePage() {
           style={{ backgroundImage: 'radial-gradient(circle at 30% 50%, #f5b400 0%, transparent 60%), radial-gradient(circle at 70% 20%, #334155 0%, transparent 50%)' }} />
         <div className="relative max-w-7xl mx-auto px-6 py-20 md:py-28 text-center">
           <div className="inline-flex items-center gap-2 bg-gold-500/20 border border-gold-500/30 rounded-full px-4 py-1.5 mb-6 animate-fade-in">
-            <span className="text-gold-400 text-[10px] md:text-sm font-mono tracking-wide">Generate Any BECE Mock Exam Questions Anytime</span>
+            <span className="text-gold-400 text-[10px] md:text-sm font-mono tracking-wide">Create Mock Exams Anytime</span>
           </div>
 
           <h1 className="font-display text-4xl md:text-6xl font-bold text-white leading-tight mb-6 animate-fade-up">
-            Pass Your BECE With<br />
+            Pass Your BECE & WASSCE With<br />
             <span className="text-gold-400">Standard Mock Exams</span>
           </h1>
 
           <p className="font-body text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-8 leading-relaxed animate-fade-up"
              style={{ animationDelay: '0.1s' }}>
-            Practice Official-Standard BECE questions instantly. Unique papers, full marking schemes, and real-time performance tracking for all 10 subjects.
+            Practice Official-Standard BECE and WASSCE questions instantly. Unique papers, full marking schemes, and real-time performance tracking for JHS and SHS students.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up" style={{ animationDelay: '0.2s' }}>
@@ -144,7 +135,18 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <p className="mt-4 text-white/50 text-sm font-body">No credit card needed for your free exam</p>
+          <div className="mt-8 flex flex-col items-center animate-fade-up" style={{ animationDelay: '0.3s' }}>
+            <div className="flex items-center gap-1 mb-2">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} size={16} className="text-gold-400 fill-gold-400" />
+              ))}
+            </div>
+            <p className="text-white/60 text-sm font-body">
+              Rated <span className="text-gold-400 font-bold">4.9/5</span> by 10,000+ Students
+            </p>
+          </div>
+
+          <p className="mt-4 text-white/50 text-xs font-body italic">No credit card needed for your free exam</p>
         </div>
       </section>
 
@@ -168,7 +170,7 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-6 py-16">
         <div className="text-center mb-10">
           <h2 className="section-title mb-3 text-blue-900">Select Your Subject</h2>
-          <p className="font-body text-gray-600 max-w-xl mx-auto">Generate Standard mock exams for every subject in the BECE. Each paper is unique, standard-aligned, and comes with a full marking scheme.</p>
+          <p className="font-body text-gray-600 max-w-xl mx-auto">Generate Standard mock exams for BECE and WASSCE levels. Each paper is unique, standard-aligned, and comes with a full marking scheme.</p>
         </div>
         
         <div className="max-w-xl mx-auto relative z-10" ref={dropdownRef}>
@@ -181,7 +183,7 @@ export default function HomePage() {
               <span className="text-3xl">{selectedSubject.icon}</span>
               <div className="text-left">
                 <div className="font-display font-bold text-lg text-ink">{selectedSubject.name}</div>
-                <div className="text-xs text-gray-500 font-body">BECE Standard Mock Exam</div>
+                <div className="text-xs text-gray-500 font-body">Official Standard Mock Exam</div>
               </div>
             </div>
             <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-transform duration-300 ${isDropdownOpen ? 'bg-brand-50 text-brand-700 rotate-180' : 'bg-gray-50 text-gray-400'}`}>
@@ -200,13 +202,13 @@ export default function HomePage() {
                       setIsDropdownOpen(false);
                     }}
                     style={{ animationDelay: `${index * 30}ms` }}
-                    className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all duration-300 text-left animate-fade-in transform hover:scale-[1.02] hover:shadow-md
+                    className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all duration-300 text-left animate-fade-in hover:bg-gold-50
                       ${selectedSubject.name === sub.name
-                        ? `bg-gradient-to-r ${sub.gradient} border-2 ${sub.color.split(' ')[1]} ${sub.color.split(' ')[2]} scale-[0.98] shadow-sm`
-                        : `border border-transparent ${sub.hoverBorder} hover:bg-gradient-to-r hover:${sub.gradient}`}`}
+                        ? `bg-gold-50 border-2 border-gold-200 font-bold`
+                        : `border border-transparent`}`}
                   >
-                    <span className="text-2xl transform transition-transform duration-300 hover:scale-110">{sub.icon}</span>
-                    <span className="font-display font-semibold text-[15px]">{sub.name}</span>
+                    <span className="text-2xl">{sub.icon}</span>
+                    <span className="font-display text-[15px]">{sub.name}</span>
                   </button>
                 ))}
               </div>
@@ -215,16 +217,25 @@ export default function HomePage() {
         </div>
 
         <div className="max-w-xl mx-auto mt-12 text-center">
-          <label className="flex items-start gap-3 md:gap-4 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 p-4 md:p-6 rounded-2xl border-2 border-purple-200 cursor-pointer mb-8 text-left hover:border-purple-400 hover:shadow-lg transition-all duration-300 shadow-md">
+          <label className="flex items-start gap-3 md:gap-4 cursor-pointer mb-8 text-left transition-all duration-300 shadow-xl hover:shadow-2xl rounded-2xl"
+            style={{
+              background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 60%, #0f172a 100%)',
+              border: '2px solid rgba(245,180,0,0.55)',
+              padding: '1.25rem 1.75rem',
+              boxShadow: '0 0 32px rgba(245,180,0,0.1), 0 8px 32px rgba(0,0,0,0.3)',
+            }}>
             <input
               type="checkbox"
               checked={isDisclaimerAccepted}
               onChange={(e) => setIsDisclaimerAccepted(e.target.checked)}
-              className="mt-1 w-5 h-5 md:w-6 md:h-6 rounded border-purple-300 text-purple-600 focus:ring-purple-500 focus:ring-2 shrink-0 cursor-pointer"
+              className="mt-1.5 w-5 h-5 md:w-6 md:h-6 rounded border-yellow-400 text-yellow-400 focus:ring-yellow-400 focus:ring-2 shrink-0 cursor-pointer accent-yellow-400"
             />
-            <p className="text-xs md:text-sm text-gray-700 font-body leading-relaxed flex-1">
-              <strong className="text-purple-700 font-bold">Disclaimer:</strong> <span className="text-gray-600">These BECE Mock Examinations are independently created learning resources and are not affiliated with or endorsed by any examination body, school, or educational authority, including the West African Examinations Council. I understand that use of this platform is completely voluntary and does not replace official BECE examinations.</span>
-            </p>
+            <div className="flex-1">
+              <p className="text-xs md:text-sm font-body leading-relaxed" style={{ color: 'rgba(255,255,255,0.75)' }}>
+                <strong style={{ color: '#f5b400' }} className="font-display uppercase tracking-widest text-[10px] block mb-1">Disclaimer</strong>{' '}
+                <span>These Mock Examinations are independently created learning resources and are not affiliated with or endorsed by any examination body, school, or educational authority, including WAEC. Use of this platform is completely voluntary and does not replace official national examinations.</span>
+              </p>
+            </div>
           </label>
 
           {isDisclaimerAccepted ? (
@@ -239,14 +250,37 @@ export default function HomePage() {
             </button>
           )}
         </div>
+
+        {/* SHS PROGRAMS SHOWCASE */}
+        <div className="mt-20 pt-16 border-t border-gray-100">
+          <div className="text-center mb-10">
+            <h3 className="font-display text-2xl font-bold text-blue-900 mb-2">SHS Programs Supported</h3>
+            <p className="font-body text-gray-500 text-sm">We cover all core and elective subjects for major SHS streams.</p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {[
+              { name: 'Science', icon: '🧪', colors: 'bg-blue-50 text-blue-700 border-blue-100' },
+              { name: 'Business', icon: '📈', colors: 'bg-emerald-50 text-emerald-700 border-emerald-100' },
+              { name: 'General Arts', icon: '📚', colors: 'bg-purple-50 text-purple-700 border-purple-100' },
+              { name: 'Visual Arts', icon: '🎨', colors: 'bg-orange-50 text-orange-700 border-orange-100' },
+              { name: 'Home Econ.', icon: '🥘', colors: 'bg-pink-50 text-pink-700 border-pink-100' },
+              { name: 'Technical', icon: '🛠️', colors: 'bg-slate-50 text-slate-700 border-slate-100' },
+            ].map(prog => (
+              <div key={prog.name} className={`p-4 rounded-2xl border-2 ${prog.colors} text-center transition-all hover:scale-105 shadow-sm`}>
+                <div className="text-2xl mb-2">{prog.icon}</div>
+                <div className="font-display font-bold text-xs uppercase tracking-wider">{prog.name}</div>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* FEATURES */}
       <section className="bg-blue-50/30 py-16">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="section-title mb-3">Everything You Need to Pass BECE</h2>
-            <p className="font-body text-gray-600">Built specifically for Ghana JHS 3 students preparing for the national examination.</p>
+            <h2 className="section-title mb-3">Everything You Need to Pass JHS & SHS</h2>
+            <p className="font-body text-gray-600">Built specifically for Ghana students preparing for BECE and WASSCE national examinations.</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {FEATURES.map(f => (
@@ -270,7 +304,7 @@ export default function HomePage() {
         <div className="grid md:grid-cols-3 gap-8">
           {[
             { step: '01', title: 'Register Free', desc: 'Create your account in 30 seconds. No credit card required.' },
-            { step: '02', title: 'Choose a Subject', desc: 'Pick any of the 10 BECE subjects and click Generate Exam.' },
+            { step: '02', title: 'Choose a Subject', desc: 'Pick any of the 35+ BECE or WASSCE subjects and click Generate Exam.' },
             { step: '03', title: 'Practice & Improve', desc: 'Take the timed exam, check the marking scheme, track your progress.' },
           ].map(item => (
             <div key={item.step} className="text-center">
@@ -294,8 +328,8 @@ export default function HomePage() {
       <section className="bg-brand-700 py-16">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="font-display text-3xl font-bold text-white mb-3">Students Who Passed BECE</h2>
-            <p className="text-white/60 font-body">Real results from real Ghanaian students</p>
+            <h2 className="font-display text-3xl font-bold text-white mb-3">Students Who Succeeded</h2>
+            <p className="text-white/60 font-body">Real results from real BECE and WASSCE students</p>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {TESTIMONIALS.map(t => (
@@ -307,9 +341,9 @@ export default function HomePage() {
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="font-display font-semibold text-white text-sm">{t.name}</div>
-                    <div className="text-white/50 text-xs font-body">{t.school}</div>
+                    <div className="text-white/50 text-xs font-body">{t.location}</div>
                   </div>
-                  <div className="bg-gold-500 text-brand-800 text-xs font-bold px-2.5 py-1 rounded-full font-mono">
+                  <div className="bg-gold-500/90 text-brand-900 text-[11px] font-body px-2.5 py-0.5 rounded-full">
                     {t.grade}
                   </div>
                 </div>
@@ -321,8 +355,8 @@ export default function HomePage() {
 
       {/* CTA */}
       <section className="max-w-4xl mx-auto px-6 py-20 text-center">
-        <h2 className="section-title mb-4">Ready to Pass Your BECE?</h2>
-        <p className="font-body text-gray-600 text-lg mb-8 max-w-xl mx-auto">Join thousands of JHS 3 students already practising with AnyStudents. Your first mock exam is completely free.</p>
+        <h2 className="section-title mb-4">Ready to Pass Your Exams?</h2>
+        <p className="font-body text-gray-600 text-lg mb-8 max-w-xl mx-auto">Join thousands of students already practising with AnyStudents. Your first mock exam is completely free.</p>
         <Link to={user ? "/student" : "/register"} className="btn-gold px-12 py-4 text-lg animate-pulse-gold justify-center">
           Generate Your Free Mock Exam
           <ArrowRight size={20} />

@@ -7,9 +7,9 @@ export default function PrivacyPolicyPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 flex flex-col">
       <Helmet>
-        <title>Privacy Policy | AnyStudents BECE Exam Prep</title>
-        <meta name="description" content="Read the Privacy Policy of AnyStudents BECE Exam Prep. Learn how we protect your information and rights when using our platform." />
-        <link rel="canonical" href="https://anystudents.com/privacy-policy" />
+        <title>Privacy Policy | AnyStudents Mock Exams</title>
+        <meta name="description" content="Read the Privacy Policy of AnyStudents Mock Exams. Learn how we protect your information and rights when using our platform." />
+        <link rel="canonical" href="https://mockexams.anystudents.com/privacy-policy" />
       </Helmet>
       <Navbar />
 
@@ -27,7 +27,7 @@ export default function PrivacyPolicyPage() {
               <section>
                 <h2 className="text-2xl font-display font-semibold text-brand-700 mt-8 mb-4">1. Introduction</h2>
                 <p>
-                  Welcome to AnyStudents Exam Prep ("we," "our," or "us"). We are committed to protecting your personal information and your right to privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our BECE preparation platform operating in Ghana.
+                  Welcome to AnyStudents Mock Exams ("we," "our," or "us"). We are committed to protecting your personal information and your right to privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our exam preparation platform operating in Ghana.
                 </p>
                 <p>
                   By using our platform, you agree to the collection and use of information in accordance with this policy. If you do not agree with our policies and practices, please do not use our service.
@@ -41,7 +41,8 @@ export default function PrivacyPolicyPage() {
                 <p>We collect the following personal information when you register and use our platform:</p>
                 <ul className="list-disc pl-6 space-y-2">
                   <li><strong>Account Information:</strong> Full name, email address, phone number, and password</li>
-                  <li><strong>Student Information:</strong> School name, class level (JHS 3), and academic performance data</li>
+                  <li><strong>Student Information:</strong> School name, educational level (JHS/SHS), and academic performance data</li>
+                  <li><strong>Parent/Guardian Information:</strong> Email addresses provided for automated progress reporting</li>
                   <li><strong>Payment Information:</strong> Mobile money transaction details (processed securely through our payment provider)</li>
                 </ul>
 
@@ -73,6 +74,7 @@ export default function PrivacyPolicyPage() {
                 <ul className="list-disc pl-6 space-y-2">
                   <li><strong>Service Providers:</strong> With trusted third-party service providers (payment processors, hosting services) who assist in operating our platform</li>
                   <li><strong>Teachers and Schools:</strong> If your school or teacher has enrolled you, they may access your performance data</li>
+                  <li><strong>Parents and Guardians:</strong> If you enable the parent report feature, we share weekly performance data with the email address you provide</li>
                   <li><strong>Legal Requirements:</strong> When required by Ghanaian law or to protect our rights and safety</li>
                   <li><strong>Business Transfers:</strong> In connection with any merger, sale, or acquisition of our company</li>
                 </ul>
@@ -111,7 +113,7 @@ export default function PrivacyPolicyPage() {
               <section>
                 <h2 className="text-2xl font-display font-semibold text-brand-700 mt-8 mb-4">8. Children's Privacy</h2>
                 <p>
-                  Our platform is designed for JHS 3 students (typically aged 14-16 years). We recognize the importance of protecting children's privacy. For users under 18 years, we recommend parental or guardian consent before using our services. Parents and guardians have the right to review, modify, or delete their child's information by contacting us.
+                  Our platform is designed for JHS and SHS students. We recognize the importance of protecting children's privacy. For users under 18 years, we recommend parental or guardian consent before using our services. Parents and guardians have the right to review, modify, or delete their child's information by contacting us.
                 </p>
               </section>
 
@@ -133,9 +135,9 @@ export default function PrivacyPolicyPage() {
                 <h2 className="text-2xl font-display font-semibold text-brand-700 mt-8 mb-4">11. Contact Us</h2>
                 <p>If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us:</p>
                 <div className="bg-slate-50 border border-slate-200 rounded-lg p-6 mt-4">
-                  <p className="font-semibold text-brand-800">AnyStudents Exam Prep</p>
+                  <p className="font-semibold text-brand-800">AnyStudents Mock Exams</p>
                   <p>Email: <a href="mailto:info@anystudents.com" className="text-gold-600 hover:text-gold-700 underline">info@anystudents.com</a></p>
-                  <p>Website: <a href="https://anystudents.com" className="text-gold-600 hover:text-gold-700 underline">www.anystudents.com</a></p>
+                  <p>Website: <a href="https://mockexams.anystudents.com" className="text-gold-600 hover:text-gold-700 underline">mockexams.anystudents.com</a></p>
                   <p className="mt-2 text-sm text-slate-600">Location: Ghana</p>
                 </div>
               </section>

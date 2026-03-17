@@ -3,7 +3,7 @@
 // Uses Claude API to generate official-standard exams
 // ============================================
 
-export const SUBJECTS = {
+export const JHS_SUBJECTS = {
   mathematics: 'Mathematics',
   english: 'English Language',
   science: 'Integrated Science',
@@ -12,66 +12,102 @@ export const SUBJECTS = {
   rme: 'Religious and Moral Education',
   career_tech: 'Career Technology',
   creative_arts: 'Creative Arts and Design',
-  ghanaian_language: 'Ghanaian Language',
+  ghanaian_language: 'Ghanaian Language (Asante Twi)',
   french: 'French'
 }
 
+export const SHS_SUBJECTS = {
+  // Core
+  core_math: 'Core Mathematics',
+  english_shs: 'English Language',
+  integrated_science: 'Integrated Science',
+  social_studies_shs: 'Social Studies',
+  // Science
+  elective_math: 'Elective Mathematics',
+  physics: 'Physics',
+  chemistry: 'Chemistry',
+  biology: 'Biology',
+  // Business
+  fin_accounting: 'Financial Accounting',
+  cost_accounting: 'Cost Accounting',
+  business_mgmt: 'Business Management',
+  economics: 'Economics',
+  // General Arts
+  government: 'Government',
+  geography: 'Geography',
+  history: 'History',
+  literature: 'Literature in English',
+  crs: 'Christian Religious Studies',
+  irs: 'Islamic Religious Studies',
+  // Visual Arts
+  gka: 'General Knowledge in Art',
+  graphic_design: 'Graphic Design',
+  picture_making: 'Picture Making',
+  textiles: 'Textiles',
+  sculpture: 'Sculpture',
+  ceramics: 'Ceramics',
+  // Home Economics
+  mil: 'Management in Living',
+  food_nutrition: 'Food and Nutrition',
+  clothing_textiles: 'Clothing and Textiles',
+  // Technical
+  tech_drawing: 'Technical Drawing',
+  building_const: 'Building Construction',
+  metalwork: 'Metalwork',
+  woodwork: 'Woodwork',
+  applied_electricity: 'Applied Electricity'
+}
+
+export const SHS_PROGRAMS = {
+  Science: ['elective_math', 'physics', 'chemistry', 'biology'],
+  Business: ['fin_accounting', 'cost_accounting', 'business_mgmt', 'economics'],
+  'General Arts': ['government', 'economics', 'geography', 'history', 'literature', 'crs', 'irs'],
+  'Visual Arts': ['gka', 'graphic_design', 'picture_making', 'textiles', 'sculpture', 'ceramics'],
+  'Home Economics': ['mil', 'food_nutrition', 'clothing_textiles'],
+  Technical: ['tech_drawing', 'building_const', 'metalwork', 'woodwork', 'applied_electricity']
+}
+
 const SUBJECT_TOPICS = {
-  mathematics: [
-    'Number and Numeration', 'Fractions and Decimals', 'Percentages',
-    'Ratios and Proportions', 'Algebra and Equations', 'Geometry',
-    'Mensuration', 'Statistics', 'Probability', 'Set Theory',
-    'Indices and Logarithms', 'Matrices', 'Vectors', 'Trigonometry'
-  ],
-  english: [
-    'Comprehension', 'Summary Writing', 'Vocabulary', 'Grammar and Usage',
-    'Letter Writing', 'Narrative Essays', 'Argumentative Essays',
-    'Descriptive Writing', 'Oral English', 'Literature'
-  ],
-  science: [
-    'Living Things', 'Human Body Systems', 'Plant Biology',
-    'Matter and Properties', 'Forces and Motion', 'Energy',
-    'Electricity', 'Chemical Changes', 'Environmental Science',
-    'Health and Disease', 'Reproduction', 'Ecology'
-  ],
-  social: [
-    'Ghana History', 'West African History', 'Physical Geography',
-    'Human Geography', 'Civics and Government', 'Economic Activities',
-    'Natural Resources', 'Climate and Weather', 'Population',
-    'Culture and Society', 'International Relations'
-  ],
-  ict: [
-    'Computer Fundamentals', 'Operating Systems', 'Word Processing',
-    'Spreadsheets', 'Internet and Email', 'Databases',
-    'Programming Basics', 'Cybersecurity', 'Digital Communication',
-    'Multimedia', 'Computer Networks'
-  ],
-  rme: [
-    'Christianity', 'Islam', 'African Traditional Religion',
-    'Religious Ethics', 'Moral Values', 'Human Rights',
-    'Social Responsibility', 'Leadership', 'Family Life',
-    'Environmental Care', 'Peace and Conflict Resolution'
-  ],
-  career_tech: [
-    'Materials and Processing', 'Tools and Equipment', 'Basic Electronics',
-    'Technical Drawing', 'Woodwork', 'Metalwork', 'Building Construction',
-    'Food and Nutrition', 'Clothing and Textiles', 'Entrepreneurship'
-  ],
-  creative_arts: [
-    'Visual Arts', 'Performing Arts', 'Drawing and Shading', 'Color Theory',
-    'Pattern Making', 'Music Theory', 'Dance and Drama', 'Local Crafts',
-    'Art History', 'Appreciation of Art'
-  ],
-  ghanaian_language: [
-    'Comprehension', 'Summary Writing', 'Grammar', 'Proverbs and Idioms',
-    'Customs and Institutions', 'Oral Literature', 'Written Literature',
-    'Essay Writing', 'Translation', 'Phonology'
-  ],
-  french: [
-    'Vocabulary', 'Grammar', 'Comprehension', 'Translation',
-    'Dialogue and Conversation', 'Creative Writing', 'Verbs and Tenses',
-    'Articles and Prepositions', 'French Culture', 'Dictation'
-  ]
+  // --- JHS TOPICS ---
+  mathematics: ['Number', 'Algebra', 'Geometry', 'Statistics', 'Trigonometry', 'Sets', 'Probability', 'Vectors'],
+  english: ['Comprehension', 'Summary', 'Grammar', 'Letter Writing', 'Narrative Essay', 'Argumentative', 'Literature'],
+  science: ['Matter', 'Energy', 'Living Things', 'Ecology', 'Human Body', 'Electricity', 'Agric Science', 'Geology'],
+  social: ['Mapping', 'Environment', 'Ghana History', 'Civics', 'Economics', 'International Relations', 'Social Issues'],
+  ict: ['Fundamentals', 'Hardware', 'Software', 'Word Processing', 'Spreadsheets', 'Internet', 'Safety'],
+  rme: ['God and Creation', 'Religious Leaders', 'Ethics', 'Social Values', 'Customs', 'Festivals'],
+  career_tech: ['Technical Drawing', 'Woodwork', 'Metalwork', 'Building', 'Food', 'Clothing', 'Entrepreneurship'],
+  creative_arts: ['Visual Arts', 'Performing Arts', 'Music', 'Design', 'Crafts', 'History of Art'],
+  ghanaian_language: ['Comprehension', 'Summary', 'Grammar', 'Proverbs', 'Customs', 'Customary Practices'],
+  french: ['Vocabulary', 'Verbs', 'Translation', 'Dialogue', 'Comprehension', 'Culture'],
+
+  // --- SHS CORE TOPICS ---
+  core_math: ['Sets and Operations', 'Algebraic Expressions', 'Equations and Inequalities', 'Logarithms', 'Trigonometry', 'Coordinate Geometry', 'Statistics', 'Probability', 'Consumer Mathematics', 'Logic'],
+  english_shs: ['Reading Comprehension', 'Summary Writing', 'Directed Writing (Formal letters)', 'Creative Writing', 'Lexis and Structure', 'Oral English', 'Critical Appraisal'],
+  integrated_science: ['Safety in the Lab', 'Acid-Base Reactions', 'Cells and Genetics', 'Chemical Bonding', 'Forces and Motion', 'Thermal Energy', 'Water and Sanitation', 'Animal Production', 'Inorganic Chemistry', 'Soil Science'],
+  social_studies_shs: ['Self and Identity', 'Family and Culture', 'National Development', 'Governance and Politics', 'Population Growth', 'Globalization', 'Science and Tech', 'Environment'],
+
+  // --- ELECTIVE TOPICS ---
+  elective_math: ['Calculus', 'Coordinate Geometry', 'Vectors and Mechanics', 'Matrices and Transformations', 'Complex Numbers', 'Series and Sequences', 'Probability Distributions', 'Trigonometric Identities'],
+  physics: ['Mechanics', 'Thermodynamics', 'Waves and Optics', 'Electricity and Magnetism', 'Atomic and Nuclear Physics', 'Electronics', 'Fields', 'Modern Physics'],
+  chemistry: ['Atomic Structure', 'Chemical Equilibrium', 'Thermochemistry', 'Electrochemistry', 'Organic Chemistry', 'Periodic Table', 'Redox Reactions', 'Chemical Kinetics'],
+  biology: ['Biological Molecules', 'Cell Biology', 'Human Anatomy', 'Plant Physiology', 'Genetics', 'Evolution', 'Ecology', 'Reproductive Biology'],
+  fin_accounting: ['Principles of Accounts', 'Final Accounts', 'Partnerships', 'Joint Ventures', 'Company Accounts', 'Single Entry', 'Departmental Accounts', 'Manufacturing Accounts'],
+  cost_accounting: ['Material Costing', 'Labor Costing', 'Overheads', 'Cost Classification', 'Job Costing', 'Process Costing', 'Budgeting', 'Standard Costing'],
+  business_mgmt: ['Management Principles', 'Human Resources', 'Marketing', 'Finance', 'Production', 'Communication', 'Legal Environment', 'Planning'],
+  economics: ['Demand and Supply', 'Production Theory', 'Market Structures', 'National Income', 'Money and Banking', 'Public Finance', 'International Trade', 'Development Planning'],
+  government: ['Forms of Government', 'Political Systems', 'Constitutions', 'Public Administration', 'Foreign Policy', 'International Orgs', 'Electoral Systems', 'Nationalism'],
+  geography: ['Geomorphology', 'Climatology', 'Economic Geography', 'Map Reading', 'Regional Geography of Ghana/Africa', 'Settlements', 'Environmental Management'],
+  history: ['Pre-colonial Ghana', 'Trans-Saharan Trade', 'European Contact', 'Colonial Rule', 'Independence Struggle', 'Post-independence Politics'],
+  literature: ['Shakespearean Play', 'African Drama', 'Non-African Drama', 'African Poetry', 'Non-African Poetry', 'Literary Techniques', 'Characterization'],
+  crs: ['Old Testament Roots', 'Jesus\' Ministry', 'The Early Church', 'Ethics in Christianity', 'Prophecy', 'Biblical Interpretation'],
+  gka: ['Principles of Art', 'Art History of Africa/Ghana', 'Appreciation and Criticism', 'Marketing Art', 'Health and Safety in Art', 'Tools and Materials'],
+  graphic_design: ['Typography', 'Layout Design', 'Color Theory', 'Illustration', 'Corporate Identity', 'Advertising Design', 'Packaging'],
+  picture_making: ['Drawing Techniques', 'Painting', 'Composition', 'Anatomy/Proportion', 'Landscape', 'Still Life'],
+  textiles: ['Fibre Science', 'Spinning and Weaving', 'Dyeing and Printing', 'Design Concepts', 'Apparel Design', 'Textile Marketing'],
+  mil: ['Resource Management', 'Family Dynamics', 'Consumer Education', 'Housing and Interior', 'Health and Hygiene', 'Standard of Living'],
+  food_nutrition: ['Nutrients and Dietetics', 'Meal Planning', 'Food Storage', 'Cookery Processes', 'Beverages', 'Catering Management'],
+  tech_drawing: ['Geometric Construction', 'Isometric Projection', 'Orthographic Projection', 'Sectional Views', 'Fasteners', 'Assembly Drawing'],
+  applied_electricity: ['Circuits', 'Electronics', 'Power Generation', 'Electrical Installation', 'Magnetism', 'Measurements', 'Safety Protocols']
 }
 
 export function generateExamSeed(userId, subject) {
@@ -98,16 +134,21 @@ export function generateBrowserFingerprint() {
   }
 }
 
-function buildExamPrompt(subject, subjectKey, version = 'A') {
+function buildExamPrompt(subject, subjectKey, version = 'A', level = 'jhs') {
   const topics = SUBJECT_TOPICS[subjectKey] || []
   const shuffled = [...topics].sort(() => 0.5 - Math.random())
   const selectedTopics = shuffled.slice(0, 7)
   const seed = Math.floor(Math.random() * 99999)
   const year = new Date().getFullYear()
 
-  return `You are a senior Ghana BECE examination setter with expert knowledge of national standards for JHS 3 students.
+  const levelLong = level === 'shs' ? 'WASSCE (Senior High School)' : 'BECE (Junior High School)'
+  const difficulty = level === 'shs' ? 'WASSCE SHS 3 standards' : 'BECE JHS 3 standards'
+  const officialTitle = level === 'shs' ? 'WEST AFRICAN SENIOR SCHOOL CERTIFICATE EXAMINATION' : 'BASIC EDUCATION CERTIFICATE EXAMINATION'
 
-Generate a complete, unique BECE mock examination for ${subject} - Version ${version}.
+  return `You are a senior Ghana ${level.toUpperCase()} examination setter with expert knowledge of national standards for ${level === 'shs' ? 'SHS 3' : 'JHS 3'} students.
+
+Generate a complete, unique ${level.toUpperCase()} mock examination for ${subject} - Version ${version}.
+Level: ${levelLong}
 Uniqueness seed: ${seed}
 Focus topics: ${selectedTopics.join(', ')}
 
@@ -120,7 +161,8 @@ CRITICAL RULES:
 4. Include a complete marking scheme with all answers
 5. Use Ghana-relevant contexts: names like Kofi, Ama, Kwame, Akosua; currency in cedis (GH₵); Ghanaian towns and scenarios
 6. Vary numerical values uniquely for this version
-7. Questions must match real BECE difficulty for JHS 3
+7. Questions must match real ${level.toUpperCase()} difficulty for ${level === 'shs' ? 'SHS 3' : 'JHS 3'}
+8. Ensure ${level === 'shs' ? 'WASSCE' : 'BECE'} academic standards and curriculum markers are strictly followed.
 
 CRITICAL OUTPUT FORMATTING - EXTREMELY IMPORTANT:
 1. Return VALID JSON ONLY - nothing else.
@@ -135,7 +177,7 @@ CRITICAL OUTPUT FORMATTING - EXTREMELY IMPORTANT:
 YOUR ENTIRE RESPONSE MUST BE ONLY THIS JSON STRUCTURE:
 
 {
-  "title": "BASIC EDUCATION CERTIFICATE EXAMINATION",
+  "title": "${officialTitle}",
   "subject": "${subject}",
   "version": "Version ${version}",
   "year": "Practice ${year}",
@@ -222,7 +264,7 @@ function validateExam(exam) {
   return { valid: errors.length === 0, errors }
 }
 
-export async function generateBECEExam(subject, subjectKey, version = 'A', maxRetries = 3) {
+export async function generateExam(subject, subjectKey, level = 'jhs', version = 'A', maxRetries = 3) {
   const apiKey = import.meta.env.VITE_ANTHROPIC_API_KEY
 
   if (!apiKey) {
@@ -233,7 +275,7 @@ export async function generateBECEExam(subject, subjectKey, version = 'A', maxRe
 
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
-      const prompt = buildExamPrompt(subject, subjectKey, version)
+      const prompt = buildExamPrompt(subject, subjectKey, version, level)
 
       const response = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',

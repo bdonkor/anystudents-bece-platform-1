@@ -34,9 +34,9 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex flex-col bg-cream">
       <Helmet>
-        <title>Login | AnyStudents BECE Exam Platform</title>
-        <meta name="description" content="Login to your AnyStudents account to access your BECE mock exams, track your performance, and review marking schemes." />
-        <link rel="canonical" href="https://anystudents.com/login" />
+        <title>Login | Access Your AnyStudents Dashboard</title>
+        <meta name="description" content="Login to AnyStudents to continue your BECE or WASSCE preparation. Practice with standard mock exams, view marking schemes, and track your progress." />
+        <link rel="canonical" href="https://mockexams.anystudents.com/login" />
       </Helmet>
       <Navbar />
       <div className="flex-1 flex items-center justify-center px-4 py-16">
@@ -46,7 +46,7 @@ export default function LoginPage() {
               <BookOpen size={28} className="text-gold-400" />
             </div>
             <h1 className="font-display text-3xl font-bold text-ink mb-1">Welcome Back</h1>
-            <p className="font-body text-gray-500">Login to your AnyStudents BECE account</p>
+            <p className="font-body text-gray-500">Login to your AnyStudents account</p>
           </div>
 
           <div className="card shadow-md">

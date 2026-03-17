@@ -7,9 +7,9 @@ export default function DisclaimerPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 flex flex-col">
       <Helmet>
-        <title>Disclaimer | Important Notice | AnyStudents BECE</title>
-        <meta name="description" content="Read our disclaimer. AnyStudents is an independent study tool for BECE preparation and is not affiliated with official examination bodies." />
-        <link rel="canonical" href="https://anystudents.com/disclaimer" />
+        <title>Disclaimer | Important Notice | AnyStudents</title>
+        <meta name="description" content="Read our disclaimer. AnyStudents is an independent study tool for BECE and WASSCE preparation and is not affiliated with official examination bodies." />
+        <link rel="canonical" href="https://mockexams.anystudents.com/disclaimer" />
       </Helmet>
       <Navbar />
 
@@ -27,22 +27,22 @@ export default function DisclaimerPage() {
               <section>
                 <h2 className="text-2xl font-display font-semibold text-brand-700 mt-8 mb-4">1. General Information</h2>
                 <p>
-                  The information provided by AnyStudents Exam Prep ("we," "us," or "our") on our platform is for general educational purposes only. All information on the platform is provided in good faith, however we make no representation or warranty of any kind, express or implied, regarding the accuracy, adequacy, validity, reliability, availability, or completeness of any information on the platform.
+                  The information provided by AnyStudents Mock Exams ("we," "us," or "our") on our platform is for general educational purposes only. All information on the platform is provided in good faith, however we make no representation or warranty of any kind, express or implied, regarding the accuracy, adequacy, validity, reliability, availability, or completeness of any information on the platform.
                 </p>
               </section>
 
               <section>
-                <h2 className="text-2xl font-display font-semibold text-brand-700 mt-8 mb-4">2. Educational Tool - Not Official BECE Material</h2>
+                <h2 className="text-2xl font-display font-semibold text-brand-700 mt-8 mb-4">2. Educational Tool - Not Official WAEC Material</h2>
 
                 <div className="bg-amber-50 border-l-4 border-amber-500 p-6 my-6">
                   <p className="font-semibold text-brand-800 mb-2">IMPORTANT NOTICE</p>
                   <p>
-                    AnyStudents Exam Prep is <strong>NOT affiliated with, endorsed by, or officially connected to</strong> the West African Examinations Council (WAEC), Ghana Education Service (GES), or any government educational body in Ghana.
+                    AnyStudents Mock Exams is <strong>NOT affiliated with, endorsed by, or officially connected to</strong> the West African Examinations Council (WAEC), Ghana Education Service (GES), or any government educational body in Ghana.
                   </p>
                 </div>
 
                 <p>
-                  Our platform is an independent study tool designed to help students prepare for the Basic Education Certificate Examination (BECE). We are not the official examination body and do not have access to actual BECE exam questions.
+                  Our platform is an independent study tool designed to help students prepare for the Basic Education Certificate Examination (BECE) and West African Senior School Certificate Examination (WASSCE). We are not the official examination body and do not have access to actual examination papers.
                 </p>
               </section>
 
@@ -52,11 +52,11 @@ export default function DisclaimerPage() {
                   We make no guarantees or warranties regarding:
                 </p>
                 <ul className="list-disc pl-6 space-y-2">
-                  <li>Your performance on the actual BECE examination</li>
-                  <li>Passing scores or specific grades on the BECE</li>
+                  <li>Your performance on the actual national examinations</li>
+                  <li>Passing scores or specific grades on the BECE or WASSCE</li>
                   <li>That any questions on our platform will appear on the actual exam</li>
-                  <li>Admission to Senior High Schools (SHS) based on use of our platform</li>
-                  <li>That our content matches exactly with the current BECE syllabus or format</li>
+                  <li>Admission to higher institutions based on use of our platform</li>
+                  <li>That our content matches exactly with the current exam syllabus or format</li>
                 </ul>
                 <p className="mt-4">
                   Student success depends on many factors including individual effort, school instruction, prior knowledge, and examination conditions beyond our control.
@@ -69,11 +69,11 @@ export default function DisclaimerPage() {
                   While we strive to provide high-quality educational content:
                 </p>
                 <ul className="list-disc pl-6 space-y-2">
-                  <li>Our exam questions are AI-generated and created to simulate BECE-style questions</li>
+                  <li>Our exam questions are AI-generated and created to simulate BECE and WASSCE-style questions</li>
                   <li>We cannot guarantee that all content is 100% error-free or accurate</li>
                   <li>Marking schemes and explanations reflect our understanding of correct answers but may contain errors</li>
-                  <li>Content may not always reflect the most current BECE syllabus changes</li>
-                  <li>Questions are practice materials, not actual past BECE papers</li>
+                  <li>Content may not always reflect the most current syllabus changes</li>
+                  <li>Questions are practice materials, not actual past papers</li>
                 </ul>
                 <p className="mt-4">
                   If you identify errors or inaccuracies, please report them to <a href="mailto:info@anystudents.com" className="text-gold-600 hover:text-gold-700 underline">info@anystudents.com</a> so we can review and improve our content.
@@ -86,7 +86,7 @@ export default function DisclaimerPage() {
                   Our platform should be used as a <strong>supplementary study tool</strong> alongside:
                 </p>
                 <ul className="list-disc pl-6 space-y-2">
-                  <li>Official BECE past questions and materials</li>
+                  <li>Official national past questions and materials</li>
                   <li>Classroom instruction from qualified teachers</li>
                   <li>Approved textbooks and study guides</li>
                   <li>School-based mock examinations</li>
@@ -116,7 +116,7 @@ export default function DisclaimerPage() {
                   Students and parents/guardians are responsible for:
                 </p>
                 <ul className="list-disc pl-6 space-y-2">
-                  <li>Verifying that content aligns with current BECE syllabus requirements</li>
+                  <li>Verifying that content aligns with current national syllabus requirements</li>
                   <li>Consulting with teachers and schools regarding exam preparation</li>
                   <li>Using the platform ethically and for personal study purposes only</li>
                   <li>Ensuring account security and preventing unauthorized access</li>
@@ -159,7 +159,7 @@ export default function DisclaimerPage() {
               <section>
                 <h2 className="text-2xl font-display font-semibold text-brand-700 mt-8 mb-4">10. Limitation of Liability</h2>
                 <p>
-                  Under no circumstances shall AnyStudents Exam Prep be liable for any direct, indirect, incidental, consequential, or special damages arising from:
+                  Under no circumstances shall AnyStudents Mock Exams be liable for any direct, indirect, incidental, consequential, or special damages arising from:
                 </p>
                 <ul className="list-disc pl-6 space-y-2">
                   <li>Use or inability to use our platform</li>
@@ -204,9 +204,9 @@ export default function DisclaimerPage() {
                   If you have questions or concerns about this disclaimer, please contact us:
                 </p>
                 <div className="bg-slate-50 border border-slate-200 rounded-lg p-6 mt-4">
-                  <p className="font-semibold text-brand-800">AnyStudents Exam Prep</p>
+                  <p className="font-semibold text-brand-800">AnyStudents Mock Exams</p>
                   <p>Email: <a href="mailto:info@anystudents.com" className="text-gold-600 hover:text-gold-700 underline">info@anystudents.com</a></p>
-                  <p>Website: <a href="https://anystudents.com" className="text-gold-600 hover:text-gold-700 underline">www.anystudents.com</a></p>
+                  <p>Website: <a href="https://mockexams.anystudents.com" className="text-gold-600 hover:text-gold-700 underline">mockexams.anystudents.com</a></p>
                   <p className="mt-2 text-sm text-slate-600">Location: Ghana</p>
                 </div>
               </section>
@@ -215,7 +215,7 @@ export default function DisclaimerPage() {
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
                   <h3 className="font-display font-semibold text-brand-800 mb-3">Acknowledgment</h3>
                   <p className="text-sm">
-                    By using AnyStudents Exam Prep, you acknowledge that you have read this disclaimer and agree to its terms. You understand that this platform is a practice tool and not a guarantee of exam success.
+                    By using AnyStudents Mock Exams, you acknowledge that you have read this disclaimer and agree to its terms. You understand that this platform is a practice tool and not a guarantee of exam success.
                   </p>
                 </div>
               </section>

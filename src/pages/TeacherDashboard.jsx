@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import { saveExam, getUserExams, updateProfile } from '../lib/supabase'
-import { generateBECEExam, generateExamSeed, SUBJECTS } from '../lib/examGenerator'
+import { generateExam, generateExamSeed, JHS_SUBJECTS, SHS_SUBJECTS } from '../lib/examGenerator'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { Zap, Printer, BookOpen, Users, AlertTriangle, CheckCircle, Download } from 'lucide-react'
@@ -13,7 +13,10 @@ export default function TeacherDashboard() {
   const { user, profile } = useAuth()
   const navigate = useNavigate()
 
-  const [selectedSubject, setSelectedSubject] = useState('mathematics')
+  const level = profile?.level || 'jhs'
+  const SUBJECTS = level === 'shs' ? SHS_SUBJECTS : JHS_SUBJECTS
+
+  const [selectedSubject, setSelectedSubject] = useState(Object.keys(SUBJECTS)[0] || 'mathematics')
   const [selectedVersions, setSelectedVersions] = useState(['A'])
   const [generating, setGenerating] = useState(false)
   const [genStatus, setGenStatus] = useState('')
@@ -52,12 +55,13 @@ export default function TeacherDashboard() {
     for (const version of selectedVersions) {
       try {
         setGenStatus(`Generating Version ${version} of ${SUBJECTS[selectedSubject]}...`)
-        const { exam } = await generateBECEExam(SUBJECTS[selectedSubject], selectedSubject, version)
+        const { exam } = await generateExam(SUBJECTS[selectedSubject], selectedSubject, level, version)
         const seed = generateExamSeed(user.id, selectedSubject)
 
         const { data: saved } = await saveExam({
           user_id: user.id,
           subject: SUBJECTS[selectedSubject],
+          level: level,
           version,
           exam_content: exam,
           exam_seed: seed,

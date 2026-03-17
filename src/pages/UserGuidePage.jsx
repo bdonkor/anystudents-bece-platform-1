@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
@@ -11,11 +12,13 @@ import {
   CheckCircle,
   ArrowRight,
   HelpCircle,
-  BookOpen
+  BookOpen,
+  ChevronDown
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 export default function UserGuidePage() {
+  const [openFaq, setOpenFaq] = useState(null)
   const steps = [
     {
       icon: <UserPlus className="text-blue-600" size={24} />,
@@ -27,17 +30,17 @@ export default function UserGuidePage() {
     {
       icon: <Search className="text-purple-600" size={24} />,
       title: "2. Choose a Subject",
-      description: "From your dashboard, select any of the 10 BECE subjects including Mathematics, Integrated Science, English, Social Studies, and more.",
+      description: "From your dashboard, select any of the 35+ subjects for BECE or WASSCE, including Core subjects and specific SHS Electives.",
     },
     {
       icon: <Zap className="text-gold-600" size={24} />,
       title: "3. Generate Your Exam",
-      description: "Click 'Generate Exam'. Our AI engine creates a unique, official-standard BECE paper for you in less than 60 seconds.",
+      description: "Click 'Generate Exam'. Our AI engine creates a unique, official-standard BECE or WASSCE paper for you in less than 60 seconds.",
     },
     {
       icon: <Clock className="text-green-600" size={24} />,
       title: "4. Take the Timed Mock",
-      description: "Practice under real exam conditions. Click the 'Start Timed Exam' button to begin your 2-hour practice session. This helps you master time management before the actual BECE.",
+      description: "Practice under real exam conditions. Click the 'Start Timed Exam' button to begin your session. This helps you master time management before the actual national exams.",
     },
     {
       icon: <FileText className="text-orange-600" size={24} />,
@@ -54,9 +57,9 @@ export default function UserGuidePage() {
   return (
     <div className="min-h-screen flex flex-col bg-cream">
       <Helmet>
-        <title>User Guide | How to Use AnyStudents BECE Platform</title>
-        <meta name="description" content="Learn how to use AnyStudents to pass your BECE. Step-by-step guide on generating mock exams, timed practice, and performance tracking." />
-        <link rel="canonical" href="https://anystudents.com/user-guide" />
+        <title>User Guide | Master Your BECE & WASSCE with AnyStudents</title>
+        <meta name="description" content="Step-by-step guide to passing your BECE or WASSCE. Learn how to generate unique mock exams, practice under time pressure, and analyze your performance." />
+        <link rel="canonical" href="https://mockexams.anystudents.com/user-guide" />
       </Helmet>
       
       <Navbar />
@@ -75,7 +78,7 @@ export default function UserGuidePage() {
               <span className="text-gold-400 text-xs md:text-sm font-mono tracking-wide font-bold uppercase">Platform Walkthrough</span>
             </div>
             <h1 className="font-display text-4xl md:text-6xl font-bold mb-6">
-              How to Master the BECE with <span className="text-gold-400">AnyStudents</span>
+              How to Master Your Exams with <span className="text-gold-400">AnyStudents</span>
             </h1>
             <p className="text-lg md:text-xl text-white/80 font-body max-w-2xl mx-auto">
               Welcome to the simplest way to prepare for your final exams. Follow this guide to get the most out of our standard mock system.
@@ -116,15 +119,15 @@ export default function UserGuidePage() {
               <p className="font-body text-gray-600">Quick answers to help you get started.</p>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-4">
               {[
                 {
                   q: "Is the first exam really free?",
-                  a: "Yes! Every new user gets one full mock exam generation for free. You can choose any of the 10 subjects and experience the full platform before subscribing."
+                  a: "Yes! Every new user gets one full mock exam generation for free. You can choose any of the subjects and experience the full platform before subscribing."
                 },
                 {
-                  q: "How many questions are in each mock?",
-                  a: "Our exams follow the official BECE structure: 40 Multiple Choice questions (Section A) and detailed structured Theory questions (Section B)."
+                  q: "How many objective questions are in each mock?",
+                  a: "Our exams follow the official WAEC structure: A Standard 40 Multiple Choice questions (Section A) and detailed structured Theory questions (Section B)."
                 },
                 {
                   q: "Can I print the exams?",
@@ -132,19 +135,39 @@ export default function UserGuidePage() {
                 },
                 {
                   q: "What is Standard / Standard Access?",
-                  a: "Standard Access unlocks unlimited exam generations for 30 days. This allows you to practice as many unique papers as you need to perfect your score."
+                  a: "Standard Access unlocks multiple exam generations for 30 days. This allows you to practice as many unique papers as you need to perfect your score."
                 }
               ].map((faq, i) => (
-                <div key={i} className="bg-white border-2 border-blue-50 hover:border-blue-200 p-8 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300">
-                  <h4 className="font-display font-bold text-blue-900 mb-3 flex items-center gap-3 text-lg">
-                    <div className="bg-gold-100 p-1.5 rounded-lg">
-                      <CheckCircle size={20} className="text-gold-600" />
+                <div 
+                  key={i} 
+                  className={`bg-white border-2 rounded-2xl transition-all duration-300 overflow-hidden ${openFaq === i ? 'border-blue-400 shadow-md' : 'border-blue-50/50 hover:border-blue-200 shadow-sm'}`}
+                >
+                  <button 
+                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                    className="w-full text-left p-6 md:p-8 flex items-center justify-between group"
+                  >
+                    <h4 className="font-display font-bold text-blue-900 flex items-center gap-3 text-lg pr-4">
+                      <div className={`p-1.5 rounded-lg transition-colors ${openFaq === i ? 'bg-gold-400' : 'bg-gold-100 group-hover:bg-gold-200'}`}>
+                        <CheckCircle size={20} className={openFaq === i ? 'text-white' : 'text-gold-600'} />
+                      </div>
+                      {faq.q}
+                    </h4>
+                    <ChevronDown 
+                      size={20} 
+                      className={`text-blue-400 transition-transform duration-300 shrink-0 ${openFaq === i ? 'rotate-180' : ''}`} 
+                    />
+                  </button>
+                  
+                  <div 
+                    className={`transition-all duration-300 ease-in-out ${openFaq === i ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}
+                  >
+                    <div className="px-6 md:px-8 pb-8 pl-11 md:pl-[76px]">
+                      <div className="h-px bg-blue-50 mb-6" />
+                      <p className="font-body text-gray-600 text-base leading-relaxed">
+                        {faq.a}
+                      </p>
                     </div>
-                    {faq.q}
-                  </h4>
-                  <p className="font-body text-gray-600 text-base leading-relaxed pl-11">
-                    {faq.a}
-                  </p>
+                  </div>
                 </div>
               ))}
             </div>

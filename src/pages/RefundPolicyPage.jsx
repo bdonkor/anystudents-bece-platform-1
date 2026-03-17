@@ -7,9 +7,9 @@ export default function RefundPolicyPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 flex flex-col">
       <Helmet>
-        <title>Refund Policy | AnyStudents BECE Exam Prep</title>
-        <meta name="description" content="Read our Refund Policy. Understand our policies regarding payments, cancellations, and refunds for our BECE preparation platform." />
-        <link rel="canonical" href="https://anystudents.com/refund-policy" />
+        <title>Refund Policy | AnyStudents Mock Exams</title>
+        <meta name="description" content="Read our Refund Policy. Understand our policies regarding payments, cancellations, and refunds for our exam preparation platform." />
+        <link rel="canonical" href="https://mockexams.anystudents.com/refund-policy" />
       </Helmet>
       <Navbar />
 
@@ -27,7 +27,7 @@ export default function RefundPolicyPage() {
               <section>
                 <h2 className="text-2xl font-display font-semibold text-brand-700 mt-8 mb-4">1. Overview</h2>
                 <p>
-                  At AnyStudents Exam Prep, we provide digital educational services to students in Ghana. This Return and Refund Policy explains our policies regarding payments, cancellations, and refunds.
+                  At AnyStudents Mock Exams, we provide digital educational services to students in Ghana. This Return and Refund Policy explains our policies regarding payments, cancellations, and refunds.
                 </p>
                 <p>
                   <strong>Important:</strong> By subscribing to our Platform and making a payment, you agree to the terms outlined in this policy. Please read it carefully before purchasing.
@@ -37,10 +37,10 @@ export default function RefundPolicyPage() {
               <section>
                 <h2 className="text-2xl font-display font-semibold text-brand-700 mt-8 mb-4">2. Nature of Service - Digital Products</h2>
                 <p>
-                  AnyStudents Exam Prep is a digital service platform that provides:
+                  AnyStudents Mock Exams is a digital service platform that provides:
                 </p>
                 <ul className="list-disc pl-6 space-y-2">
-                  <li>Instantly generated mock exam papers for all 10 BECE subjects</li>
+                  <li>Instantly generated mock exam papers for BECE and WASSCE subjects</li>
                   <li>Downloadable exam papers and marking schemes</li>
                   <li>Digital study resources and materials</li>
                   <li>Online performance tracking and analytics</li>
@@ -91,17 +91,13 @@ export default function RefundPolicyPage() {
                   Our Platform operates on a monthly subscription basis at GH₵100 per month.
                 </p>
 
-                <h3 className="text-xl font-semibold text-brand-600 mt-6 mb-3">4.1 Auto-Renewal</h3>
+                <h3 className="text-xl font-semibold text-brand-600 mt-6 mb-3">4.1 Subscription Duration</h3>
                 <p>
-                  Your subscription will automatically renew each month unless you cancel before the renewal date. Each monthly payment is non-refundable.
+                  Subscriptions are valid for a period of 30 days from the date of payment. There is no automatic renewal; after your 30-day access expires, you must manually purchase another subscription to continue using premium features.
                 </p>
 
-                <h3 className="text-xl font-semibold text-brand-600 mt-6 mb-3">4.2 How to Cancel</h3>
-                <p>You can cancel your subscription at any time to prevent future charges:</p>
-                <ul className="list-disc pl-6 space-y-2">
-                  <li><strong>Your Account Dashboard:</strong> Log in and go to "Subscription Settings" to cancel</li>
-                  <li><strong>Email Support:</strong> Contact us at <a href="mailto:info@anystudents.com" className="text-gold-600 hover:text-gold-700 underline">info@anystudents.com</a></li>
-                </ul>
+                <h3 className="text-xl font-semibold text-brand-600 mt-6 mb-3">4.2 Renewal Reminders</h3>
+                <p>We may send you a reminder email when your subscription is nearing its 30-day expiration, but the responsibility to renew rests with the user. No automatic charges will be made to your account.</p>
 
                 <h3 className="text-xl font-semibold text-brand-600 mt-6 mb-3">4.3 Access After Cancellation</h3>
                 <p>
@@ -206,9 +202,9 @@ export default function RefundPolicyPage() {
                   If you have questions about this Refund Policy or need to report a payment issue, please contact us:
                 </p>
                 <div className="bg-slate-50 border border-slate-200 rounded-lg p-6 mt-4">
-                  <p className="font-semibold text-brand-800">AnyStudents Exam Prep</p>
+                  <p className="font-semibold text-brand-800">AnyStudents Mock Exams</p>
                   <p>Email: <a href="mailto:info@anystudents.com" className="text-gold-600 hover:text-gold-700 underline">info@anystudents.com</a></p>
-                  <p>Website: <a href="https://anystudents.com" className="text-gold-600 hover:text-gold-700 underline">www.anystudents.com</a></p>
+                  <p>Website: <a href="https://mockexams.anystudents.com" className="text-gold-600 hover:text-gold-700 underline">mockexams.anystudents.com</a></p>
                   <p className="mt-2 text-sm text-slate-600">Location: Ghana</p>
                 </div>
               </section>
@@ -217,7 +213,7 @@ export default function RefundPolicyPage() {
                 <div className="bg-gold-50 border border-gold-200 rounded-lg p-6">
                   <h3 className="font-display font-semibold text-brand-800 mb-3">Important Reminder</h3>
                   <p className="text-sm">
-                    <strong>By making a payment and subscribing to AnyStudents Exam Prep, you acknowledge and agree that:</strong>
+                    <strong>By making a payment and subscribing to AnyStudents Mock Exams, you acknowledge and agree that:</strong>
                   </p>
                   <ul className="list-disc pl-6 space-y-2 text-sm mt-3">
                     <li>You are purchasing access to digital services and downloadable content</li>

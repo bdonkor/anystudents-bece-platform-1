@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { useAuth } from '../contexts/AuthContext'
 import { getAllUsers, getSuspiciousActivity, getRevenueData, suspendUser } from '../lib/supabase'
 import { supabase } from '../lib/supabase'
 import Navbar from '../components/Navbar'
 import {
-  Users, DollarSign, AlertTriangle, BookOpen,
+  Users, DollarSign, AlertTriangle, BookOpen, Clock,
   CheckCircle, XCircle, Shield, Eye, TrendingUp, Mail
 } from 'lucide-react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
@@ -28,6 +29,7 @@ export default function AdminDashboard() {
     exams: 'pending'
   })
   const [emailModal, setEmailModal] = useState({ show: false, user: null, subject: '', message: '' })
+  const [userModal, setUserModal] = useState({ show: false, user: null, exams: [], payments: [], loading: false })
 
   useEffect(() => {
     if (profile) {
@@ -78,7 +80,7 @@ export default function AdminDashboard() {
       setLoadingSteps(prev => ({ ...prev, exams: 'loading' }))
       const { data: examData, error: examError } = await supabase
         .from('exams')
-        .select('id, subject, created_at')
+        .select('id, subject, level, created_at')
         .order('created_at', { ascending: false })
         .limit(50)
       if (examError) throw examError
@@ -122,18 +124,44 @@ export default function AdminDashboard() {
     const { user, subject, message } = emailModal
     const mailtoUrl = `mailto:${user.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`
     
-    // Create a temporary link and click it - more reliable than window.location.href
-    const link = document.createElement('a')
-    link.href = mailtoUrl
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
+    window.location.href = mailtoUrl
 
     setEmailModal({ ...emailModal, show: false })
   }
 
+  async function handleViewUser(user) {
+    setUserModal({ show: true, user, exams: [], payments: [], loading: true })
+    
+    try {
+      // Fetch user's exams
+      const { data: userExams } = await supabase
+        .from('exams')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+        
+      // Fetch user's payments
+      const { data: userPayments } = await supabase
+        .from('payments')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+        
+      setUserModal({
+        show: true,
+        user,
+        exams: userExams || [],
+        payments: userPayments || [],
+        loading: false
+      })
+    } catch (err) {
+      console.error(err)
+      setUserModal(prev => ({ ...prev, loading: false }))
+    }
+  }
+
   // Stats
-  const totalRevenue = revenue.reduce((sum, p) => sum + (p.amount || 0), 0) / 100
+  const totalRevenue = revenue.reduce((sum, p) => sum + (p.amount || 0), 0)
   const activeSubCount = users.filter(u => u.subscription_status === 'active').length
   const studentCount = users.filter(u => u.role === 'student').length
   const teacherCount = users.filter(u => u.role === 'teacher').length
@@ -141,14 +169,14 @@ export default function AdminDashboard() {
   // Revenue chart data
   const revenueByDay = revenue.reduce((acc, p) => {
     const date = new Date(p.created_at).toLocaleDateString('en-GH', { month: 'short', day: 'numeric' })
-    acc[date] = (acc[date] || 0) + (p.amount / 100)
+    acc[date] = (acc[date] || 0) + (p.amount || 0)
     return acc
   }, {})
   const chartData = Object.entries(revenueByDay).slice(-14).map(([date, amount]) => ({ date, amount }))
 
   const TABS = [
     { id: 'overview', label: 'Overview', icon: <TrendingUp size={15} /> },
-    { id: 'users', label: 'Users', icon: <Users size={15} /> },
+    { id: 'users', label: `Users (${users.length})`, icon: <Users size={15} /> },
     { id: 'suspicious', label: `Alerts ${suspicious.length ? `(${suspicious.length})` : ''}`, icon: <AlertTriangle size={15} /> },
     { id: 'exams', label: 'Exam Logs', icon: <BookOpen size={15} /> },
   ]
@@ -214,16 +242,24 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen flex flex-col bg-cream">
+      <Helmet>
+        <title>Admin Dashboard | AnyStudents</title>
+      </Helmet>
       <Navbar />
       <div className="flex-1 max-w-7xl mx-auto px-4 md:px-6 py-8 w-full">
 
-        <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <h1 className="font-display text-2xl font-bold text-ink">Admin Dashboard</h1>
-            <p className="font-body text-gray-500 text-sm">AnyStudents BECE Platform Management</p>
+        <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-gold-500/10 text-gold-600 rounded-xl flex items-center justify-center">
+              <Shield size={24} />
+            </div>
+            <div>
+              <h1 className="font-display text-2xl font-bold text-ink">Admin Dashboard</h1>
+              <p className="font-body text-gray-500 text-sm mt-0.5">Secure Platform Management Center</p>
+            </div>
           </div>
-          <Link to="/student" className="btn-brand text-xs px-4 py-2 flex items-center gap-2 w-fit">
-            <BookOpen size={14} />
+          <Link to="/student" className="btn-primary text-sm px-5 py-2.5 flex items-center gap-2 w-fit rounded-xl shadow-md hover:shadow-lg transition-all border-none">
+            <BookOpen size={16} />
             Switch to Practice Mode
           </Link>
         </div>
@@ -235,72 +271,192 @@ export default function AdminDashboard() {
         )}
 
         {/* KPI Stats */}
-        <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {[
-            { label: 'Total Revenue', value: `GH₵${totalRevenue.toFixed(0)}`, icon: <DollarSign size={20} className="text-gold-500" />, sub: `${revenue.length} payments` },
-            { label: 'Active Subs', value: activeSubCount, icon: <CheckCircle size={20} className="text-blue-500" />, sub: 'Paying users' },
-            { label: 'Students', value: studentCount, icon: <Users size={20} className="text-brand-500" />, sub: `${teacherCount} teachers` },
-            { label: 'Exams Generated', value: exams.length, icon: <BookOpen size={20} className="text-purple-500" />, sub: 'All time' },
+            {
+              label: 'Total Revenue',
+              value: `GH₵${totalRevenue.toFixed(0)}`,
+              icon: <DollarSign size={20} className="text-white" />,
+              sub: `${revenue.length} payments`,
+              bg: 'bg-gradient-to-br from-emerald-500 to-green-700',
+              iconBg: 'bg-white/20'
+            },
+            {
+              label: 'Active Subs',
+              value: activeSubCount,
+              icon: <CheckCircle size={20} className="text-white" />,
+              sub: 'Paying users',
+              bg: 'bg-gradient-to-br from-blue-500 to-indigo-700',
+              iconBg: 'bg-white/20'
+            },
+            {
+              label: 'Total Students',
+              value: studentCount,
+              icon: <Users size={20} className="text-white" />,
+              sub: `${teacherCount} teachers`,
+              bg: 'bg-gradient-to-br from-purple-500 to-fuchsia-700',
+              iconBg: 'bg-white/20'
+            },
+            {
+              label: 'Exams Generated',
+              value: exams.length,
+              icon: <BookOpen size={20} className="text-white" />,
+              sub: 'All time',
+              bg: 'bg-gradient-to-br from-orange-400 to-rose-600',
+              iconBg: 'bg-white/20'
+            },
           ].map(s => (
-            <div key={s.label} className="card p-4">
-              <div className="flex items-start justify-between mb-1">
-                <div className="w-9 h-9 bg-gray-50 rounded-xl flex items-center justify-center">{s.icon}</div>
+            <div key={s.label} className={`rounded-2xl p-5 flex items-center gap-4 text-white shadow-lg ${s.bg} border border-white/20 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 relative overflow-hidden group`}>
+              {/* Decorative background shape */}
+              <div className="absolute -right-6 -top-6 w-20 h-20 bg-white/20 rounded-full blur-2xl group-hover:bg-white/30 transition-all duration-500"></div>
+              
+              <div className={`w-12 h-12 rounded-xl backdrop-blur-md flex items-center justify-center shrink-0 shadow-inner relative z-10 border border-white/10 ${s.iconBg}`}>
+                {s.icon}
               </div>
-              <div className="font-display text-2xl font-bold text-ink">{s.value}</div>
-              <div className="font-body text-xs text-gray-500">{s.label}</div>
-              <div className="font-body text-xs text-gray-400">{s.sub}</div>
+              <div className="relative z-10">
+                <div className="font-display font-black text-2xl leading-none tracking-tight mb-1">{s.value}</div>
+                <div className="text-[10px] font-black font-body uppercase tracking-widest text-white/80 leading-none mb-0.5">{s.label}</div>
+                <div className="text-[9px] font-medium font-body text-white/50 italic">{s.sub}</div>
+              </div>
             </div>
           ))}
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-1 bg-gray-100 rounded-xl p-1 mb-6 w-fit flex-wrap">
+        <div className="flex gap-2 bg-white rounded-2xl p-2 mb-8 shadow-sm border border-gray-100 w-fit flex-wrap">
           {TABS.map(tab => (
             <button key={tab.id} onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold font-body transition-all
-                ${activeTab === tab.id ? 'bg-white text-brand-700 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>
-              {tab.icon} {tab.label}
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold font-body transition-all duration-200
+                ${activeTab === tab.id 
+                  ? 'bg-brand-50 text-brand-700 shadow-sm ring-1 ring-brand-200/50' 
+                  : 'text-gray-500 hover:bg-gray-50 hover:text-gray-800'}`}>
+              <div className={activeTab === tab.id ? "text-brand-600" : "text-gray-400"}>{tab.icon}</div>
+              {tab.label}
             </button>
           ))}
         </div>
 
         {/* OVERVIEW */}
         {activeTab === 'overview' && (
-          <div className="space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fade-in">
             {chartData.length > 0 && (
-              <div className="card">
-                <h3 className="font-display font-semibold text-ink mb-4">Revenue (Last 14 Days)</h3>
-                <ResponsiveContainer width="100%" height={220}>
-                  <LineChart data={chartData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                    <XAxis dataKey="date" tick={{ fontSize: 11 }} />
-                    <YAxis tick={{ fontSize: 11 }} />
-                    <Tooltip formatter={v => `GH₵${v}`} />
-                    <Line type="monotone" dataKey="amount" stroke="#0a4a2e" strokeWidth={2} dot={{ r: 4, fill: '#f5b400' }} />
-                  </LineChart>
-                </ResponsiveContainer>
+              <div className="lg:col-span-2 card p-6 border-none rounded-3xl shadow-xl overflow-hidden relative group transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
+                style={{ background: 'linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%)' }}>
+                <div className="absolute top-0 right-0 p-32 bg-emerald-400/10 rounded-full blur-[100px] -mr-20 -mt-20"></div>
+                <div className="absolute bottom-0 left-0 p-32 bg-blue-400/5 rounded-full blur-[80px] -ml-20 -mb-20"></div>
+                
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-8">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center shadow-inner border border-emerald-100">
+                        <TrendingUp size={22} />
+                      </div>
+                      <div>
+                        <h3 className="font-display font-bold text-slate-800 text-xl tracking-tight">Revenue Performance</h3>
+                        <p className="text-[10px] text-slate-400 font-bold font-body uppercase tracking-[0.2em] mt-0.5">Live Transaction Flow</p>
+                      </div>
+                    </div>
+                    <div className="flex flex-col items-end">
+                      <div className="text-[10px] font-black font-body text-emerald-600 bg-emerald-100 px-4 py-1.5 rounded-full border border-emerald-200 uppercase tracking-widest shadow-sm">
+                        Real-time
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="h-[280px] w-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <LineChart data={chartData}>
+                        <defs>
+                          <linearGradient id="colorAmount" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#10b981" stopOpacity={0.2}/>
+                            <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                          </linearGradient>
+                        </defs>
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                        <XAxis 
+                          dataKey="date" 
+                          axisLine={false} 
+                          tickLine={false} 
+                          tick={{ fontSize: 11, fill: '#94a3b8', fontWeight: 600 }} 
+                          dy={15}
+                        />
+                        <YAxis 
+                          axisLine={false} 
+                          tickLine={false} 
+                          tick={{ fontSize: 11, fill: '#94a3b8', fontWeight: 600 }}
+                          tickFormatter={(v) => `GH₵${v}`}
+                        />
+                        <Tooltip 
+                          contentStyle={{ 
+                            backgroundColor: '#ffffff', 
+                            borderRadius: '20px', 
+                            border: '1px solid #e2e8f0', 
+                            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.1)',
+                            padding: '12px 16px'
+                          }}
+                          itemStyle={{ color: '#059669', fontWeight: 800, fontSize: '15px' }}
+                          labelStyle={{ color: '#64748b', marginBottom: '6px', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}
+                          formatter={v => [`GH₵${v}`, 'Revenue']} 
+                        />
+                        <Line 
+                          type="monotone" 
+                          dataKey="amount" 
+                          stroke="#10b981" 
+                          strokeWidth={4} 
+                          dot={{ r: 6, fill: '#f5b400', strokeWidth: 3, stroke: '#ffffff' }} 
+                          activeDot={{ r: 8, fill: '#10b981', strokeWidth: 4, stroke: '#ffffff' }}
+                          animationDuration={1500}
+                        />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
               </div>
             )}
 
-            {suspicious.length > 0 && (
-              <div className="card border border-red-200 bg-red-50">
-                <div className="flex items-center gap-2 mb-3">
-                  <AlertTriangle size={18} className="text-red-500" />
-                  <h3 className="font-display font-semibold text-red-800">
-                    {suspicious.length} Suspicious Activity Alert{suspicious.length !== 1 ? 's' : ''}
-                  </h3>
-                </div>
-                {suspicious.slice(0, 3).map(a => (
-                  <div key={a.id} className="bg-white rounded-lg px-3 py-2 mb-2 text-sm font-body text-gray-700">
-                    <strong>{a.profiles?.email}</strong> — {a.activity_type.replace(/_/g, ' ')}
-                    <span className="text-gray-400 ml-2">{new Date(a.created_at).toLocaleString('en-GH')}</span>
+            <div className="space-y-6">
+              {suspicious.length > 0 ? (
+                <div className="card p-6 border-none bg-gradient-to-br from-red-50 to-orange-50 rounded-2xl shadow-sm border border-red-100">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 bg-red-500 text-white rounded-lg flex items-center justify-center">
+                        <AlertTriangle size={16} />
+                      </div>
+                      <h3 className="font-display font-bold text-red-900">
+                        Critical Alerts
+                      </h3>
+                    </div>
+                    <span className="bg-red-200 text-red-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                      {suspicious.length} New
+                    </span>
                   </div>
-                ))}
-                <button onClick={() => setActiveTab('suspicious')} className="text-xs text-red-600 font-semibold hover:underline">
-                  View all alerts →
-                </button>
-              </div>
-            )}
+                  <div className="space-y-3">
+                    {suspicious.slice(0, 3).map(a => (
+                      <div key={a.id} className="bg-white/60 backdrop-blur-sm border border-white rounded-xl p-3 shadow-sm hover:bg-white transition-colors">
+                        <div className="font-bold text-gray-800 text-xs truncate mb-0.5">{a.profiles?.email}</div>
+                        <div className="text-[10px] text-red-600 font-semibold uppercase tracking-tight">
+                          {a.activity_type.replace(/_/g, ' ')}
+                        </div>
+                        <div className="text-[9px] text-gray-400 mt-1">
+                          {new Date(a.created_at).toLocaleString('en-GH', { timeStyle: 'short', dateStyle: 'short' })}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <button onClick={() => setActiveTab('suspicious')} className="w-full mt-4 text-xs text-red-600 font-bold hover:bg-red-100/50 py-2 rounded-lg transition-colors border border-red-200 border-dashed">
+                    Review All Security Logs →
+                  </button>
+                </div>
+              ) : (
+                <div className="card p-6 bg-white border border-gray-100 shadow-sm rounded-2xl flex flex-col items-center text-center justify-center h-full">
+                  <div className="w-12 h-12 bg-green-50 text-green-500 rounded-full flex items-center justify-center mb-3">
+                    <CheckCircle size={24} />
+                  </div>
+                  <h4 className="font-bold text-ink text-sm">System Secure</h4>
+                  <p className="text-xs text-gray-400 mt-1">No suspicious activity detected in the last 24 hours.</p>
+                </div>
+              )}
+            </div>
           </div>
         )}
 
@@ -308,22 +464,28 @@ export default function AdminDashboard() {
         {activeTab === 'users' && (
           <div className="card">
             <h3 className="font-display font-semibold text-ink mb-4">All Users ({users.length})</h3>
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto rounded-xl border border-gray-100 shadow-sm">
               <table className="w-full text-sm font-body">
                 <thead>
-                  <tr className="border-b border-gray-100">
-                    <th className="text-left py-2 px-3 text-gray-500 font-semibold">Name</th>
-                    <th className="text-left py-2 px-3 text-gray-500 font-semibold">Role</th>
-                    <th className="text-left py-2 px-3 text-gray-500 font-semibold">Status</th>
-                    <th className="text-left py-2 px-3 text-gray-500 font-semibold">Joined</th>
-                    <th className="text-left py-2 px-3 text-gray-500 font-semibold">Action</th>
+                  <tr className="border-b border-gray-100 bg-gray-50">
+                    <th className="text-left py-3 px-4 text-gray-500 font-bold tracking-wider uppercase text-xs">Name & Email</th>
+                    <th className="text-left py-3 px-4 text-gray-500 font-bold tracking-wider uppercase text-xs">Role</th>
+                    <th className="text-left py-3 px-4 text-gray-500 font-bold tracking-wider uppercase text-xs">Current Status</th>
+                    <th className="text-left py-3 px-4 text-gray-500 font-bold tracking-wider uppercase text-xs">Level</th>
+                    <th className="text-left py-3 px-4 text-gray-500 font-bold tracking-wider uppercase text-xs">Join Date</th>
+                    <th className="text-left py-3 px-4 text-gray-500 font-bold tracking-wider uppercase text-xs">Quick Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {users.map(u => (
                     <tr key={u.id} className="border-b border-gray-50 hover:bg-gray-50">
                       <td className="py-2.5 px-3">
-                        <div className="font-semibold text-ink">{u.full_name || '—'}</div>
+                        <button 
+                          onClick={() => handleViewUser(u)}
+                          className="font-semibold text-brand-700 hover:text-brand-900 hover:underline text-left"
+                        >
+                          {u.full_name || '—'}
+                        </button>
                         <div className="text-xs text-gray-400">{u.email}</div>
                       </td>
                       <td className="py-2.5 px-3">
@@ -343,6 +505,11 @@ export default function AdminDashboard() {
                           <span className="badge-inactive">Free</span>
                         )}
                       </td>
+                      <td className="py-2.5 px-3">
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-tighter ${u.level === 'shs' ? 'bg-indigo-50 text-indigo-700' : 'bg-emerald-50 text-emerald-700'}`}>
+                          {u.level?.toUpperCase() || 'JHS'}
+                        </span>
+                      </td>
                       <td className="py-2.5 px-3 text-gray-400 text-xs">
                         {new Date(u.created_at).toLocaleDateString('en-GH')}
                       </td>
@@ -357,12 +524,12 @@ export default function AdminDashboard() {
                           {u.role !== 'admin' && (
                             u.is_suspended ? (
                               <button onClick={() => handleUnsuspend(u.id)}
-                                className="text-xs text-blue-600 hover:underline font-semibold">
+                                className="bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1 rounded-lg text-xs font-bold transition-colors">
                                 Unsuspend
                               </button>
                             ) : (
                               <button onClick={() => handleSuspend(u.id)}
-                                className="text-xs text-red-500 hover:underline font-semibold">
+                                className="bg-red-50 text-red-500 hover:bg-red-500 hover:text-white px-3 py-1 rounded-lg text-xs font-bold transition-colors">
                                 Suspend
                               </button>
                             )
@@ -379,47 +546,68 @@ export default function AdminDashboard() {
 
         {/* SUSPICIOUS */}
         {activeTab === 'suspicious' && (
-          <div className="card">
-            <div className="flex items-center gap-2 mb-4">
-              <Shield size={18} className="text-brand-600" />
-              <h3 className="font-display font-semibold text-ink">Suspicious Activity Monitor</h3>
+          <div className="animate-fade-in">
+            <div className="mb-6 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-red-100 text-red-600 rounded-xl flex items-center justify-center shadow-sm">
+                  <Shield size={20} />
+                </div>
+                <div>
+                  <h3 className="font-display font-bold text-xl text-ink">Security & Integrity Monitor</h3>
+                  <p className="text-xs text-gray-400 font-body">Detecting automated activity and potential fraud</p>
+                </div>
+              </div>
             </div>
+
             {suspicious.length === 0 ? (
-              <div className="text-center py-10">
-                <CheckCircle size={36} className="text-blue-400 mx-auto mb-3" />
-                <p className="font-body text-gray-400">No suspicious activity detected.</p>
+              <div className="card p-12 text-center bg-white border border-gray-100 rounded-3xl shadow-sm">
+                <div className="w-20 h-20 bg-green-50 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
+                  <CheckCircle size={40} />
+                </div>
+                <h3 className="font-display font-bold text-xl text-ink mb-2">Platform is Secure</h3>
+                <p className="font-body text-gray-500 max-w-sm mx-auto">No suspicious activities or automated patterns detected across all active accounts.</p>
               </div>
             ) : (
-              <div className="space-y-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {suspicious.map(a => (
-                  <div key={a.id} className="bg-red-50 border border-red-200 rounded-xl p-4">
-                    <div className="flex items-start justify-between gap-4">
-                      <div>
-                        <div className="font-semibold text-red-800 text-sm">
-                          {a.profiles?.email || a.user_id}
+                  <div key={a.id} className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all group">
+                    <div className="flex items-start justify-between gap-4 mb-4">
+                      <div className="flex gap-3">
+                        <div className="w-10 h-10 bg-red-50 text-red-500 rounded-xl flex items-center justify-center shrink-0 group-hover:bg-red-500 group-hover:text-white transition-colors">
+                          <AlertTriangle size={18} />
                         </div>
-                        <div className="font-body text-sm text-red-700 mt-0.5">
-                          {a.activity_type.replace(/_/g, ' ').toUpperCase()}
-                        </div>
-                        {a.details && (
-                          <pre className="text-xs text-gray-500 mt-1 font-mono bg-white rounded p-2 overflow-auto">
-                            {JSON.stringify(a.details, null, 2)}
-                          </pre>
-                        )}
-                        <div className="text-xs text-gray-400 mt-1">
-                          {new Date(a.created_at).toLocaleString('en-GH')}
+                        <div>
+                          <div className="font-bold text-gray-900 text-sm mb-0.5 mt-0.5 leading-none">
+                            {a.profiles?.email || a.user_id}
+                          </div>
+                          <div className="inline-block mt-1 bg-red-100 text-red-700 text-[10px] font-black px-2 py-0.5 rounded-md uppercase tracking-widest border border-red-200">
+                            {a.activity_type.replace(/_/g, ' ')}
+                          </div>
                         </div>
                       </div>
-                      <div className="flex flex-col gap-2 shrink-0">
-                        <button onClick={() => handleOpenEmail({ email: a.profiles?.email, full_name: a.profiles?.full_name })}
-                          className="btn-outline text-xs py-1.5 px-3 flex items-center justify-center gap-2">
-                          <Mail size={14} /> Contact
-                        </button>
-                        <button onClick={() => handleSuspend(a.user_id)}
-                          className="btn-outline text-xs py-1.5 px-3 border-red-300 text-red-600 hover:bg-red-600 hover:text-white">
-                          Suspend
-                        </button>
+                      <div className="text-right text-[10px] text-gray-400 font-mono">
+                        {new Date(a.created_at).toLocaleString('en-GH', { timeStyle: 'short', dateStyle: 'short' })}
                       </div>
+                    </div>
+                    
+                    {a.details && (
+                      <div className="bg-gray-50 rounded-xl p-3 mb-5 border border-gray-100 overflow-hidden">
+                        <div className="text-[10px] uppercase font-bold text-gray-400 mb-2 tracking-widest px-1">Evidence Payload</div>
+                        <pre className="text-[11px] text-gray-600 font-mono whitespace-pre-wrap break-all leading-relaxed">
+                          {JSON.stringify(a.details, null, 2)}
+                        </pre>
+                      </div>
+                    )}
+
+                    <div className="flex gap-2">
+                      <button onClick={() => handleOpenEmail({ email: a.profiles?.email, full_name: a.profiles?.full_name })}
+                        className="flex-1 bg-brand-50 text-brand-700 hover:bg-brand-600 hover:text-white text-xs font-bold py-2.5 rounded-xl transition-all flex items-center justify-center gap-2 border border-brand-100">
+                        <Mail size={14} /> Contact User
+                      </button>
+                      <button onClick={() => handleSuspend(a.user_id)}
+                        className="flex-1 bg-white border border-red-100 text-red-500 hover:bg-red-500 hover:text-white text-xs font-bold py-2.5 rounded-xl transition-all px-4">
+                        Suspend
+                      </button>
                     </div>
                   </div>
                 ))}
@@ -430,17 +618,47 @@ export default function AdminDashboard() {
 
         {/* EXAM LOGS */}
         {activeTab === 'exams' && (
-          <div className="card">
-            <h3 className="font-display font-semibold text-ink mb-4">Recent Exam Generations ({exams.length})</h3>
-            <div className="space-y-2">
-              {exams.map(exam => (
-                <div key={exam.id} className="flex items-center justify-between py-2.5 px-3 bg-gray-50 rounded-lg text-sm font-body">
-                  <span className="text-ink font-semibold">{exam.subject}</span>
-                  <span className="text-gray-400 text-xs">
-                    {new Date(exam.created_at).toLocaleString('en-GH', { dateStyle: 'short', timeStyle: 'short' })}
-                  </span>
+          <div className="animate-fade-in">
+             <div className="mb-6">
+                <h3 className="font-display font-bold text-xl text-ink flex items-center gap-2">
+                  <div className="w-10 h-10 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center shadow-sm">
+                    <BookOpen size={20} />
+                  </div>
+                  System Learning activity
+                </h3>
+             </div>
+             
+             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {exams.length > 0 ? (
+                exams.map(exam => (
+                  <div key={exam.id || Math.random()} className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-all flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="bg-purple-50 text-purple-700 text-[10px] font-black px-2 py-0.5 rounded-md uppercase tracking-wider border border-purple-100">
+                          Exam Session
+                        </div>
+                        <span className="text-[10px] text-gray-400 font-mono">
+                           #{String(exam.id || '').slice(0, 8)}
+                        </span>
+                      </div>
+                      <h4 className="font-display font-bold text-ink mb-1">{exam.subject || 'Unknown Subject'}</h4>
+                      <p className="text-xs text-gray-400 font-body">
+                        Generated {String(exam.level || 'BECE').toUpperCase()} mock exam
+                      </p>
+                    </div>
+                    <div className="mt-4 pt-4 border-t border-gray-50 flex items-center gap-2 text-gray-400">
+                      <Clock size={12} />
+                      <span className="text-[10px] font-medium tracking-wide">
+                        {exam.created_at ? new Date(exam.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'Date unknown'}
+                      </span>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="col-span-full py-20 text-center bg-white rounded-3xl border-2 border-dashed border-gray-100 italic text-gray-400">
+                  No exam logs found in the database.
                 </div>
-              ))}
+              )}
             </div>
           </div>
         )}
@@ -485,17 +703,193 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-              <div className="flex gap-3">
-                <button onClick={() => setEmailModal({ ...emailModal, show: false })} className="btn-outline flex-1 justify-center">
-                  Cancel
-                </button>
-                <button onClick={sendEmail} className="btn-primary flex-1 justify-center gap-2">
-                  <Mail size={18} /> Open Email Client
+              <div className="flex flex-col gap-3">
+                <div className="flex gap-3">
+                  <a 
+                    href={`mailto:${emailModal.user?.email}?subject=${encodeURIComponent(emailModal.subject)}&body=${encodeURIComponent(emailModal.message)}`}
+                    onClick={() => setEmailModal({ ...emailModal, show: false })}
+                    className="btn-primary flex-1 flex items-center justify-center gap-2 text-center no-underline"
+                  >
+                    <Mail size={18} /> Open Mail App
+                  </a>
+                  <button 
+                    onClick={() => {
+                      navigator.clipboard.writeText(emailModal.user?.email || '')
+                      setActionMsg('Email address copied to clipboard!')
+                      setEmailModal({ ...emailModal, show: false })
+                    }} 
+                    className="btn-outline flex-1 justify-center font-semibold"
+                  >
+                    Copy Email
+                  </button>
+                </div>
+                <button onClick={() => setEmailModal({ ...emailModal, show: false })} className="text-gray-400 text-xs mt-1 hover:underline text-center">
+                  Cancel and Close
                 </button>
               </div>
               <p className="text-[10px] text-center text-gray-400 mt-4 font-body">
-                This will open your default email application (Outlook, Gmail, etc.)
+                If the Mail App doesn't open, your computer may lack a default email application.
               </p>
+            </div>
+          </div>
+        )}
+
+        {/* USER PROFILE MODAL */}
+        {userModal.show && userModal.user && (
+          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-brand-900/60 backdrop-blur-md animate-fade-in overflow-y-auto">
+            <div className="card max-w-2xl w-full shadow-2xl animate-fade-up my-auto max-h-[90vh] flex flex-col bg-cream/95 border border-white/50 overflow-hidden rounded-3xl">
+              
+              {/* Profile Header Card */}
+              <div className="bg-white p-8 border-b border-gray-100 flex flex-col md:flex-row items-center md:items-start gap-6 relative shrink-0">
+                <div className="absolute top-0 right-0 p-4">
+                   <button onClick={() => setUserModal({ show: false, user: null, exams: [], payments: [], loading: false })} 
+                     className="w-10 h-10 bg-gray-50 text-gray-400 hover:bg-red-50 hover:text-red-500 rounded-full flex items-center justify-center transition-all shadow-sm">
+                    <XCircle size={24} />
+                  </button>
+                </div>
+
+                <div className="w-24 h-24 bg-gradient-to-tr from-brand-600 to-indigo-600 text-white rounded-3xl flex items-center justify-center font-display font-black text-4xl shadow-lg ring-4 ring-white">
+                  {(userModal.user.full_name || userModal.user.email || '?').charAt(0).toUpperCase()}
+                </div>
+                
+                <div className="text-center md:text-left pt-2">
+                  <h3 className="font-display font-black text-3xl text-ink leading-none mb-2">{userModal.user.full_name || 'Anonymous Student'}</h3>
+                  <p className="text-gray-500 font-body mb-4 flex items-center justify-center md:justify-start gap-2">
+                     <Mail size={14} className="text-brand-400" /> {userModal.user.email}
+                  </p>
+                  <div className="flex flex-wrap items-center justify-center md:justify-start gap-2">
+                    <span className="bg-brand-100 text-brand-700 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider border border-brand-200">
+                      {userModal.user.role}
+                    </span>
+                    <span className="bg-purple-100 text-purple-700 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider border border-purple-200">
+                      {userModal.user.level?.toUpperCase() || 'JHS'}
+                    </span>
+                    {userModal.user.program && (
+                      <span className="bg-blue-100 text-blue-700 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider border border-blue-200">
+                        {userModal.user.program}
+                      </span>
+                    )}
+                    {userModal.user.is_suspended ? (
+                      <span className="bg-red-100 text-red-700 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider border border-red-200">
+                        Suspended
+                      </span>
+                    ) : (
+                      <span className="bg-green-100 text-green-700 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider border border-green-200">
+                         {userModal.user.subscription_status === 'active' ? 'Gold Member' : 'Free Entry'}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex-1 overflow-y-auto p-8 space-y-8 custom-scrollbar">
+                {/* Stats Row */}
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+                  <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
+                    <div className="text-[10px] text-gray-400 font-black uppercase tracking-widest mb-2">Member Since</div>
+                    <div className="text-lg font-bold text-ink">{new Date(userModal.user.created_at).toLocaleDateString('en-GH', { month: 'long', year: 'numeric' })}</div>
+                  </div>
+                  <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
+                    <div className="text-[10px] text-gray-400 font-black uppercase tracking-widest mb-2">Investment</div>
+                    <div className="text-lg font-bold text-gold-600">GH₵{(userModal.payments.reduce((sum, p) => sum + p.amount, 0)).toFixed(2)}</div>
+                  </div>
+                  <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 col-span-2 md:col-span-1">
+                    <div className="text-[10px] text-gray-400 font-black uppercase tracking-widest mb-2">Academics</div>
+                    <div className="text-lg font-bold text-purple-600">{userModal.exams.length} Exams</div>
+                  </div>
+                </div>
+
+                {userModal.loading ? (
+                  <div className="flex flex-col items-center justify-center py-20 bg-white/40 rounded-3xl border border-dashed border-gray-200">
+                    <div className="w-12 h-12 rounded-full border-4 border-brand-500 border-t-transparent animate-spin mb-4" />
+                    <p className="font-bold text-brand-700 text-sm animate-pulse">Syncing student profile...</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {/* Exams Card */}
+                    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                      <div className="bg-purple-50 px-5 py-4 border-b border-purple-100 flex items-center justify-between">
+                        <h4 className="font-display font-bold text-purple-900 text-sm flex items-center gap-2">
+                          <BookOpen size={16} /> Exam History
+                        </h4>
+                        <span className="bg-purple-200 text-purple-700 text-[10px] font-bold px-2 py-0.5 rounded-md">
+                          {userModal.exams.length}
+                        </span>
+                      </div>
+                      <div className="divide-y divide-gray-50 max-h-72 overflow-y-auto">
+                        {userModal.exams.length === 0 ? (
+                          <div className="p-8 text-center text-gray-400 italic text-xs">No records found.</div>
+                        ) : (
+                          userModal.exams.map(ex => (
+                            <div key={ex.id} className="px-5 py-3 hover:bg-gray-50 flex justify-between items-center transition-colors">
+                              <span className="font-bold text-xs text-ink">{ex.subject}</span>
+                              <span className="text-[10px] text-gray-400 font-mono">{new Date(ex.created_at).toLocaleDateString()}</span>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Payments Card */}
+                    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                      <div className="bg-gold-50 px-5 py-4 border-b border-gold-100 flex items-center justify-between">
+                        <h4 className="font-display font-bold text-gold-900 text-sm flex items-center gap-2">
+                          <DollarSign size={16} /> Payment Logs
+                        </h4>
+                        <span className="bg-gold-200 text-gold-700 text-[10px] font-bold px-2 py-0.5 rounded-md">
+                          {userModal.payments.length}
+                        </span>
+                      </div>
+                      <div className="divide-y divide-gray-50 max-h-72 overflow-y-auto">
+                        {userModal.payments.length === 0 ? (
+                          <div className="p-8 text-center text-gray-400 italic text-xs">No records found.</div>
+                        ) : (
+                          userModal.payments.map(pay => (
+                            <div key={pay.id} className="px-5 py-3 hover:bg-gray-50 flex justify-between items-center transition-colors">
+                              <div>
+                                <div className="font-black text-xs text-emerald-600">GH₵{Number(pay.amount).toFixed(2)}</div>
+                                <div className="text-[9px] text-gray-400 uppercase font-black">{pay.status}</div>
+                              </div>
+                              <span className="text-[10px] text-gray-400 font-mono">{new Date(pay.created_at).toLocaleDateString()}</span>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+              
+              <div className="p-8 bg-gray-50 border-t border-gray-100 flex flex-col sm:flex-row gap-4 shrink-0">
+                <button 
+                  onClick={() => {
+                    setUserModal({ show: false, user: null, exams: [], payments: [], loading: false })
+                    handleOpenEmail(userModal.user)
+                  }}
+                  className="bg-brand-700 text-white hover:bg-brand-800 px-6 py-4 rounded-2xl font-black text-sm flex items-center justify-center gap-2 shadow-lg shadow-brand-500/20 transition-all active:scale-95 flex-1"
+                >
+                  <Mail size={18} /> Compose Direct message
+                </button>
+                {userModal.user.role !== 'admin' && (
+                  userModal.user.is_suspended ? (
+                    <button onClick={() => {
+                        handleUnsuspend(userModal.user.id)
+                        setUserModal({ show: false, user: null, exams: [], payments: [], loading: false })
+                      }}
+                      className="bg-white border-2 border-blue-500 text-blue-600 hover:bg-blue-50 px-6 py-4 rounded-2xl font-black text-sm flex-1 transition-all">
+                      Re-activate Account
+                    </button>
+                  ) : (
+                    <button onClick={() => {
+                        handleSuspend(userModal.user.id)
+                        setUserModal({ show: false, user: null, exams: [], payments: [], loading: false })
+                      }}
+                      className="bg-white border-2 border-red-500 text-red-600 hover:bg-red-50 px-6 py-4 rounded-2xl font-black text-sm flex-1 transition-all">
+                      Suspend Account
+                    </button>
+                  )
+                )}
+              </div>
             </div>
           </div>
         )}

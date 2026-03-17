@@ -10,7 +10,7 @@ export default function RegisterPage() {
   const navigate = useNavigate()
   const [form, setForm] = useState({
     fullName: '', email: '', password: '', confirmPassword: '',
-    role: 'student', school: ''
+    role: 'student', school: '', level: 'jhs', program: ''
   })
   const [showPass, setShowPass] = useState(false)
   const [acceptedTerms, setAcceptedTerms] = useState(false)
@@ -32,7 +32,7 @@ export default function RegisterPage() {
     }
     setLoading(true)
     try {
-      const { error } = await signUp(form.email, form.password, form.fullName, form.role)
+      const { error } = await signUp(form.email, form.password, form.fullName, form.role, form.level, form.program)
       if (error) throw error
       setSuccess(true)
     } catch (err) {
@@ -66,9 +66,9 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen flex flex-col bg-cream">
       <Helmet>
-        <title>Register | Get Started Free | AnyStudents BECE</title>
-        <meta name="description" content="Create your AnyStudents account today. Get your first BECE mock exam for free. Join thousands of JHS 3 students preparing for their final exams." />
-        <link rel="canonical" href="https://anystudents.com/register" />
+        <title>Register | Join AnyStudents for BECE & WASSCE Success</title>
+        <meta name="description" content="Create your AnyStudents account today. Access official-standard BECE (JHS) and WASSCE (SHS) mock exams. Start with your first mock exam for completely free." />
+        <link rel="canonical" href="https://mockexams.anystudents.com/register" />
       </Helmet>
       <Navbar />
       <div className="flex-1 flex items-center justify-center px-4 py-12">
@@ -77,15 +77,15 @@ export default function RegisterPage() {
             <div className="w-14 h-14 bg-brand-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <BookOpen size={28} className="text-gold-400" />
             </div>
-            <h1 className="font-display text-3xl font-bold text-ink mb-1">Get Started Free</h1>
-            <p className="font-body text-gray-500">Create your account today</p>
+            <h1 className="font-display text-3xl font-bold text-ink mb-1">Pass Every Mock Exam</h1>
+            <p className="font-body text-gray-500 text-sm">Join thousands of students on their way to success</p>
           </div>
 
           <div className="card shadow-md">
             {/* Free exam badge */}
             <div className="flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-lg px-3 py-2 mb-5 text-blue-700 text-sm font-body">
               <CheckCircle size={15} />
-              <span>Your first mock exam is <strong>completely free</strong> — no card needed</span>
+              <span>Your first official-standard mock is <strong>completely free</strong></span>
             </div>
 
             {error && (
@@ -108,21 +108,54 @@ export default function RegisterPage() {
                   {['student', 'teacher'].map(r => (
                     <button key={r} type="button"
                       onClick={() => setForm({ ...form, role: r })}
-                      className={`py-2.5 px-4 rounded-lg border-2 text-sm font-semibold font-body transition-all capitalize
+                      className={`py-2.5 px-4 rounded-lg border-2 text-xs font-bold font-body transition-all capitalize
                         ${form.role === r
                           ? 'border-brand-600 bg-brand-50 text-brand-700'
-                          : 'border-gray-200 text-gray-500 hover:border-gray-300'}`}>
+                          : 'border-gray-200 text-gray-400 hover:border-gray-300'}`}>
                       {r === 'student' ? '🎓 Student' : '📚 Teacher'}
                     </button>
                   ))}
                 </div>
               </div>
 
+              <div className="grid grid-cols-1 gap-4">
+                <div>
+                   <label className="block text-sm font-semibold text-ink mb-1.5 font-body">Education Level</label>
+                   <div className="grid grid-cols-2 gap-3">
+                    <button type="button" onClick={() => setForm({ ...form, level: 'jhs' })}
+                      className={`py-2.5 px-4 rounded-lg border-2 text-xs font-bold font-body transition-all
+                        ${form.level === 'jhs' ? 'border-brand-600 bg-brand-50 text-brand-700' : 'border-gray-200 text-gray-400'}`}>
+                        JHS (BECE)
+                    </button>
+                    <button type="button" onClick={() => setForm({ ...form, level: 'shs' })}
+                      className={`py-2.5 px-4 rounded-lg border-2 text-xs font-bold font-body transition-all
+                        ${form.level === 'shs' ? 'border-brand-600 bg-brand-50 text-brand-700' : 'border-gray-200 text-gray-400'}`}>
+                        SHS (WASSCE)
+                    </button>
+                   </div>
+                </div>
+
+                {form.level === 'shs' && (
+                  <div className="animate-fade-down">
+                    <label className="block text-sm font-semibold text-ink mb-1.5 font-body">Academic Program</label>
+                    <select required className="input-field" value={form.program} onChange={e => setForm({ ...form, program: e.target.value })}>
+                      <option value="">Select your program...</option>
+                      <option value="Science">General Science</option>
+                      <option value="Business">Business</option>
+                      <option value="General Arts">General Arts</option>
+                      <option value="Visual Arts">Visual Arts</option>
+                      <option value="Home Economics">Home Economics</option>
+                      <option value="Technical">Technical/Vocational</option>
+                    </select>
+                  </div>
+                )}
+              </div>
+
               <div>
                 <label className="block text-sm font-semibold text-ink mb-1.5 font-body">
                   School Name <span className="font-normal text-gray-400">(optional)</span>
                 </label>
-                <input type="text" placeholder="e.g. Achimota Junior High School" className="input-field"
+                <input type="text" placeholder="e.g. Achimota School" className="input-field"
                   value={form.school} onChange={e => setForm({ ...form, school: e.target.value })} />
               </div>
 

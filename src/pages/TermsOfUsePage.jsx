@@ -7,9 +7,9 @@ export default function TermsOfUsePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 flex flex-col">
       <Helmet>
-        <title>Terms of Use | AnyStudents BECE Exam Prep</title>
-        <meta name="description" content="Read the Terms of Use for AnyStudents BECE Exam Prep. Understand the rules and guidelines for using our platform." />
-        <link rel="canonical" href="https://anystudents.com/terms-of-use" />
+        <title>Terms of Use | AnyStudents Mock Exams</title>
+        <meta name="description" content="Read the Terms of Use for AnyStudents Mock Exams. Understand the rules and guidelines for using our platform." />
+        <link rel="canonical" href="https://mockexams.anystudents.com/terms-of-use" />
       </Helmet>
       <Navbar />
 
@@ -27,7 +27,7 @@ export default function TermsOfUsePage() {
               <section>
                 <h2 className="text-2xl font-display font-semibold text-brand-700 mt-8 mb-4">1. Acceptance of Terms</h2>
                 <p>
-                  Welcome to AnyStudents Exam Prep. These Terms of Use ("Terms") govern your access to and use of our online BECE preparation platform, including our website, mobile applications, and all related services (collectively, the "Platform").
+                  Welcome to AnyStudents Mock Exams. These Terms of Use ("Terms") govern your access to and use of our online exam preparation platform, including our website, mobile applications, and all related services (collectively, the "Platform").
                 </p>
                 <p>
                   By accessing or using the Platform, you agree to be bound by these Terms and our Privacy Policy. If you do not agree to these Terms, you may not access or use our Platform.
@@ -39,7 +39,7 @@ export default function TermsOfUsePage() {
 
                 <h3 className="text-xl font-semibold text-brand-600 mt-6 mb-3">2.1 Eligibility</h3>
                 <p>
-                  Our Platform is designed primarily for JHS 3 students in Ghana preparing for the Basic Education Certificate Examination (BECE). Users under 18 years of age should obtain parental or guardian consent before using the Platform.
+                  Our Platform is designed primarily for JHS and SHS students in Ghana preparing for national examinations (BECE and WASSCE). Users under 18 years of age should obtain parental or guardian consent before using the Platform.
                 </p>
 
                 <h3 className="text-xl font-semibold text-brand-600 mt-6 mb-3">2.2 Account Registration</h3>
@@ -65,10 +65,10 @@ export default function TermsOfUsePage() {
 
                 <h3 className="text-xl font-semibold text-brand-600 mt-6 mb-3">3.1 Subscription Plans</h3>
                 <p>
-                  We offer monthly subscription plans at GH₵100 per month. Your subscription provides access to:
+                  We offer Standard Practice plans. Your subscription provides 30 days of access to:
                 </p>
                 <ul className="list-disc pl-6 space-y-2">
-                  <li>Unlimited mock exam generation across all 10 BECE subjects</li>
+                  <li>Multiple mock exam generation for BECE and WASSCE subjects</li>
                   <li>Complete marking schemes and detailed explanations</li>
                   <li>Performance tracking and analytics</li>
                   <li>Access to study resources and materials</li>
@@ -76,7 +76,7 @@ export default function TermsOfUsePage() {
 
                 <h3 className="text-xl font-semibold text-brand-600 mt-6 mb-3">3.2 Payment</h3>
                 <p>
-                  Payments are processed securely through our payment provider. We accept Mobile Money (MTN, Vodafone, AirtelTigo) and other electronic payment methods available in Ghana. By subscribing, you authorize us to charge your selected payment method on a recurring monthly basis.
+                  Payments are processed securely through our payment provider. We accept Mobile Money (MTN, Vodafone, AirtelTigo) and other electronic payment methods available in Ghana. By subscribing, you agree to the one-time fee for 30 days of standard access.
                 </p>
 
                 <h3 className="text-xl font-semibold text-brand-600 mt-6 mb-3">3.3 Free Trial</h3>
@@ -84,9 +84,9 @@ export default function TermsOfUsePage() {
                   We may offer a free trial or free mock exam to new users. Free trial usage is subject to the same Terms, and we reserve the right to modify or discontinue free trials at any time.
                 </p>
 
-                <h3 className="text-xl font-semibold text-brand-600 mt-6 mb-3">3.4 Auto-Renewal</h3>
+                <h3 className="text-xl font-semibold text-brand-600 mt-6 mb-3">3.4 Subscription Duration</h3>
                 <p>
-                  Your subscription will automatically renew each month unless you cancel before the renewal date. You can cancel your subscription at any time through your account settings or by contacting our support team.
+                  Each subscription period is valid for 30 days from the date of payment. There is no automatic renewal; you will need to manually renew your subscription to maintain access after it expires.
                 </p>
               </section>
 
@@ -94,7 +94,7 @@ export default function TermsOfUsePage() {
                 <h2 className="text-2xl font-display font-semibold text-brand-700 mt-8 mb-4">4. Acceptable Use</h2>
 
                 <h3 className="text-xl font-semibold text-brand-600 mt-6 mb-3">4.1 Permitted Use</h3>
-                <p>You may use the Platform for lawful educational purposes only, specifically to prepare for the BECE examination.</p>
+                <p>You may use the Platform for lawful educational purposes only, specifically to prepare for national examinations (BECE and WASSCE).</p>
 
                 <h3 className="text-xl font-semibold text-brand-600 mt-6 mb-3">4.2 Prohibited Activities</h3>
                 <p>You agree NOT to:</p>
@@ -134,15 +134,15 @@ export default function TermsOfUsePage() {
               <section>
                 <h2 className="text-2xl font-display font-semibold text-brand-700 mt-8 mb-4">6. Exam Content Accuracy</h2>
                 <p>
-                  While we strive to provide high-quality exam questions that mirror the official BECE format and standards, we make no guarantees that:
+                  While we strive to provide high-quality exam questions that mirror official examination formats and standards, we make no guarantees that:
                 </p>
                 <ul className="list-disc pl-6 space-y-2">
-                  <li>Questions on our Platform will appear on the actual BECE examination</li>
-                  <li>Our content is error-free or completely aligned with current BECE syllabus</li>
-                  <li>Use of our Platform guarantees passing scores or specific results on the BECE</li>
+                  <li>Questions on our Platform will appear on the actual national examinations</li>
+                  <li>Our content is error-free or completely aligned with current syllabus requirements</li>
+                  <li>Use of our Platform guarantees passing scores or specific results on the exams</li>
                 </ul>
                 <p className="mt-4">
-                  Our Platform is a supplementary study tool and should be used alongside official BECE study materials and classroom instruction.
+                  Our Platform is a supplementary study tool and should be used alongside official study materials and classroom instruction.
                 </p>
               </section>
 
@@ -224,16 +224,16 @@ export default function TermsOfUsePage() {
                 <h2 className="text-2xl font-display font-semibold text-brand-700 mt-8 mb-4">14. Contact Us</h2>
                 <p>If you have any questions about these Terms, please contact us:</p>
                 <div className="bg-slate-50 border border-slate-200 rounded-lg p-6 mt-4">
-                  <p className="font-semibold text-brand-800">AnyStudents Exam Prep</p>
+                  <p className="font-semibold text-brand-800">AnyStudents Mock Exams</p>
                   <p>Email: <a href="mailto:info@anystudents.com" className="text-gold-600 hover:text-gold-700 underline">info@anystudents.com</a></p>
-                  <p>Website: <a href="https://anystudents.com" className="text-gold-600 hover:text-gold-700 underline">www.anystudents.com</a></p>
+                  <p>Website: <a href="https://mockexams.anystudents.com" className="text-gold-600 hover:text-gold-700 underline">mockexams.anystudents.com</a></p>
                   <p className="mt-2 text-sm text-slate-600">Location: Ghana</p>
                 </div>
               </section>
 
               <section className="mt-12 pt-8 border-t border-slate-200">
                 <p className="text-sm text-slate-600 italic">
-                  By using the AnyStudents Exam Prep Platform, you acknowledge that you have read, understood, and agree to be bound by these Terms of Use.
+                  By using the AnyStudents Mock Exams Platform, you acknowledge that you have read, understood, and agree to be bound by these Terms of Use.
                 </p>
               </section>
             </div>

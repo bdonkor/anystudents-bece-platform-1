@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://anystudents.com/sitemap.xml
+Sitemap: https://mockexams.anystudents.com/sitemap.xml
