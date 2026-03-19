@@ -103,6 +103,20 @@ export default function HomePage() {
         <title>AnyStudents | Standard BECE & WASSCE Mock Exams Platform</title>
         <meta name="description" content="AnyStudents Mock Exams - Practice Standard BECE (JHS) and WASSCE (SHS) mock exams. Official WAEC-style questions, instant marking schemes, and performance tracking." />
         <link rel="canonical" href="https://mockexams.anystudents.com/" />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://mockexams.anystudents.com/" />
+        <meta property="og:title" content="AnyStudents | BECE & WASSCE Mock Exams" />
+        <meta property="og:description" content="Generate unique WAEC-standard mock exams for JHS and SHS. Practice English, Maths, Science and more with full marking schemes." />
+        <meta property="og:image" content="https://mockexams.anystudents.com/social-preview.png" />
+
+        {/* Twitter */}
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://mockexams.anystudents.com/" />
+        <meta property="twitter:title" content="AnyStudents | BECE & WASSCE Mock Exams" />
+        <meta property="twitter:description" content="Practice for success. Unique mock exams, official WAEC standards, and performance tracking." />
+        <meta property="twitter:image" content="https://mockexams.anystudents.com/social-preview.png" />
       </Helmet>
       <Navbar />
 
@@ -112,12 +126,13 @@ export default function HomePage() {
           style={{ backgroundImage: 'radial-gradient(circle at 30% 50%, #f5b400 0%, transparent 60%), radial-gradient(circle at 70% 20%, #334155 0%, transparent 50%)' }} />
         <div className="relative max-w-7xl mx-auto px-6 py-20 md:py-28 text-center">
           <div className="inline-flex items-center gap-2 bg-gold-500/20 border border-gold-500/30 rounded-full px-4 py-1.5 mb-6 animate-fade-in">
-            <span className="text-gold-400 text-[10px] md:text-sm font-mono tracking-wide">Create Mock Exams Anytime</span>
+            <span className="text-gold-400 text-[10px] md:text-sm font-mono tracking-wide">Ready Mock Exams Anytime</span>
           </div>
 
           <h1 className="font-display text-4xl md:text-6xl font-bold text-white leading-tight mb-6 animate-fade-up">
-            Pass Your BECE & WASSCE With<br />
-            <span className="text-gold-400">Standard Mock Exams</span>
+            Click And Generate<br />
+            <span className="text-gold-400">Standard Mock Exams</span><br />
+            Pass Your BECE & WASSCE Today
           </h1>
 
           <p className="font-body text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-8 leading-relaxed animate-fade-up"

@@ -117,6 +117,11 @@ export default function PricingPage() {
         <title>Pricing | Standard BECE & WASSCE Mock Exams | AnyStudents</title>
         <meta name="description" content="Affordable plans for JHS and SHS students. Unlock standard mock exams for all BECE and WASSCE subjects. Get instant marking schemes and performance tracking." />
         <link rel="canonical" href="https://mockexams.anystudents.com/pricing" />
+        
+        {/* Open Graph */}
+        <meta property="og:title" content="AnyStudents Pricing - Standard Mock Exams" />
+        <meta property="og:description" content="Start your 30-day standard mock exam access for only GH₵100. Best preparation for BECE and WASSCE." />
+        <meta property="og:image" content="https://mockexams.anystudents.com/social-preview.png" />
       </Helmet>
       <Navbar />
 

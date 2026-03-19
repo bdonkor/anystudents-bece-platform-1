@@ -76,13 +76,13 @@ export default function AdminDashboard() {
       setRevenue(revRes.data || [])
       setLoadingSteps(prev => ({ ...prev, revenue: 'complete' }))
 
-      // Fetch Exams
+      // Fetch Exams (Increased limit for better analysis)
       setLoadingSteps(prev => ({ ...prev, exams: 'loading' }))
       const { data: examData, error: examError } = await supabase
         .from('exams')
         .select('id, subject, level, created_at')
         .order('created_at', { ascending: false })
-        .limit(50)
+        .limit(200)
       if (examError) throw examError
       setExams(examData || [])
       setLoadingSteps(prev => ({ ...prev, exams: 'complete' }))
@@ -165,6 +165,10 @@ export default function AdminDashboard() {
   const activeSubCount = users.filter(u => u.subscription_status === 'active').length
   const studentCount = users.filter(u => u.role === 'student').length
   const teacherCount = users.filter(u => u.role === 'teacher').length
+  const jhsCount = users.filter(u => u.level === 'jhs').length
+  const shsCount = users.filter(u => u.level === 'shs').length
+  const jhsSubscribers = users.filter(u => u.level === 'jhs' && u.subscription_status === 'active').length
+  const shsSubscribers = users.filter(u => u.level === 'shs' && u.subscription_status === 'active').length
 
   // Revenue chart data
   const revenueByDay = revenue.reduce((acc, p) => {
@@ -174,11 +178,21 @@ export default function AdminDashboard() {
   }, {})
   const chartData = Object.entries(revenueByDay).slice(-14).map(([date, amount]) => ({ date, amount }))
 
+  // Subject Popularity Analysis
+  const subjectDistribution = exams.reduce((acc, e) => {
+    acc[e.subject] = (acc[e.subject] || 0) + 1
+    return acc
+  }, {})
+  const subjectChartData = Object.entries(subjectDistribution)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 6)
+    .map(([subject, count]) => ({ subject, count }))
+
   const TABS = [
-    { id: 'overview', label: 'Overview', icon: <TrendingUp size={15} /> },
-    { id: 'users', label: `Users (${users.length})`, icon: <Users size={15} /> },
-    { id: 'suspicious', label: `Alerts ${suspicious.length ? `(${suspicious.length})` : ''}`, icon: <AlertTriangle size={15} /> },
-    { id: 'exams', label: 'Exam Logs', icon: <BookOpen size={15} /> },
+    { id: 'overview', label: 'Systems Overview', icon: <TrendingUp size={15} /> },
+    { id: 'users', label: `Identity Vault (${users.length})`, icon: <Users size={15} /> },
+    { id: 'suspicious', label: `Threat Monitor ${suspicious.length ? `(${suspicious.length})` : ''}`, icon: <Shield size={16} /> },
+    { id: 'exams', label: 'Intelligence Logs', icon: <BookOpen size={15} /> },
   ]
 
   const StepIcon = ({ status }) => {
@@ -248,19 +262,23 @@ export default function AdminDashboard() {
       <Navbar />
       <div className="flex-1 max-w-7xl mx-auto px-4 md:px-6 py-8 w-full">
 
-        <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-gold-500/10 text-gold-600 rounded-xl flex items-center justify-center">
-              <Shield size={24} />
+        <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-6 bg-gradient-to-r from-slate-900 to-brand-950 p-8 rounded-[32px] shadow-2xl relative overflow-hidden group">
+          {/* Animated background pulse */}
+          <div className="absolute inset-0 bg-brand-600/10 animate-pulse mix-blend-overlay"></div>
+          <div className="absolute -right-20 -top-20 w-64 h-64 bg-brand-500/20 rounded-full blur-[100px] group-hover:bg-brand-500/30 transition-all duration-700"></div>
+          
+          <div className="flex items-center gap-5 relative z-10">
+            <div className="w-16 h-16 bg-white/10 backdrop-blur-xl border border-white/20 text-brand-400 rounded-3xl flex items-center justify-center shadow-2xl rotate-3 hover:rotate-0 transition-all">
+              <Shield size={32} />
             </div>
             <div>
-              <h1 className="font-display text-2xl font-bold text-ink">Admin Dashboard</h1>
-              <p className="font-body text-gray-500 text-sm mt-0.5">Secure Platform Management Center</p>
+              <h1 className="font-display text-3xl font-black text-white tracking-tight">Command Center</h1>
+              <p className="font-body text-brand-300 text-sm font-bold uppercase tracking-widest mt-0.5 opacity-80">AnyStudents Alpha-Core Dashboard</p>
             </div>
           </div>
-          <Link to="/student" className="btn-primary text-sm px-5 py-2.5 flex items-center gap-2 w-fit rounded-xl shadow-md hover:shadow-lg transition-all border-none">
-            <BookOpen size={16} />
-            Switch to Practice Mode
+          <Link to="/student" className="btn-gold text-xs px-8 py-3.5 flex items-center gap-2 w-fit rounded-2xl shadow-xl hover:shadow-brand-500/20 transition-all relative z-10 font-black uppercase tracking-tighter">
+            <BookOpen size={18} />
+            Enter Intelligence Portal
           </Link>
         </div>
 
@@ -274,36 +292,36 @@ export default function AdminDashboard() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {[
             {
-              label: 'Total Revenue',
+              label: 'JHS Registrations',
+              value: jhsCount,
+              icon: <div className="font-display font-black text-[10px] text-white">BECE</div>,
+              sub: `${jhsSubscribers} Active Gold Subs`,
+              bg: 'bg-gradient-to-br from-indigo-500 via-blue-600 to-blue-800',
+              iconBg: 'bg-white/10 border-white/20'
+            },
+            {
+              label: 'SHS Registrations',
+              value: shsCount,
+              icon: <div className="font-display font-black text-[10px] text-white">WASSCE</div>,
+              sub: `${shsSubscribers} Active Gold Subs`,
+              bg: 'bg-gradient-to-br from-brand-500 via-brand-600 to-brand-800',
+              iconBg: 'bg-white/10 border-white/20'
+            },
+            {
+              label: 'Market Conversion',
+              value: `${users.length > 0 ? Math.round((activeSubCount / users.length) * 100) : 0}%`,
+              icon: <TrendingUp size={20} className="text-white" />,
+              sub: `${activeSubCount} Gold memberships`,
+              bg: 'bg-gradient-to-br from-rose-500 via-pink-600 to-fuchsia-800',
+              iconBg: 'bg-white/10 border-white/20'
+            },
+            {
+              label: 'Lifetime Revenue',
               value: `GH₵${totalRevenue.toFixed(0)}`,
               icon: <DollarSign size={20} className="text-white" />,
-              sub: `${revenue.length} payments`,
-              bg: 'bg-gradient-to-br from-emerald-500 to-green-700',
-              iconBg: 'bg-white/20'
-            },
-            {
-              label: 'Active Subs',
-              value: activeSubCount,
-              icon: <CheckCircle size={20} className="text-white" />,
-              sub: 'Paying users',
-              bg: 'bg-gradient-to-br from-blue-500 to-indigo-700',
-              iconBg: 'bg-white/20'
-            },
-            {
-              label: 'Total Students',
-              value: studentCount,
-              icon: <Users size={20} className="text-white" />,
-              sub: `${teacherCount} teachers`,
-              bg: 'bg-gradient-to-br from-purple-500 to-fuchsia-700',
-              iconBg: 'bg-white/20'
-            },
-            {
-              label: 'Exams Generated',
-              value: exams.length,
-              icon: <BookOpen size={20} className="text-white" />,
-              sub: 'All time',
-              bg: 'bg-gradient-to-br from-orange-400 to-rose-600',
-              iconBg: 'bg-white/20'
+              sub: `${revenue.length} successful GH payments`,
+              bg: 'bg-gradient-to-br from-amber-400 via-yellow-500 to-orange-700',
+              iconBg: 'bg-white/10 border-white/20'
             },
           ].map(s => (
             <div key={s.label} className={`rounded-2xl p-5 flex items-center gap-4 text-white shadow-lg ${s.bg} border border-white/20 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 relative overflow-hidden group`}>
@@ -377,13 +395,13 @@ export default function AdminDashboard() {
                           dataKey="date" 
                           axisLine={false} 
                           tickLine={false} 
-                          tick={{ fontSize: 11, fill: '#94a3b8', fontWeight: 600 }} 
+                          tick={{ fontSize: 11, fill: '#64748b', fontWeight: 800 }} 
                           dy={15}
                         />
                         <YAxis 
                           axisLine={false} 
                           tickLine={false} 
-                          tick={{ fontSize: 11, fill: '#94a3b8', fontWeight: 600 }}
+                          tick={{ fontSize: 11, fill: '#64748b', fontWeight: 800 }}
                           tickFormatter={(v) => `GH₵${v}`}
                         />
                         <Tooltip 
@@ -414,49 +432,143 @@ export default function AdminDashboard() {
               </div>
             )}
 
-            <div className="space-y-6">
-              {suspicious.length > 0 ? (
-                <div className="card p-6 border-none bg-gradient-to-br from-red-50 to-orange-50 rounded-2xl shadow-sm border border-red-100">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 bg-red-500 text-white rounded-lg flex items-center justify-center">
-                        <AlertTriangle size={16} />
-                      </div>
-                      <h3 className="font-display font-bold text-red-900">
-                        Critical Alerts
-                      </h3>
-                    </div>
-                    <span className="bg-red-200 text-red-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
-                      {suspicious.length} New
-                    </span>
+              {/* Level Distribution Card */}
+              <div className="card p-8 border-none bg-white rounded-[32px] shadow-2xl border border-gray-100 relative overflow-hidden group">
+                <div className="absolute top-0 right-0 p-24 bg-blue-500/5 rounded-full blur-3xl -mr-10 -mt-10 group-hover:bg-blue-500/10 transition-all duration-700"></div>
+                
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-8">
+                    <h3 className="font-display font-black text-slate-900 text-lg uppercase tracking-wider flex items-center gap-2">
+                       <Shield size={20} className="text-blue-600" /> Human Capital
+                    </h3>
+                    <span className="text-[10px] font-black font-body text-blue-700 bg-blue-50 border border-blue-100 px-3 py-1 rounded-full uppercase">Demographics</span>
                   </div>
+
+                  <div className="space-y-6">
+                    <div>
+                      <div className="flex justify-between text-[11px] font-black mb-2 uppercase tracking-widest text-slate-800">
+                        <span>JHS Elite (BECE)</span>
+                        <span className="text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-100 font-black">{jhsCount}</span>
+                      </div>
+                      <div className="w-full bg-slate-100 h-4 rounded-full overflow-hidden p-1 border border-slate-200">
+                        <div className="bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-700 h-full rounded-full transition-all duration-[2000ms] ease-out shadow-md" style={{ width: `${users.length > 0 ? (jhsCount / users.length) * 100 : 0}%` }}></div>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <div className="flex justify-between text-[11px] font-black mb-2 uppercase tracking-widest text-slate-800">
+                        <span>SHS Vanguard (WASSCE)</span>
+                        <span className="text-brand-700 bg-brand-50 px-2 py-0.5 rounded border border-brand-100 font-black">{shsCount}</span>
+                      </div>
+                      <div className="w-full bg-slate-100 h-4 rounded-full overflow-hidden p-1 border border-slate-200">
+                        <div className="bg-gradient-to-r from-brand-500 via-brand-600 to-brand-700 h-full rounded-full transition-all duration-[2000ms] ease-out shadow-md shadow-brand-500/20" style={{ width: `${users.length > 0 ? (shsCount / users.length) * 100 : 0}%` }}></div>
+                      </div>
+                    </div>
+
+                    <div className="pt-2 border-t border-slate-100 mt-4">
+                      <div className="flex justify-between text-[11px] font-black mb-2 uppercase tracking-widest text-slate-800">
+                        <span>Educators</span>
+                        <span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-100 font-black">{teacherCount}</span>
+                      </div>
+                      <div className="w-full bg-slate-100 h-4 rounded-full overflow-hidden p-1 border border-slate-200">
+                        <div className="bg-gradient-to-r from-purple-500 via-purple-600 to-indigo-800 h-full rounded-full transition-all duration-[2000ms] ease-out shadow-md" style={{ width: `${users.length > 0 ? (teacherCount / users.length) * 100 : 0}%` }}></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Subject Popularity Card */}
+              <div className="card p-8 border-none bg-slate-900 rounded-[32px] shadow-2xl relative overflow-hidden group">
+                {/* Neon glow effects */}
+                <div className="absolute top-0 right-0 p-24 bg-brand-500/10 rounded-full blur-[80px] -mr-10 -mt-10 group-hover:bg-brand-500/20 transition-all duration-700"></div>
+                <div className="absolute bottom-0 left-0 p-16 bg-gold-400/5 rounded-full blur-[60px] -ml-10 -mb-10"></div>
+
+                <div className="relative z-10 text-white">
+                  <div className="flex items-center justify-between mb-8">
+                     <h3 className="font-display font-black text-white text-lg uppercase tracking-wider flex items-center gap-2">
+                        <TrendingUp size={18} className="text-brand-400" /> Platform Demand
+                    </h3>
+                    <Link to="/exams" className="text-[10px] font-black text-brand-300 hover:text-white transition-colors uppercase tracking-[0.2em] relative group">
+                      Review Metrics
+                      <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-brand-400 group-hover:w-full transition-all duration-300"></span>
+                    </Link>
+                  </div>
+
                   <div className="space-y-3">
-                    {suspicious.slice(0, 3).map(a => (
-                      <div key={a.id} className="bg-white/60 backdrop-blur-sm border border-white rounded-xl p-3 shadow-sm hover:bg-white transition-colors">
-                        <div className="font-bold text-gray-800 text-xs truncate mb-0.5">{a.profiles?.email}</div>
-                        <div className="text-[10px] text-red-600 font-semibold uppercase tracking-tight">
-                          {a.activity_type.replace(/_/g, ' ')}
+                    {subjectChartData.map((s, idx) => (
+                      <div key={idx} className="flex items-center justify-between p-3.5 rounded-2xl bg-white/5 backdrop-blur-md border border-white/5 hover:border-white/10 hover:bg-white/10 transition-all group/item cursor-default overflow-hidden relative">
+                        {/* Progress bar background in card */}
+                        <div className="absolute left-0 bottom-0 h-[2px] bg-brand-500/40 transition-all duration-1000" style={{ width: `${(s.count / subjectChartData[0]?.count) * 100}%` }}></div>
+                        
+                        <div className="flex items-center gap-4">
+                           <div className={`w-8 h-8 rounded-xl flex items-center justify-center font-black text-[10px] ${idx === 0 ? 'bg-gold-500/20 text-gold-400 border border-gold-400/30' : 'bg-white/10 text-brand-300 border border-white/10'}`}>
+                             {idx + 1}
+                           </div>
+                           <span className="text-xs font-bold text-white/90 group-hover/item:text-white transition-colors">{s.subject}</span>
                         </div>
-                        <div className="text-[9px] text-gray-400 mt-1">
-                          {new Date(a.created_at).toLocaleString('en-GH', { timeStyle: 'short', dateStyle: 'short' })}
+                        <div className="flex items-center gap-3">
+                           <span className="text-[10px] font-black text-brand-400 px-3 py-1.5 rounded-xl bg-brand-400/10 border border-brand-400/20 group-hover/item:scale-110 transition-transform">
+                             {s.count}
+                           </span>
                         </div>
                       </div>
                     ))}
+                    {subjectChartData.length === 0 && (
+                       <div className="py-12 flex flex-col items-center justify-center text-center opacity-40">
+                         <div className="w-12 h-12 rounded-full border border-dashed border-white/20 flex items-center justify-center mb-3">
+                           <BookOpen size={16} />
+                         </div>
+                         <p className="text-[10px] font-black uppercase tracking-widest">Awaiting Metric Stream...</p>
+                       </div>
+                    )}
                   </div>
-                  <button onClick={() => setActiveTab('suspicious')} className="w-full mt-4 text-xs text-red-600 font-bold hover:bg-red-100/50 py-2 rounded-lg transition-colors border border-red-200 border-dashed">
-                    Review All Security Logs →
-                  </button>
                 </div>
-              ) : (
-                <div className="card p-6 bg-white border border-gray-100 shadow-sm rounded-2xl flex flex-col items-center text-center justify-center h-full">
-                  <div className="w-12 h-12 bg-green-50 text-green-500 rounded-full flex items-center justify-center mb-3">
-                    <CheckCircle size={24} />
+              </div>
+
+              {suspicious.length > 0 && (
+                <div className="card p-8 border-none bg-gradient-to-br from-red-600 to-rose-800 rounded-[32px] shadow-2xl relative overflow-hidden group border-none">
+                  <div className="absolute inset-0 bg-black/10 mix-blend-overlay"></div>
+                  <div className="absolute top-0 right-0 p-16 bg-white/10 rounded-full blur-[60px] -mr-10 -mt-10"></div>
+                  
+                  <div className="relative z-10 text-white">
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="flex items-center gap-3 text-white">
+                        <div className="w-10 h-10 bg-white/20 backdrop-blur-md text-white rounded-xl flex items-center justify-center shadow-lg">
+                          <AlertTriangle size={20} />
+                        </div>
+                        <div>
+                          <h3 className="font-display font-black text-lg uppercase tracking-wider">Intercepted Threats</h3>
+                          <p className="text-[10px] text-white/60 font-black uppercase tracking-widest">Active Security Protocol</p>
+                        </div>
+                      </div>
+                      <span className="bg-white/20 backdrop-blur-md text-white text-[11px] font-black px-4 py-1.5 rounded-full border border-white/20 uppercase">
+                        {suspicious.length} Alert{suspicious.length > 1 ? 's' : ''}
+                      </span>
+                    </div>
+
+                    <div className="space-y-3">
+                      {suspicious.slice(0, 3).map(a => (
+                        <div key={a.id} className="bg-black/20 backdrop-blur-md border border-white/10 rounded-2xl p-4 shadow-sm group/log hover:bg-black/30 transition-all">
+                          <div className="flex justify-between items-start mb-2">
+                             <div className="font-bold text-white text-xs truncate max-w-[150px]">{a.profiles?.email}</div>
+                             <div className="text-[9px] text-white/50 font-mono">
+                               {new Date(a.created_at).toLocaleTimeString('en-GH', { hour: '2-digit', minute: '2-digit' })}
+                             </div>
+                          </div>
+                          <div className="text-[10px] text-red-100 font-black uppercase tracking-widest bg-white/10 px-3 py-1.5 rounded-xl border border-white/5 w-fit">
+                            {a.activity_type.replace(/_/g, ' ')}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    
+                    <button onClick={() => setActiveTab('suspicious')} className="w-full mt-6 text-xs text-white uppercase tracking-[0.2em] font-black bg-white/10 hover:bg-white/20 backdrop-blur-md py-4 rounded-2xl transition-all border border-white/10 shadow-lg">
+                      Enter Security Vault →
+                    </button>
                   </div>
-                  <h4 className="font-bold text-ink text-sm">System Secure</h4>
-                  <p className="text-xs text-gray-400 mt-1">No suspicious activity detected in the last 24 hours.</p>
                 </div>
               )}
-            </div>
           </div>
         )}
 
