@@ -128,10 +128,9 @@ export default function HomePage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up" style={{ animationDelay: '0.2s' }}>
             <Link to={user ? "/student" : "/register"} className="btn-gold text-base px-8 py-4 animate-pulse-gold justify-center">
               Generate Your Free Mock Exam
-              <ArrowRight size={18} />
             </Link>
-            <Link to="/pricing" className="btn-outline border-white/40 text-white hover:bg-white hover:text-brand-700 text-base px-8 py-4 justify-center">
-              View Pricing — GH₵100/month
+            <Link to="/how-it-works" className="btn-outline border-white/40 text-white hover:bg-white hover:text-brand-700 text-base px-8 py-4 justify-center">
+              How It Works
             </Link>
           </div>
 
@@ -359,7 +358,6 @@ export default function HomePage() {
         <p className="font-body text-gray-600 text-lg mb-8 max-w-xl mx-auto">Join thousands of students already practising with AnyStudents. Your first mock exam is completely free.</p>
         <Link to={user ? "/student" : "/register"} className="btn-gold px-12 py-4 text-lg animate-pulse-gold justify-center">
           Generate Your Free Mock Exam
-          <ArrowRight size={20} />
         </Link>
         <p className="mt-4 text-gray-400 text-sm font-body">Standard practice from GH₵100/month after your free exam</p>
       </section>

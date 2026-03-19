@@ -106,6 +106,7 @@ export default function StudentDashboard() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [generating, setGenerating] = useState(false)
   const [genStatus, setGenStatus] = useState('')
+  const [genProgress, setGenProgress] = useState(0)
   const [genError, setGenError] = useState('')
   const [examHistory, setExamHistory] = useState([])
   const [results, setResults] = useState([])
@@ -254,19 +255,26 @@ export default function StudentDashboard() {
     }
 
     setGenerating(true)
+    setGenProgress(0)
     setGenError('')
     
     let secondsElapsed = 0
     const statusInterval = setInterval(() => {
       secondsElapsed += 1
+      
+      // Update progress naturally
       if (secondsElapsed < 5) {
         setGenStatus('Connecting to AI exam engine...')
+        setGenProgress(Math.min(10, secondsElapsed * 2))
       } else if (secondsElapsed < 30) {
         setGenStatus(`Hand-crafting your ${level.toUpperCase()} ${SUBJECTS[selectedSubject]} questions...`)
+        setGenProgress(10 + Math.floor(((secondsElapsed - 5) / 25) * 50)) // 10% to 60%
       } else if (secondsElapsed < 60) {
         setGenStatus(`Almost there! Finalizing the marking scheme...`)
+        setGenProgress(60 + Math.floor(((secondsElapsed - 30) / 30) * 30)) // 60% to 90%
       } else {
         setGenStatus(`Still working! Our AI is ensuring high-quality questions. Please do not refresh.`)
+        setGenProgress(Math.min(98, 90 + Math.floor(((secondsElapsed - 60) / 60) * 8))) // Slow crawl to 98%
       }
     }, 1000)
 
@@ -317,8 +325,13 @@ export default function StudentDashboard() {
       console.error('Generation error:', err)
       setGenError(err.message || 'Failed to generate exam. Please try again.')
     } finally {
+      clearInterval(statusInterval) // Extra safety
       setGenerating(false)
-      setGenStatus('')
+      setGenProgress(100) // Complete!
+      setTimeout(() => {
+        setGenStatus('')
+        setGenProgress(0)
+      }, 2000)
     }
   }
 
@@ -654,10 +667,34 @@ export default function StudentDashboard() {
                   </div>
                 )}
 
-                {genStatus && (
-                  <div className="flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-lg px-3 py-2 mb-4 text-sm text-blue-700 font-body">
-                    <div className="spinner !w-4 !h-4 !border-2 !border-blue-600 !border-t-transparent" />
-                    {genStatus}
+                {(generating || genProgress === 100) && (
+                  <div className="mb-6 animate-in fade-in slide-in-from-top-2 duration-500">
+                    <div className="flex items-center justify-between mb-2">
+                       <span className="text-xs font-bold text-brand-600 uppercase tracking-widest font-body">Generation Progress</span>
+                       <span className={`text-xs font-black font-mono ${genProgress === 100 ? 'text-green-600' : 'text-brand-700'}`}>{genProgress}%</span>
+                    </div>
+                    
+                    {/* The Download-style Progress Bar */}
+                    <div className="h-4 w-full bg-gray-100 rounded-full border border-gray-200 p-1 flex items-center shadow-inner overflow-hidden">
+                      <div 
+                        className={`h-full rounded-full transition-all duration-1000 ease-out relative shadow-sm
+                          ${genProgress < 30 ? 'bg-blue-500' : 
+                            genProgress < 70 ? 'bg-amber-500' : 
+                            genProgress < 100 ? 'bg-emerald-500' : 'bg-green-600'}`}
+                        style={{ width: `${genProgress}%` }}
+                      >
+                        {/* Shimmer effect */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent w-full h-full -translate-x-full animate-shimmer" 
+                             style={{ animation: 'shimmer 2s infinite' }} />
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 mt-3 bg-white border border-brand-100 rounded-xl px-4 py-3 shadow-sm">
+                      <div className={`spinner !w-4 !h-4 !border-2 ${genProgress === 100 ? '!border-green-600' : '!border-brand-600'} !border-t-transparent`} />
+                      <span className={`text-sm font-body font-bold leading-tight ${genProgress === 100 ? 'text-green-700' : 'text-brand-800'}`}>
+                        {genProgress === 100 ? 'Success! Redirecting to your exam...' : genStatus}
+                      </span>
+                    </div>
                   </div>
                 )}
 

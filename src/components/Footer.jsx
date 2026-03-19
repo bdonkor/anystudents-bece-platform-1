@@ -15,10 +15,10 @@ export default function Footer() {
                 decoding="async"
                 className="h-20 w-auto object-contain"
               />
-                <div className="text-gold-400 text-sm font-mono tracking-wide font-bold">Exam Prep</div>
+                <div className="text-gold-400 text-sm font-mono tracking-wide font-bold">Mock Exams</div>
             </div>
             <p className="text-sm font-body leading-relaxed mb-3">
-              Ghana's leading exam preparation platform. Helping JHS and SHS students excel in national examinations (BECE and WASSCE).
+              Ghana's leading mock exams platform. Helping JHS and SHS students excel in national examinations (BECE and WASSCE).
             </p>
             <a
               href="mailto:info@anystudents.com"
@@ -34,6 +34,7 @@ export default function Footer() {
             <div className="space-y-2 text-sm font-body">
               <Link to="/" className="block hover:text-gold-400 transition-colors">Get started</Link>
               <Link to="/user-guide" className="block hover:text-gold-400 transition-colors">User Guide</Link>
+              <Link to="/how-it-works" className="block hover:text-gold-400 transition-colors">How it Works</Link>
               <Link to="/pricing" className="block hover:text-gold-400 transition-colors">Pricing — Standard Practice</Link>
               <Link to="/register" className="block hover:text-gold-400 transition-colors">Free Mock Exam</Link>
               <Link to="/login" className="block hover:text-gold-400 transition-colors">Login</Link>

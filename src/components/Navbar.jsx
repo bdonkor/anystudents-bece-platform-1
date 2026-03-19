@@ -68,6 +68,7 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-6">
             <Link to="/" className={desktopLinkClass('/', true)}>Get started</Link>
             <Link to="/user-guide" className={desktopLinkClass('/user-guide')}>User Guide</Link>
+            <Link to="/how-it-works" className={desktopLinkClass('/how-it-works')}>How it Works</Link>
             <Link to="/pricing" className={desktopLinkClass('/pricing')}>Pricing</Link>
 
             {user ? (
@@ -104,6 +105,7 @@ export default function Navbar() {
         <div className="md:hidden bg-brand-800 border-t border-brand-600 px-4 py-4 space-y-1">
           <Link to="/" onClick={() => setMenuOpen(false)} className={mobileLinkClass('/', true)}>Get started</Link>
           <Link to="/user-guide" onClick={() => setMenuOpen(false)} className={mobileLinkClass('/user-guide')}>User Guide</Link>
+          <Link to="/how-it-works" onClick={() => setMenuOpen(false)} className={mobileLinkClass('/how-it-works')}>How it Works</Link>
           <Link to="/pricing" onClick={() => setMenuOpen(false)} className={mobileLinkClass('/pricing')}>Pricing</Link>
           {user ? (
             <>
