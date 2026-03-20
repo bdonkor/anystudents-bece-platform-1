@@ -3,7 +3,11 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { useAuth } from '../contexts/AuthContext'
 import Navbar from '../components/Navbar'
-import { BookOpen, Eye, EyeOff, AlertCircle, CheckCircle } from 'lucide-react'
+import { 
+  BookOpen, Eye, EyeOff, AlertCircle, CheckCircle, 
+  User, Home, Mail, Lock, ShieldCheck, ChevronDown, 
+  Zap, ArrowRight 
+} from 'lucide-react'
 
 export default function RegisterPage() {
   const { signUp } = useAuth()
@@ -64,163 +68,246 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-cream">
+    <div className="min-h-screen flex flex-col bg-[#fafaf5]">
       <Helmet>
         <title>Register | Join AnyStudents for BECE & WASSCE Success</title>
         <meta name="description" content="Create your AnyStudents account today. Access official-standard BECE (JHS) and WASSCE (SHS) mock exams. Start with your first mock exam for completely free." />
         <link rel="canonical" href="https://mockexams.anystudents.com/register" />
       </Helmet>
       <Navbar />
-      <div className="flex-1 flex items-center justify-center px-4 py-12">
-        <div className="w-full max-w-md">
-          <div className="text-center mb-8">
-            <div className="w-14 h-14 bg-brand-700 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <BookOpen size={28} className="text-gold-400" />
+      
+      <div className="flex-1 flex items-center justify-center px-4 py-20 relative overflow-hidden">
+        {/* Background Decorative Elements */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-brand-700 no-print" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gold-400/5 rounded-full blur-[120px] pointer-events-none" />
+
+        <div className="w-full max-w-lg relative">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-brand-700 rounded-3xl shadow-xl shadow-brand-700/20 rotate-3 transform transition-transform hover:rotate-0 duration-500 mb-6">
+              <BookOpen size={40} className="text-gold-400 -rotate-3 transition-transform duration-500 hover:rotate-0" />
             </div>
-            <h1 className="font-display text-3xl font-bold text-ink mb-1">Pass Every Mock Exam</h1>
-            <p className="font-body text-gray-500 text-sm">Join thousands of students on their way to success</p>
+            <h1 className="font-display text-4xl md:text-5xl font-bold text-brand-700 mb-2 tracking-tight">
+              Create Your Account
+            </h1>
+            <p className="font-body text-gray-500 text-lg">
+              Join the official platform for Standard Mock Examinations
+            </p>
           </div>
 
-          <div className="card shadow-md">
-            {/* Free exam badge */}
-            <div className="flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-lg px-3 py-2 mb-5 text-blue-700 text-sm font-body">
-              <CheckCircle size={15} />
-              <span>Your first official-standard mock is <strong>completely free</strong></span>
-            </div>
-
-            {error && (
-              <div className="flex items-start gap-2 bg-red-50 border border-red-200 rounded-lg p-3 mb-5 text-red-700 text-sm font-body">
-                <AlertCircle size={16} className="mt-0.5 shrink-0" />
-                {error}
-              </div>
-            )}
-
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-1.5 font-body">Full Name</label>
-                <input type="text" required placeholder="Kofi Mensah" className="input-field"
-                  value={form.fullName} onChange={e => setForm({ ...form, fullName: e.target.value })} />
+          {/* Premium Card with Outline Effect */}
+          <div className="bg-white rounded-3xl p-1 shadow-2xl shadow-brand-700/10 border border-brand-700/5 overflow-hidden">
+            <div className="border-2 border-brand-700/10 rounded-[1.4rem] p-8 md:p-10">
+              
+              {/* Official Badge */}
+              <div className="flex items-center justify-center gap-2 bg-brand-700 text-gold-400 py-2 px-4 rounded-full text-xs font-bold uppercase tracking-widest mb-8">
+                <CheckCircle size={14} />
+                <span>Standardized Academic Portal</span>
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-1.5 font-body">I am a...</label>
-                <div className="grid grid-cols-2 gap-3">
-                  {['student', 'teacher'].map(r => (
-                    <button key={r} type="button"
-                      onClick={() => setForm({ ...form, role: r })}
-                      className={`py-2.5 px-4 rounded-lg border-2 text-xs font-bold font-body transition-all capitalize
-                        ${form.role === r
-                          ? 'border-brand-600 bg-brand-50 text-brand-700'
-                          : 'border-gray-200 text-gray-400 hover:border-gray-300'}`}>
-                      {r === 'student' ? '🎓 Student' : '📚 Teacher'}
-                    </button>
-                  ))}
+              {/* Free exam alert */}
+              <div className="bg-blue-50/50 border border-blue-100 rounded-xl px-4 py-3 mb-8 flex items-center gap-3 text-blue-800 text-sm font-medium">
+                <div className="p-1.5 bg-blue-100 rounded-lg">
+                  <Zap size={16} className="text-blue-600" />
                 </div>
+                <span>Your first official-standard mock is <strong>completely free</strong></span>
               </div>
 
-              <div className="grid grid-cols-1 gap-4">
-                <div>
-                   <label className="block text-sm font-semibold text-ink mb-1.5 font-body">Education Level</label>
-                   <div className="grid grid-cols-2 gap-3">
-                    <button type="button" onClick={() => setForm({ ...form, level: 'jhs' })}
-                      className={`py-2.5 px-4 rounded-lg border-2 text-xs font-bold font-body transition-all
-                        ${form.level === 'jhs' ? 'border-brand-600 bg-brand-50 text-brand-700' : 'border-gray-200 text-gray-400'}`}>
-                        JHS (BECE)
-                    </button>
-                    <button type="button" onClick={() => setForm({ ...form, level: 'shs' })}
-                      className={`py-2.5 px-4 rounded-lg border-2 text-xs font-bold font-body transition-all
-                        ${form.level === 'shs' ? 'border-brand-600 bg-brand-50 text-brand-700' : 'border-gray-200 text-gray-400'}`}>
-                        SHS (WASSCE)
-                    </button>
-                   </div>
+              {error && (
+                <div className="flex items-start gap-3 bg-red-50 border border-red-100 rounded-xl p-4 mb-8 text-red-800 text-sm animate-shake">
+                  <AlertCircle size={18} className="mt-0.5 shrink-0 text-red-500" />
+                  {error}
                 </div>
+              )}
 
-                {form.level === 'shs' && (
-                  <div className="animate-fade-down">
-                    <label className="block text-sm font-semibold text-ink mb-1.5 font-body">Academic Program</label>
-                    <select required className="input-field" value={form.program} onChange={e => setForm({ ...form, program: e.target.value })}>
-                      <option value="">Select your program...</option>
-                      <option value="Science">General Science</option>
-                      <option value="Business">Business</option>
-                      <option value="General Arts">General Arts</option>
-                      <option value="Visual Arts">Visual Arts</option>
-                      <option value="Home Economics">Home Economics</option>
-                      <option value="Technical">Technical/Vocational</option>
-                    </select>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Role Selection */}
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-bold text-brand-700 mb-3 uppercase tracking-wider font-display">I am a...</label>
+                    <div className="grid grid-cols-2 gap-4">
+                      {['student', 'teacher'].map(r => (
+                        <button key={r} type="button"
+                          onClick={() => setForm({ ...form, role: r })}
+                          className={`relative py-4 px-6 rounded-2xl border-2 transition-all duration-300 flex items-center justify-center gap-3
+                            ${form.role === r
+                              ? 'border-brand-700 bg-brand-700 text-white shadow-lg shadow-brand-700/20'
+                              : 'border-gray-100 bg-gray-50/50 text-gray-400 hover:border-gray-200 hover:bg-white'}`}>
+                          <span className="text-xl">{r === 'student' ? '🎓' : '📚'}</span>
+                          <span className="font-bold font-display capitalize">{r}</span>
+                          {form.role === r && <div className="absolute -top-2 -right-2 bg-gold-400 text-brand-900 rounded-full p-1 border-2 border-white shadow-sm"><CheckCircle size={12} /></div>}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                )}
-              </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-1.5 font-body">
-                  School Name <span className="font-normal text-gray-400">(optional)</span>
-                </label>
-                <input type="text" placeholder="e.g. Achimota School" className="input-field"
-                  value={form.school} onChange={e => setForm({ ...form, school: e.target.value })} />
-              </div>
+                  {/* Education Level */}
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-bold text-brand-700 mb-3 uppercase tracking-wider font-display">Education Level</label>
+                    <div className="grid grid-cols-2 gap-4">
+                      {['jhs', 'shs'].map(lvl => (
+                        <button key={lvl} type="button" onClick={() => setForm({ ...form, level: lvl })}
+                          className={`relative py-4 px-6 rounded-2xl border-2 transition-all duration-300 flex flex-col items-center
+                            ${form.level === lvl
+                              ? 'border-brand-700 bg-brand-700 text-white shadow-lg shadow-brand-700/20'
+                              : 'border-gray-100 bg-gray-50/50 text-gray-400 hover:border-gray-200 hover:bg-white'}`}>
+                          <span className="font-bold font-display uppercase text-lg">{lvl}</span>
+                          <span className="text-[10px] font-medium opacity-70 uppercase tracking-widest">{lvl === 'jhs' ? 'BECE Standard' : 'WASSCE Standard'}</span>
+                          {form.level === lvl && <div className="absolute -top-2 -right-2 bg-gold-400 text-brand-900 rounded-full p-1 border-2 border-white shadow-sm"><CheckCircle size={12} /></div>}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-1.5 font-body">Email Address</label>
-                <input type="email" required placeholder="kofi@example.com" className="input-field"
-                  value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} />
-              </div>
+                  {/* Name Input */}
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-bold text-brand-700 mb-2 uppercase tracking-wider font-display">Full Name</label>
+                    <div className="relative group">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-brand-700 transition-colors">
+                        <User size={18} />
+                      </div>
+                      <input type="text" required placeholder="Kofi Mensah" className="input-field pl-12 h-14 !rounded-2xl border-gray-100 focus:border-brand-700 transition-all font-body text-lg"
+                        value={form.fullName} onChange={e => setForm({ ...form, fullName: e.target.value })} />
+                    </div>
+                  </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-1.5 font-body">Password</label>
-                <div className="relative">
-                  <input type={showPass ? 'text' : 'password'} required
-                    placeholder="At least 6 characters" className="input-field pr-10"
-                    value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} />
-                  <button type="button" onClick={() => setShowPass(!showPass)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-                    {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
-                  </button>
+                  {/* School Input */}
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-bold text-brand-700 mb-2 uppercase tracking-wider font-display">
+                      School Name <span className="font-normal text-gray-400 text-xs lowercase italic">(optional)</span>
+                    </label>
+                    <div className="relative group">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-brand-700 transition-colors">
+                        <Home size={18} />
+                      </div>
+                      <input type="text" placeholder="e.g. Achimota School" className="input-field pl-12 h-14 !rounded-2xl border-gray-100 focus:border-brand-700 transition-all font-body text-lg"
+                        value={form.school} onChange={e => setForm({ ...form, school: e.target.value })} />
+                    </div>
+                  </div>
+
+                  {/* Program Selection - Highers Priority for SHS */}
+                  {form.level === 'shs' && (
+                    <div className="md:col-span-2 animate-fade-down">
+                      <label className="block text-sm font-bold text-brand-700 mb-2 uppercase tracking-wider font-display">Academic Program</label>
+                      <div className="relative">
+                        <select required className="input-field h-14 !rounded-2xl border-gray-100 focus:border-brand-700 appearance-none font-body text-lg bg-white" 
+                          value={form.program} onChange={e => setForm({ ...form, program: e.target.value })}>
+                          <option value="">Select your program...</option>
+                          <option value="Science">General Science</option>
+                          <option value="Business">Business</option>
+                          <option value="General Arts">General Arts</option>
+                          <option value="Visual Arts">Visual Arts</option>
+                          <option value="Home Economics">Home Economics</option>
+                          <option value="Technical">Technical/Vocational</option>
+                        </select>
+                        <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-gray-400">
+                          <ChevronDown size={20} />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Email & Password Section */}
+                  <div className="md:col-span-2 pt-4 border-t border-gray-100 mt-2">
+                    <label className="block text-sm font-bold text-brand-700 mb-2 uppercase tracking-wider font-display text-center flex items-center justify-center gap-2">
+                      <div className="h-[2px] w-12 bg-gray-100" />
+                      Login Credentials
+                      <div className="h-[2px] w-12 bg-gray-100" />
+                    </label>
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-bold text-brand-700 mb-2 uppercase tracking-wider font-display">Email Address</label>
+                    <div className="relative group">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-brand-700 transition-colors">
+                        <Mail size={18} />
+                      </div>
+                      <input type="email" required placeholder="kofi@example.com" className="input-field pl-12 h-14 !rounded-2xl border-gray-100 focus:border-brand-700 font-body text-lg"
+                        value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-bold text-brand-700 mb-2 uppercase tracking-wider font-display">Password</label>
+                    <div className="relative group">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-brand-700 transition-colors">
+                        <Lock size={18} />
+                      </div>
+                      <input type={showPass ? 'text' : 'password'} required placeholder="········" className="input-field pl-12 pr-12 h-14 !rounded-2xl border-gray-100 focus:border-brand-700 font-body text-lg"
+                        value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} />
+                      <button type="button" onClick={() => setShowPass(!showPass)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-brand-700 transition-colors p-2">
+                        {showPass ? <EyeOff size={18} /> : <Eye size={18} />}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-bold text-brand-700 mb-2 uppercase tracking-wider font-display">Confirm</label>
+                    <div className="relative group">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-brand-700 transition-colors">
+                        <ShieldCheck size={18} />
+                      </div>
+                      <input type="password" required placeholder="········" className="input-field pl-12 h-14 !rounded-2xl border-gray-100 focus:border-brand-700 font-body text-lg"
+                        value={form.confirmPassword} onChange={e => setForm({ ...form, confirmPassword: e.target.value })} />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Terms Acceptance */}
+                <div className="bg-cream/50 p-4 rounded-2xl border border-gold-500/10">
+                  <label className="flex items-start gap-4 cursor-pointer group">
+                    <div className="relative flex items-center">
+                      <input
+                        type="checkbox"
+                        checked={acceptedTerms}
+                        onChange={(e) => setAcceptedTerms(e.target.checked)}
+                        className="w-6 h-6 text-brand-700 border-gray-200 rounded-lg focus:ring-brand-700 cursor-pointer transition-all"
+                      />
+                    </div>
+                    <span className="text-sm text-gray-600 font-body leading-relaxed">
+                      I solemnly agree to the{' '}
+                      <Link to="/terms-of-use" target="_blank" className="text-brand-700 font-bold hover:underline decoration-gold-500 underline-offset-4">
+                        Terms of Use
+                      </Link>
+                      ,{' '}
+                      <Link to="/privacy-policy" target="_blank" className="text-brand-700 font-bold hover:underline decoration-gold-500 underline-offset-4">
+                        Privacy Policy
+                      </Link>
+                      , and{' '}
+                      <Link to="/refund-policy" target="_blank" className="text-brand-700 font-bold hover:underline decoration-gold-500 underline-offset-4">
+                        Refund Policy
+                      </Link>
+                    </span>
+                  </label>
+                </div>
+
+                <button type="submit" disabled={loading || !acceptedTerms}
+                  className="w-full bg-gold-500 text-brand-900 font-display font-bold text-lg h-16 rounded-2xl shadow-xl shadow-gold-500/20 hover:bg-[#eab308] hover:shadow-gold-500/30 active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale disabled:cursor-not-allowed flex items-center justify-center gap-3">
+                  {loading ? (
+                    <><div className="spinner !w-6 !h-6 !border-3 !border-t-brand-700 !border-brand-700/20" /> Initializing Portal...</>
+                  ) : (
+                    <>
+                      <span>Generate My Portal Account</span>
+                      <ArrowRight size={20} />
+                    </>
+                  )}
+                </button>
+              </form>
+
+              <div className="mt-8 pt-8 border-t border-gray-100 flex flex-col items-center gap-4">
+                <p className="text-sm text-gray-500 font-body">
+                  Already have an account?{' '}
+                  <Link to="/login" className="text-brand-700 font-bold hover:underline decoration-gold-500 underline-offset-4">Secure Login</Link>
+                </p>
+                
+                {/* Ghana Heritage Accent */}
+                <div className="flex gap-1.5 h-1">
+                  <div className="w-12 bg-[#CE1126] rounded-full" />
+                  <div className="w-12 bg-[#FCD116] rounded-full" />
+                  <div className="w-12 bg-[#006B3C] rounded-full" />
                 </div>
               </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-1.5 font-body">Confirm Password</label>
-                <input type="password" required placeholder="Repeat your password" className="input-field"
-                  value={form.confirmPassword} onChange={e => setForm({ ...form, confirmPassword: e.target.value })} />
-              </div>
-
-              <div className="pt-2">
-                <label className="flex items-start gap-3 cursor-pointer group">
-                  <input
-                    type="checkbox"
-                    checked={acceptedTerms}
-                    onChange={(e) => setAcceptedTerms(e.target.checked)}
-                    className="mt-1 w-4 h-4 text-brand-600 border-gray-300 rounded focus:ring-brand-500"
-                  />
-                  <span className="text-sm text-gray-600 font-body">
-                    I agree to the{' '}
-                    <Link to="/terms-of-use" target="_blank" className="text-brand-600 font-semibold hover:underline">
-                      Terms of Use
-                    </Link>
-                    ,{' '}
-                    <Link to="/privacy-policy" target="_blank" className="text-brand-600 font-semibold hover:underline">
-                      Privacy Policy
-                    </Link>
-                    , and{' '}
-                    <Link to="/refund-policy" target="_blank" className="text-brand-600 font-semibold hover:underline">
-                      Refund Policy
-                    </Link>
-                  </span>
-                </label>
-              </div>
-
-              <button type="submit" disabled={loading || !acceptedTerms}
-                className="btn-gold w-full justify-center py-3.5 mt-2 disabled:opacity-60 disabled:cursor-not-allowed">
-                {loading ? (
-                  <><div className="spinner !w-5 !h-5 !border-2 !border-t-brand-700" /> Creating Account...</>
-                ) : 'Create Free Account'}
-              </button>
-            </form>
-
-            <p className="text-center text-sm text-gray-500 mt-5 font-body">
-              Already have an account?{' '}
-              <Link to="/login" className="text-brand-600 font-semibold hover:underline">Login here</Link>
-            </p>
+            </div>
           </div>
         </div>
       </div>
