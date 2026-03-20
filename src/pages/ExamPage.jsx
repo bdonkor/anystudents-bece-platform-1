@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { useAuth } from '../contexts/AuthContext'
 import { supabase, saveExamResult, trackExamDownload } from '../lib/supabase'
 import Navbar from '../components/Navbar'
@@ -193,6 +194,10 @@ export default function ExamPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-cream">
+      <Helmet>
+        <title>{exam?.subject || 'Exam'} | AnyStudents Mock</title>
+        <meta name="robots" content="noindex" />
+      </Helmet>
       <div className="no-print">
         <Navbar />
       </div>
@@ -209,7 +214,14 @@ export default function ExamPage() {
         </div>
       )}
 
-      <div className="flex-1 max-w-4xl mx-auto px-4 py-8 w-full">
+      <div className="flex-1 max-w-4xl mx-auto px-4 py-8 md:py-12 w-full">
+        {/* See What You Get Header */}
+        {mode === 'read' && (
+          <h1 className="font-display text-3xl md:text-5xl font-bold text-ink text-center mb-10 animate-fade-in">
+            See What You Get
+          </h1>
+        )}
+
         {/* Exam Format Notice */}
         {mode === 'read' && (
           <div className="no-print mb-6 card bg-blue-50 border-2 border-blue-200 flex items-start gap-3 py-4 px-4 shadow-sm animate-pulse">
@@ -239,19 +251,24 @@ export default function ExamPage() {
 
         {/* Action bar */}
         {mode === 'read' && (
-          <div className="no-print flex flex-col sm:flex-row gap-4 mb-8 items-center">
-            <Link to="/student" className="flex items-center gap-1.5 text-gray-400 hover:text-gray-700 text-xs font-bold uppercase tracking-wider mr-auto">
+          <div className="no-print flex flex-col gap-6 mb-10 items-center justify-center relative">
+            <Link to="/student" className="absolute left-0 hidden md:flex items-center gap-1.5 text-gray-400 hover:text-gray-700 text-xs font-bold uppercase tracking-wider transition-colors">
               <ArrowLeft size={16} /> Back to Dashboard
             </Link>
-            <div className="flex flex-row gap-2 w-full sm:w-auto">
-              <button onClick={handlePrint} className="btn-outline text-xs sm:text-sm py-2.5 px-4 flex-1 sm:flex-none justify-center rounded-xl">
+            
+            <Link to="/student" className="md:hidden flex items-center gap-1.5 text-gray-400 hover:text-gray-700 text-xs font-bold uppercase tracking-wider self-start mb-[-8px] transition-colors">
+              <ArrowLeft size={16} /> Back to Dashboard
+            </Link>
+
+            <div className="flex flex-row gap-3 w-full sm:w-auto justify-center">
+              <button onClick={handlePrint} className="btn-outline text-xs sm:text-sm py-3 px-6 flex-1 sm:flex-none justify-center rounded-xl shadow-sm transition-all active:scale-95">
                 <Printer size={16} /> Print
               </button>
-              <button onClick={handleDownloadPDF} className="btn-outline text-xs sm:text-sm py-2.5 px-4 bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100 flex-1 sm:flex-none justify-center rounded-xl">
-                <Download size={16} /> <span className="hidden xs:inline">PDF</span>
+              <button onClick={handleDownloadPDF} className="btn-outline text-xs sm:text-sm py-3 px-6 bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100 flex-1 sm:flex-none justify-center rounded-xl shadow-sm transition-all active:scale-95">
+                <Download size={16} /> <span className="hidden sm:inline">PDF</span>
               </button>
-              <button onClick={startTimedExam} className="btn-gold text-xs sm:text-sm py-3 px-6 sm:px-8 flex-[2] sm:flex-none justify-center rounded-xl shadow-lg ring-4 ring-yellow-400/20 active:scale-95 transition-all">
-                <Clock size={18} /> <span>Start Timed Exam</span>
+              <button onClick={startTimedExam} className="btn-gold text-xs sm:text-sm py-3.5 px-8 sm:px-12 flex-[2] sm:flex-none justify-center rounded-xl shadow-xl ring-4 ring-yellow-400/20 active:scale-95 transition-all">
+                <Clock size={18} /> <span>Start Exam</span>
               </button>
             </div>
           </div>
@@ -291,12 +308,20 @@ export default function ExamPage() {
           {/* Exam header */}
           <div className="text-center border-b-2 border-gray-800 pb-6 mb-8">
             <div className="font-mono text-xs tracking-widest text-gray-500 mb-2">GHANA</div>
-            <h1 className="font-display text-lg font-bold text-ink mb-1">
+            <h1 className={`font-display text-lg font-bold mb-1 ${
+              (String(examRecord.level || profile?.level)).toLowerCase() === 'shs' 
+                ? 'text-indigo-700' 
+                : 'text-emerald-700'
+            }`}>
               {(String(examRecord.level || profile?.level)).toLowerCase() === 'shs' 
                 ? 'WEST AFRICAN SENIOR SCHOOL CERTIFICATE EXAMINATION' 
                 : 'BASIC EDUCATION CERTIFICATE EXAMINATION'}
             </h1>
-            <h2 className="font-display text-xl font-bold text-brand-700 mb-3">MOCK {exam.subject.toUpperCase()}</h2>
+            <h2 className={`font-display text-xl font-bold mb-3 ${
+              (String(examRecord.level || profile?.level)).toLowerCase() === 'shs' 
+                ? 'text-indigo-600' 
+                : 'text-emerald-600'
+            }`}>MOCK {exam.subject.toUpperCase()}</h2>
             <div className="flex justify-center gap-8 text-sm font-body text-gray-600 mt-3">
               <span>Version: <strong>{exam.version}</strong></span>
               <span>Duration: <strong>{exam.duration}</strong></span>

@@ -40,7 +40,7 @@ export default function UserGuidePage() {
     {
       icon: <Clock className="text-green-600" size={24} />,
       title: "4. Take the Timed Mock",
-      description: "Practice under real exam conditions. Click the 'Start Timed Exam' button to begin your session. This helps you master time management before the actual national exams.",
+      description: "Practice under real exam conditions. Click the 'Start Exam' button to begin your session. This helps you master time management before the actual national exams.",
     },
     {
       icon: <FileText className="text-orange-600" size={24} />,

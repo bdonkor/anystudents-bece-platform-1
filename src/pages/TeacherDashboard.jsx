@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { useAuth } from '../contexts/AuthContext'
 import { saveExam, getUserExams, updateProfile } from '../lib/supabase'
 import { generateExam, generateExamSeed, JHS_SUBJECTS, SHS_SUBJECTS } from '../lib/examGenerator'
@@ -95,6 +96,10 @@ export default function TeacherDashboard() {
 
   return (
     <div className="min-h-screen flex flex-col bg-cream">
+      <Helmet>
+        <title>Teacher Dashboard | AnyStudents</title>
+        <meta name="robots" content="noindex" />
+      </Helmet>
       <Navbar />
       <div className="flex-1 max-w-6xl mx-auto px-4 md:px-6 py-8 w-full">
 

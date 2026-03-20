@@ -124,43 +124,39 @@ export default function HomePage() {
       <section className="bg-brand-700 text-white relative overflow-hidden" style={{ backgroundColor: '#0f172a' }}>
         <div className="absolute inset-0 opacity-5"
           style={{ backgroundImage: 'radial-gradient(circle at 30% 50%, #f5b400 0%, transparent 60%), radial-gradient(circle at 70% 20%, #334155 0%, transparent 50%)' }} />
-        <div className="relative max-w-7xl mx-auto px-6 py-20 md:py-28 text-center">
-          <div className="inline-flex items-center gap-2 bg-gold-500/20 border border-gold-500/30 rounded-full px-4 py-1.5 mb-6 animate-fade-in">
-            <span className="text-gold-400 text-[10px] md:text-sm font-mono tracking-wide">Ready Mock Exams Anytime</span>
+        <div className="relative max-w-7xl mx-auto px-6 py-24 md:py-32 text-center">
+          <div className="inline-flex items-center gap-2 bg-gold-500/10 border border-gold-500/20 rounded-full px-4 py-1.5 mb-8 animate-fade-in">
+            <span className="text-gold-400 text-[10px] md:text-sm font-mono tracking-wide uppercase">Ready Mock Exams Anytime</span>
           </div>
 
-          <h1 className="font-display text-4xl md:text-6xl font-bold text-white leading-tight mb-6 animate-fade-up">
-            Click And Generate<br />
-            <span className="text-gold-400">Standard Mock Exams</span><br />
-            Pass Your BECE & WASSCE Today
+          <h1 className="font-display text-4xl md:text-7xl font-bold text-white leading-[1.1] mb-8 animate-fade-up">
+            <span className="text-gold-400">Generate Mock Exams.</span><br />
+            Pass BECE & WASSCE<br />
+            with Confidence
           </h1>
 
-          <p className="font-body text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-8 leading-relaxed animate-fade-up"
+          <p className="font-body text-lg md:text-xl text-white/70 max-w-3xl mx-auto mb-12 leading-relaxed animate-fade-up"
              style={{ animationDelay: '0.1s' }}>
             Practice Official-Standard BECE and WASSCE questions instantly. Unique papers, full marking schemes, and real-time performance tracking for JHS and SHS students.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up" style={{ animationDelay: '0.2s' }}>
-            <Link to={user ? "/student" : "/register"} className="btn-gold text-base px-8 py-4 animate-pulse-gold justify-center">
-              Generate Your Free Mock Exam
-            </Link>
-            <Link to="/how-it-works" className="btn-outline border-white/40 text-white hover:bg-white hover:text-brand-700 text-base px-8 py-4 justify-center">
-              How It Works
+          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up mb-12" style={{ animationDelay: '0.2s' }}>
+            <Link to={user ? "/student" : "/register"} className="bg-[#f5b400] text-black font-bold px-10 py-5 rounded-lg hover:bg-[#eab308] transition-all flex items-center justify-center shadow-lg shadow-gold-500/20">
+              Generate Free Mock Exam Now
             </Link>
           </div>
 
-          <div className="mt-8 flex flex-col items-center animate-fade-up" style={{ animationDelay: '0.3s' }}>
-            <div className="flex items-center gap-1 mb-2">
+          <div className="flex flex-col items-center animate-fade-up" style={{ animationDelay: '0.3s' }}>
+            <div className="flex items-center gap-1 mb-3">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} size={16} className="text-gold-400 fill-gold-400" />
+                <Star key={i} size={18} className="text-gold-400 fill-gold-400" />
               ))}
             </div>
-            <p className="text-white/60 text-sm font-body">
+            <p className="text-white/60 text-sm font-body mb-2">
               Rated <span className="text-gold-400 font-bold">4.9/5</span> by 10,000+ Students
             </p>
+            <p className="text-white/40 text-xs font-body italic">No credit card needed for your free exam</p>
           </div>
-
-          <p className="mt-4 text-white/50 text-xs font-body italic">No credit card needed for your free exam</p>
         </div>
       </section>
 
