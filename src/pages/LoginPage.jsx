@@ -88,6 +88,12 @@ export default function LoginPage() {
                 </div>
               </div>
 
+              <div className="text-right">
+                <Link to="/forgot-password" className="text-sm text-brand-600 font-semibold hover:underline font-body">
+                  Forgot password?
+                </Link>
+              </div>
+
               <button type="submit" disabled={loading}
                 className="btn-primary w-full justify-center py-3.5 mt-2 disabled:opacity-60 disabled:cursor-not-allowed">
                 {loading ? (

@@ -18,6 +18,8 @@ const RefundPolicyPage = lazy(() => import('./pages/RefundPolicyPage'))
 const DisclaimerPage = lazy(() => import('./pages/DisclaimerPage'))
 const UserGuidePage = lazy(() => import('./pages/UserGuidePage'))
 const HowItWorksPage = lazy(() => import('./pages/HowItWorksPage'))
+const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage'))
+const ResetPasswordPage = lazy(() => import('./pages/ResetPasswordPage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 
 function LoadingScreen() {
@@ -59,6 +61,8 @@ function AppRoutes() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={user ? <Navigate to={getDashboardPath()} replace /> : <LoginPage />} />
         <Route path="/register" element={user ? <Navigate to={getDashboardPath()} replace /> : <RegisterPage />} />
+        <Route path="/forgot-password" element={user ? <Navigate to={getDashboardPath()} replace /> : <ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/pricing" element={<PricingPage />} />
         <Route path="/payment-success" element={<PaymentSuccessPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
