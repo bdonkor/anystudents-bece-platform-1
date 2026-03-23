@@ -342,22 +342,22 @@ export default function ExamPage() {
 
           {/* Tab Navigation - Only show in read mode */}
           {mode === 'read' && (
-            <div className="no-print flex gap-2 mb-8 border-b-2 border-gray-200">
+            <div className="no-print flex gap-3 mb-10 border-b-2 border-gray-100">
               <button
                 onClick={() => setActiveTab('questions')}
-                className={`font-display font-semibold px-6 py-3 text-sm transition-all rounded-t-xl border-b-2 -mb-0.5
+                className={`font-display font-bold px-7 py-4 text-sm transition-all rounded-t-2xl border-2 -mb-0.5
                   ${activeTab === 'questions'
-                    ? 'border-brand-600 text-brand-700 bg-brand-50/50'
-                    : 'border-transparent text-gray-500 hover:bg-gray-100'}`}
+                    ? 'border-brand-600 text-brand-900 bg-brand-200 shadow-[0_4px_12px_rgba(245,180,0,0.15)] z-10'
+                    : 'border-brand-200 text-brand-700 bg-brand-50 hover:bg-brand-100'}`}
               >
                 📝 Exam Questions
               </button>
               <button
                 onClick={() => setActiveTab('scheme')}
-                className={`font-display font-semibold px-6 py-3 text-sm transition-all rounded-t-xl border-b-2 -mb-0.5
+                className={`font-display font-bold px-7 py-4 text-sm transition-all rounded-t-2xl border-2 -mb-0.5
                   ${activeTab === 'scheme'
-                    ? 'bg-blue-600 text-white border-blue-600 shadow-lg z-10'
-                    : 'bg-blue-50 text-blue-600 border-transparent hover:bg-blue-100 font-bold'}`}
+                    ? 'border-blue-700 text-blue-900 bg-blue-200 shadow-[0_4px_12px_rgba(37,99,235,0.15)] z-10'
+                    : 'border-blue-200 text-blue-700 bg-blue-50 hover:bg-blue-100 font-bold'}`}
               >
                 ✅ Marking Scheme
               </button>

@@ -76,7 +76,7 @@ export default function DisclaimerPage() {
                   <li>Questions are practice materials, not actual past papers</li>
                 </ul>
                 <p className="mt-4">
-                  If you identify errors or inaccuracies, please report them to <a href="mailto:info@anystudents.com" className="text-gold-600 hover:text-gold-700 underline">info@anystudents.com</a> so we can review and improve our content.
+                  If you identify errors or inaccuracies, please report them to <a href="mailto:info@mockexams.anystudents.com" className="text-gold-600 hover:text-gold-700 underline">info@mockexams.anystudents.com</a> so we can review and improve our content.
                 </p>
               </section>
 
@@ -205,7 +205,7 @@ export default function DisclaimerPage() {
                 </p>
                 <div className="bg-slate-50 border border-slate-200 rounded-lg p-6 mt-4">
                   <p className="font-semibold text-brand-800">AnyStudents Mock Exams</p>
-                  <p>Email: <a href="mailto:info@anystudents.com" className="text-gold-600 hover:text-gold-700 underline">info@anystudents.com</a></p>
+                  <p>Email: <a href="mailto:info@mockexams.anystudents.com" className="text-gold-600 hover:text-gold-700 underline">info@mockexams.anystudents.com</a></p>
                   <p>Website: <a href="https://mockexams.anystudents.com" className="text-gold-600 hover:text-gold-700 underline">mockexams.anystudents.com</a></p>
                   <p className="mt-2 text-sm text-slate-600">Location: Ghana</p>
                 </div>

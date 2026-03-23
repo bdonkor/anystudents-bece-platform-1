@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
-import { Menu, X, LogOut, LayoutDashboard } from 'lucide-react'
+import { Menu, X, LogOut, LayoutDashboard, ChevronDown } from 'lucide-react'
 
 export default function Navbar() {
   const { user, profile, signOut } = useAuth()
@@ -18,6 +18,9 @@ export default function Navbar() {
     }
     window.location.href = '/'
   }
+
+  const [resourcesOpen, setResourcesOpen] = useState(false)
+  const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false)
 
   function getDashboardLink() {
     if (!profile) return '/login'
@@ -67,9 +70,27 @@ export default function Navbar() {
           {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-6">
             <Link to="/" className={desktopLinkClass('/', true)}>Get started</Link>
-            <Link to="/user-guide" className={desktopLinkClass('/user-guide')}>User Guide</Link>
-            <Link to="/how-it-works" className={desktopLinkClass('/how-it-works')}>How it Works</Link>
+            
+            {/* Resources Dropdown */}
+            <div 
+              className="relative group"
+              onMouseEnter={() => setResourcesOpen(true)}
+              onMouseLeave={() => setResourcesOpen(false)}
+            >
+              <button className={`${desktopLinkClass('/user-guide')} flex items-center gap-1 cursor-default py-4`}>
+                Resources <ChevronDown size={14} className={`transition-transform duration-200 ${resourcesOpen ? 'rotate-180' : ''}`} />
+              </button>
+              
+              <div className={`absolute top-full left-0 w-48 bg-brand-800 border border-gold-500/20 rounded-xl shadow-2xl py-2 transition-all duration-200 origin-top-left
+                ${resourcesOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}>
+                <Link to="/user-guide" className="block px-4 py-2 text-sm text-white/80 hover:text-gold-400 hover:bg-white/5 transition-colors font-body">User Guide</Link>
+                <Link to="/how-it-works" className="block px-4 py-2 text-sm text-white/80 hover:text-gold-400 hover:bg-white/5 transition-colors font-body">How It Works</Link>
+                <Link to="/study-time" className="block px-4 py-2 text-sm text-white/80 hover:text-gold-400 hover:bg-white/5 transition-colors font-body">Study Timer</Link>
+              </div>
+            </div>
+
             <Link to="/pricing" className={desktopLinkClass('/pricing')}>Pricing</Link>
+            <Link to="/blog" className={desktopLinkClass('/blog')}>Blog</Link>
 
             {user ? (
               <div className="flex items-center gap-3">
@@ -104,9 +125,27 @@ export default function Navbar() {
       {menuOpen && (
         <div className="md:hidden bg-brand-800 border-t border-brand-600 px-4 py-4 space-y-1">
           <Link to="/" onClick={() => setMenuOpen(false)} className={mobileLinkClass('/', true)}>Get started</Link>
-          <Link to="/user-guide" onClick={() => setMenuOpen(false)} className={mobileLinkClass('/user-guide')}>User Guide</Link>
-          <Link to="/how-it-works" onClick={() => setMenuOpen(false)} className={mobileLinkClass('/how-it-works')}>How it Works</Link>
+          
+          <div className="py-1">
+            <button 
+              onClick={() => setMobileResourcesOpen(!mobileResourcesOpen)}
+              className="w-full flex items-center justify-between text-gold-500/80 font-black uppercase tracking-widest text-[10px] py-2 px-0 hover:text-gold-400 transition-colors"
+            >
+              Resources 
+              <ChevronDown size={14} className={`transition-transform duration-200 ${mobileResourcesOpen ? 'rotate-180' : ''}`} />
+            </button>
+            
+            {mobileResourcesOpen && (
+              <div className="space-y-1 pl-4 animate-in slide-in-from-top-1 duration-200">
+                <Link to="/user-guide" onClick={() => setMenuOpen(false)} className={mobileLinkClass('/user-guide')}>User Guide</Link>
+                <Link to="/how-it-works" onClick={() => setMenuOpen(false)} className={mobileLinkClass('/how-it-works')}>How It Works</Link>
+                <Link to="/study-time" onClick={() => setMenuOpen(false)} className={mobileLinkClass('/study-time')}>Study Timer</Link>
+              </div>
+            )}
+          </div>
+
           <Link to="/pricing" onClick={() => setMenuOpen(false)} className={mobileLinkClass('/pricing')}>Pricing</Link>
+          <Link to="/blog" onClick={() => setMenuOpen(false)} className={mobileLinkClass('/blog')}>Blog</Link>
           {user ? (
             <>
               <Link to={dashboardHref} onClick={() => setMenuOpen(false)} className={mobileLinkClass(dashboardHref)}>

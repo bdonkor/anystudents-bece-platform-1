@@ -45,27 +45,27 @@ export default function LoginPage() {
         <div className="absolute top-0 left-0 w-full h-1 bg-brand-700 no-print" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gold-400/5 rounded-full blur-[120px] pointer-events-none" />
 
-        <div className="w-full max-w-lg relative">
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-brand-700 rounded-3xl shadow-xl shadow-brand-700/20 mb-6">
-              <BookOpen size={40} className="text-gold-400" />
-            </div>
-            <h1 className="font-display text-4xl md:text-5xl font-bold text-brand-700 mb-2 tracking-tight">
-              Welcome Back
-            </h1>
-            <p className="font-body text-gray-500 text-lg">
-              Securely access your academic portal
-            </p>
-          </div>
+        <div className="w-full max-w-6xl relative z-10 mx-auto bg-white rounded-[2.5rem] p-3 shadow-2xl shadow-brand-700/10 border border-brand-700/5">
+          <div className="flex flex-col lg:flex-row overflow-hidden rounded-[2rem] border-[3px] border-brand-700/5 bg-white">
+            
+            {/* Left Column: Login Form */}
+            <div className="w-full lg:w-1/2 p-8 md:p-12 lg:p-16 flex flex-col justify-center">
+              <div className="mb-10">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-brand-700 rounded-2xl shadow-xl shadow-brand-700/20 mb-6">
+                  <BookOpen size={30} className="text-gold-400" />
+                </div>
+                <h1 className="font-display text-4xl md:text-5xl font-bold text-brand-700 mb-2 tracking-tight">
+                  Welcome Back
+                </h1>
+                <p className="font-body text-gray-500 text-lg">
+                  Securely access your academic portal
+                </p>
+              </div>
 
-          {/* Premium Card with Outline Effect */}
-          <div className="bg-white rounded-3xl p-1 shadow-2xl shadow-brand-700/10 border border-brand-700/5 overflow-hidden">
-            <div className="border-2 border-brand-700/10 rounded-[1.4rem] p-8 md:p-10">
-              
               {/* Official Badge */}
-              <div className="flex items-center justify-center gap-2 bg-brand-700 text-gold-400 py-2 px-4 rounded-full text-xs font-bold uppercase tracking-widest mb-10">
-                <ShieldCheck size={14} />
-                <span>Authorized Access Only</span>
+              <div className="inline-flex items-center gap-2 bg-brand-700/5 text-brand-700 border border-brand-700/10 py-2 px-4 rounded-full text-xs font-bold uppercase tracking-widest mb-8 w-fit">
+                <ShieldCheck size={16} className="text-gold-500" />
+                <span>Authorized Access</span>
               </div>
 
               {error && (
@@ -86,7 +86,7 @@ export default function LoginPage() {
                       type="email"
                       required
                       placeholder="kofi@example.com"
-                      className="input-field pl-12 h-14 !rounded-2xl border-gray-100 focus:border-brand-700 font-body text-lg transition-all"
+                      className="input-field pl-12 h-14 !rounded-2xl border-gray-100 bg-gray-50 focus:bg-white focus:border-brand-700 font-body text-lg transition-all w-full"
                       value={form.email}
                       onChange={e => setForm({ ...form, email: e.target.value })}
                     />
@@ -108,7 +108,7 @@ export default function LoginPage() {
                       type={showPass ? 'text' : 'password'}
                       required
                       placeholder="········"
-                      className="input-field pl-12 pr-12 h-14 !rounded-2xl border-gray-100 focus:border-brand-700 font-body text-lg transition-all"
+                      className="input-field pl-12 pr-12 h-14 !rounded-2xl border-gray-100 bg-gray-50 focus:bg-white focus:border-brand-700 font-body text-lg transition-all w-full"
                       value={form.password}
                       onChange={e => setForm({ ...form, password: e.target.value })}
                     />
@@ -120,7 +120,7 @@ export default function LoginPage() {
                 </div>
 
                 <button type="submit" disabled={loading}
-                  className="w-full bg-[#0f172a] text-gold-500 font-display font-bold text-lg h-16 rounded-2xl shadow-xl shadow-brand-700/20 hover:bg-[#1e293b] hover:shadow-brand-700/30 active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale disabled:cursor-not-allowed flex items-center justify-center gap-3">
+                  className="w-full bg-[#0f172a] text-gold-500 font-display font-bold text-lg h-16 rounded-2xl shadow-xl shadow-brand-700/20 hover:bg-[#1e293b] hover:shadow-brand-700/30 active:scale-[0.98] transition-all disabled:opacity-50 disabled:grayscale disabled:cursor-not-allowed flex items-center justify-center gap-3 mt-4">
                   {loading ? (
                     <><div className="spinner !w-6 !h-6 !border-3 !border-t-gold-500 !border-gold-500/20" /> Authorizing...</>
                   ) : (
@@ -132,20 +132,40 @@ export default function LoginPage() {
                 </button>
               </form>
 
-              <div className="mt-8 pt-8 border-t border-gray-100 flex flex-col items-center gap-4">
+              <div className="mt-10 pt-8 border-t border-gray-100 flex flex-col md:flex-row items-center justify-between gap-4">
                 <p className="text-sm text-gray-500 font-body">
                   New to the platform?{' '}
                   <Link to="/register" className="text-brand-700 font-bold hover:underline decoration-gold-500 underline-offset-4">Register free portal</Link>
                 </p>
                 
                 {/* Ghana Heritage Accent */}
-                <div className="flex gap-1.5 h-1">
-                  <div className="w-12 bg-[#CE1126] rounded-full" />
-                  <div className="w-12 bg-[#FCD116] rounded-full" />
-                  <div className="w-12 bg-[#006B3C] rounded-full" />
+                <div className="flex gap-1.5 h-1.5">
+                  <div className="w-8 bg-[#CE1126] rounded-full" />
+                  <div className="w-8 bg-[#FCD116] rounded-full" />
+                  <div className="w-8 bg-[#006B3C] rounded-full" />
                 </div>
               </div>
             </div>
+
+            {/* Right Column: Premium Image */}
+            <div className="hidden lg:block lg:w-1/2 relative bg-brand-900 border-l-4 border-gold-500">
+              <img 
+                src="/images/family_login_premium_1774184361366.png" 
+                alt="Happy family celebrating student success"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-brand-900/40 flex flex-col items-center justify-center text-center p-12 lg:p-16">
+                <div className="translate-y-16 flex flex-col items-center">
+                  <h2 className="text-4xl lg:text-5xl font-display font-bold text-white mb-6 leading-[1.1]">
+                    Pass Your Exams <br/><span className="text-gold-400">Hands Down.</span>
+                  </h2>
+                  <p className="text-white/90 text-xl font-body max-w-md leading-relaxed">
+                    Join thousands of smart teenage students across Ghana systematically preparing with AnyStudents tailored mock exams.
+                  </p>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

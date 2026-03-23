@@ -116,7 +116,7 @@ export default function RefundPolicyPage() {
 
                 <h3 className="text-xl font-semibold text-brand-600 mt-6 mb-3">5.1 Duplicate or Erroneous Charges</h3>
                 <p>
-                  If you believe you were charged twice for the same subscription or received an erroneous charge due to a technical error, please contact us immediately at <a href="mailto:info@anystudents.com" className="text-gold-600 hover:text-gold-700 underline">info@anystudents.com</a> with:
+                  If you believe you were charged twice for the same subscription or received an erroneous charge due to a technical error, please contact us immediately at <a href="mailto:info@mockexams.anystudents.com" className="text-gold-600 hover:text-gold-700 underline">info@mockexams.anystudents.com</a> with:
                 </p>
                 <ul className="list-disc pl-6 space-y-2">
                   <li>Your account email address</li>
@@ -140,7 +140,7 @@ export default function RefundPolicyPage() {
 
                 <h3 className="text-xl font-semibold text-brand-600 mt-6 mb-3">5.3 Unauthorized Charges</h3>
                 <p>
-                  If you believe your account was used without your authorization, contact us immediately at <a href="mailto:info@anystudents.com" className="text-gold-600 hover:text-gold-700 underline">info@anystudents.com</a>. We will investigate and may issue a refund if we verify unauthorized access.
+                  If you believe your account was used without your authorization, contact us immediately at <a href="mailto:info@mockexams.anystudents.com" className="text-gold-600 hover:text-gold-700 underline">info@mockexams.anystudents.com</a>. We will investigate and may issue a refund if we verify unauthorized access.
                 </p>
               </section>
 
@@ -179,13 +179,13 @@ export default function RefundPolicyPage() {
                   The only circumstances under which we may consider issuing a refund are:
                 </p>
                 <ul className="list-disc pl-6 space-y-2">
-                  <li><strong>Change of mind before use</strong> - If you changed your mind after purchasing and have NOT generated or downloaded any exam content, you may qualify for a refund. Contact us immediately at <a href="mailto:info@anystudents.com" className="text-gold-600 hover:text-gold-700 underline">info@anystudents.com</a></li>
+                  <li><strong>Change of mind before use</strong> - If you changed your mind after purchasing and have NOT generated or downloaded any exam content, you may qualify for a refund. Contact us immediately at <a href="mailto:info@mockexams.anystudents.com" className="text-gold-600 hover:text-gold-700 underline">info@mockexams.anystudents.com</a></li>
                   <li><strong>Verified duplicate charges</strong> for the same subscription period</li>
                   <li><strong>Confirmed unauthorized access</strong> to your account by a third party</li>
                   <li><strong>Technical error</strong> on our part that prevented you from accessing the service despite payment</li>
                 </ul>
                 <p className="mt-4">
-                  All refund requests must be submitted in writing to <a href="mailto:info@anystudents.com" className="text-gold-600 hover:text-gold-700 underline">info@anystudents.com</a> and will be reviewed on a case-by-case basis.
+                  All refund requests must be submitted in writing to <a href="mailto:info@mockexams.anystudents.com" className="text-gold-600 hover:text-gold-700 underline">info@mockexams.anystudents.com</a> and will be reviewed on a case-by-case basis.
                 </p>
               </section>
 
@@ -203,7 +203,7 @@ export default function RefundPolicyPage() {
                 </p>
                 <div className="bg-slate-50 border border-slate-200 rounded-lg p-6 mt-4">
                   <p className="font-semibold text-brand-800">AnyStudents Mock Exams</p>
-                  <p>Email: <a href="mailto:info@anystudents.com" className="text-gold-600 hover:text-gold-700 underline">info@anystudents.com</a></p>
+                  <p>Email: <a href="mailto:info@mockexams.anystudents.com" className="text-gold-600 hover:text-gold-700 underline">info@mockexams.anystudents.com</a></p>
                   <p>Website: <a href="https://mockexams.anystudents.com" className="text-gold-600 hover:text-gold-700 underline">mockexams.anystudents.com</a></p>
                   <p className="mt-2 text-sm text-slate-600">Location: Ghana</p>
                 </div>

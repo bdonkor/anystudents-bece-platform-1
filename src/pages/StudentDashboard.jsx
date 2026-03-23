@@ -9,8 +9,7 @@ import Footer from '../components/Footer'
 import {
   BookOpen, Zap, Clock, Trophy, BarChart2, ArrowRight,
   AlertTriangle, CheckCircle, History, Star, Lock,
-  ChevronDown, Check, Share2, Copy, MessageCircle,
-  Play, Pause, RotateCcw, Target
+  ChevronDown, Check, Share2, Copy, MessageCircle
 } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 
@@ -61,7 +60,11 @@ const SUBJECT_STYLES = {
   building_const: { icon: '🏗️', colors: 'text-orange-800 bg-orange-100 border-orange-400', gradient: 'from-orange-200 to-orange-100' },
   metalwork: { icon: '⛓️', colors: 'text-zinc-600 bg-zinc-50 border-zinc-200', gradient: 'from-zinc-100 to-zinc-50' },
   woodwork: { icon: '🪚', colors: 'text-amber-800 bg-amber-50 border-amber-200', gradient: 'from-amber-100 to-amber-50' },
-  applied_electricity: { icon: '⚡', colors: 'text-yellow-600 bg-yellow-50 border-yellow-200', gradient: 'from-yellow-100 to-yellow-50' }
+  applied_electricity: { icon: '⚡', colors: 'text-yellow-600 bg-yellow-50 border-yellow-200', gradient: 'from-yellow-100 to-yellow-50' },
+  leatherwork: { icon: '👜', colors: 'text-orange-700 bg-orange-50 border-orange-200', gradient: 'from-orange-100 to-orange-50' },
+  electronics_shs: { icon: '🔌', colors: 'text-sky-700 bg-sky-50 border-sky-200', gradient: 'from-sky-100 to-sky-50' },
+  french_shs: { icon: '🇫🇷', colors: 'text-pink-600 bg-pink-50 border-pink-200', gradient: 'from-pink-100 to-pink-50' },
+  ghanaian_language_shs: { icon: '🗣️', colors: 'text-red-600 bg-red-50 border-red-200', gradient: 'from-red-100 to-red-50' }
 }
 export default function StudentDashboard() {
   const { user, profile, refreshProfile, canGenerateExam, isSubscriptionActive } = useAuth()
@@ -119,30 +122,6 @@ export default function StudentDashboard() {
   const [guardianEmail, setGuardianEmail] = useState(profile?.guardian_email || '')
   const [savingGuardian, setSavingGuardian] = useState(false)
   const [guardianSaved, setGuardianSaved] = useState(false)
-
-  // Pomodoro State
-  const [pomoTimeLeft, setPomoTimeLeft] = useState(25 * 60)
-  const [pomoIsActive, setPomoIsActive] = useState(false)
-  const [pomoMode, setPomoMode] = useState('study') // 'study' | 'shortBreak' | 'longBreak'
-
-  useEffect(() => {
-    let interval = null
-    if (pomoIsActive && pomoTimeLeft > 0) {
-      interval = setInterval(() => {
-        setPomoTimeLeft(time => time - 1)
-      }, 1000)
-    } else if (pomoTimeLeft === 0) {
-      setPomoIsActive(false)
-      if (pomoMode === 'study') {
-        setPomoMode('shortBreak')
-        setPomoTimeLeft(5 * 60)
-      } else {
-        setPomoMode('study')
-        setPomoTimeLeft(25 * 60)
-      }
-    }
-    return () => clearInterval(interval)
-  }, [pomoIsActive, pomoTimeLeft, pomoMode])
 
   function formatPomoTime(seconds) {
     const m = Math.floor(seconds / 60)
@@ -274,7 +253,7 @@ export default function StudentDashboard() {
         setGenStatus(`Almost there! Finalizing the marking scheme...`)
         setGenProgress(60 + Math.floor(((secondsElapsed - 30) / 30) * 30)) // 60% to 90%
       } else {
-        setGenStatus(`Still working! Our AI is ensuring high-quality questions. Please do not refresh.`)
+        setGenStatus(`Still working! We are ensuring high-quality questions. Please do not refresh.`)
         setGenProgress(Math.min(98, 90 + Math.floor(((secondsElapsed - 60) / 60) * 8))) // Slow crawl to 98%
       }
     }, 1000)
@@ -379,7 +358,6 @@ export default function StudentDashboard() {
     { id: 'generate', label: 'Generate Exam', icon: <Zap size={16} /> },
     { id: 'history', label: 'Exam History', icon: <History size={16} /> },
     { id: 'performance', label: 'Performance', icon: <BarChart2 size={16} /> },
-    { id: 'focus', label: 'Focus Timer', icon: <Target size={16} /> },
   ]
 
   return (
@@ -929,68 +907,6 @@ export default function StudentDashboard() {
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            )}
-
-            {/* FOCUS TAB */}
-            {activeTab === 'focus' && (
-              <div className="card text-center py-10">
-                <h2 className="font-display text-2xl font-bold text-ink mb-2">Focus Mode</h2>
-                <p className="font-body text-gray-500 mb-8 max-w-md mx-auto">Use the Pomodoro technique. 25 minutes of intense focus, followed by a short break. Stay sharp!</p>
-                
-                <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-10">
-                  <button 
-                    onClick={() => {setPomoMode('study'); setPomoTimeLeft(25*60); setPomoIsActive(false)}}
-                    className={`px-4 py-2 rounded-xl text-sm font-bold transition-all ${pomoMode === 'study' ? 'bg-red-100 text-red-700 shadow-sm' : 'text-gray-500 hover:bg-gray-100'}`}
-                  >
-                    🚀 Study (25m)
-                  </button>
-                  <button 
-                    onClick={() => {setPomoMode('shortBreak'); setPomoTimeLeft(5*60); setPomoIsActive(false)}}
-                    className={`px-4 py-2 rounded-xl text-sm font-bold transition-all ${pomoMode === 'shortBreak' ? 'bg-green-100 text-green-700 shadow-sm' : 'text-gray-500 hover:bg-gray-100'}`}
-                  >
-                    ☕ Short Break (5m)
-                  </button>
-                  <button 
-                    onClick={() => {setPomoMode('longBreak'); setPomoTimeLeft(15*60); setPomoIsActive(false)}}
-                    className={`px-4 py-2 rounded-xl text-sm font-bold transition-all ${pomoMode === 'longBreak' ? 'bg-blue-100 text-blue-700 shadow-sm' : 'text-gray-500 hover:bg-gray-100'}`}
-                  >
-                    🛌 Long Break (15m)
-                  </button>
-                </div>
-                
-                <div className={`mx-auto w-full max-w-sm rounded-[2rem] border-8 flex items-center justify-center py-12 px-4 mb-10 shadow-inner transition-colors duration-500
-                  ${pomoMode === 'study' ? 'border-red-500 bg-red-50/50' : 
-                    pomoMode === 'shortBreak' ? 'border-green-500 bg-green-50/50' : 
-                    'border-blue-500 bg-blue-50/50'}`}>
-                  <div className={`font-mono font-bold tabular-nums text-7xl sm:text-8xl tracking-tight
-                    ${pomoMode === 'study' ? 'text-red-600' : 
-                    pomoMode === 'shortBreak' ? 'text-green-600' : 
-                    'text-blue-600'}`}>
-                    {formatPomoTime(pomoTimeLeft)}
-                  </div>
-                </div>
-                
-                <div className="flex justify-center gap-4">
-                  <button 
-                    onClick={() => setPomoIsActive(!pomoIsActive)}
-                    className={`flex items-center justify-center gap-2 w-48 py-4 rounded-2xl font-bold text-white shadow-lg transition-transform active:scale-95 text-lg
-                      ${pomoIsActive ? 'bg-gray-800 hover:bg-gray-900' : 'bg-brand-600 hover:bg-brand-700'}`}
-                    >
-                    {pomoIsActive ? <><Pause size={20}/> Pause</> : <><Play size={20}/> Start Timer</>}
-                  </button>
-                  
-                  <button 
-                    onClick={() => {
-                      setPomoIsActive(false)
-                      setPomoTimeLeft(pomoMode === 'study' ? 25*60 : pomoMode === 'shortBreak' ? 5*60 : 15*60)
-                    }}
-                    className="flex items-center justify-center w-14 h-14 rounded-2xl bg-white border-2 border-gray-200 text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition-colors"
-                    title="Reset Timer"
-                  >
-                    <RotateCcw size={22}/>
-                  </button>
                 </div>
               </div>
             )}

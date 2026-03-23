@@ -46,6 +46,7 @@ export const SHS_SUBJECTS = {
   textiles: 'Textiles',
   sculpture: 'Sculpture',
   ceramics: 'Ceramics',
+  leatherwork: 'Leatherwork',
   // Home Economics
   mil: 'Management in Living',
   food_nutrition: 'Food and Nutrition',
@@ -55,16 +56,19 @@ export const SHS_SUBJECTS = {
   building_const: 'Building Construction',
   metalwork: 'Metalwork',
   woodwork: 'Woodwork',
-  applied_electricity: 'Applied Electricity'
+  applied_electricity: 'Applied Electricity',
+  electronics_shs: 'Electronics',
+  french_shs: 'French',
+  ghanaian_language_shs: 'Ghanaian Language'
 }
 
 export const SHS_PROGRAMS = {
   Science: ['elective_math', 'physics', 'chemistry', 'biology'],
-  Business: ['fin_accounting', 'cost_accounting', 'business_mgmt', 'economics'],
-  'General Arts': ['government', 'economics', 'geography', 'history', 'literature', 'crs', 'irs'],
-  'Visual Arts': ['gka', 'graphic_design', 'picture_making', 'textiles', 'sculpture', 'ceramics'],
-  'Home Economics': ['mil', 'food_nutrition', 'clothing_textiles'],
-  Technical: ['tech_drawing', 'building_const', 'metalwork', 'woodwork', 'applied_electricity']
+  Business: ['fin_accounting', 'cost_accounting', 'business_mgmt', 'economics', 'elective_math'],
+  'General Arts': ['government', 'economics', 'geography', 'history', 'literature', 'crs', 'irs', 'french_shs', 'ghanaian_language_shs'],
+  'Visual Arts': ['gka', 'graphic_design', 'picture_making', 'textiles', 'sculpture', 'ceramics', 'leatherwork'],
+  'Home Economics': ['mil', 'food_nutrition', 'clothing_textiles', 'economics', 'biology'],
+  Technical: ['tech_drawing', 'building_const', 'metalwork', 'woodwork', 'applied_electricity', 'electronics_shs']
 }
 
 const SUBJECT_TOPICS = {
@@ -107,7 +111,11 @@ const SUBJECT_TOPICS = {
   mil: ['Resource Management', 'Family Dynamics', 'Consumer Education', 'Housing and Interior', 'Health and Hygiene', 'Standard of Living'],
   food_nutrition: ['Nutrients and Dietetics', 'Meal Planning', 'Food Storage', 'Cookery Processes', 'Beverages', 'Catering Management'],
   tech_drawing: ['Geometric Construction', 'Isometric Projection', 'Orthographic Projection', 'Sectional Views', 'Fasteners', 'Assembly Drawing'],
-  applied_electricity: ['Circuits', 'Electronics', 'Power Generation', 'Electrical Installation', 'Magnetism', 'Measurements', 'Safety Protocols']
+  applied_electricity: ['Circuits', 'Electronics', 'Power Generation', 'Electrical Installation', 'Magnetism', 'Measurements', 'Safety Protocols'],
+  leatherwork: ['History of Leather', 'Tools and Equipment', 'Leather Tanning', 'Decorating Techniques', 'Project Design', 'Marketing and Safety'],
+  electronics_shs: ['Semiconductors', 'Transistors', 'Amplifiers', 'Digital Logic', 'Circuit Testing', 'Oscilloscopes', 'Communication Systems'],
+  french_shs: ['Complex Grammar', 'Literature Analysis', 'Phonetics', 'Writing Skills', 'Translation', 'Francophone Culture'],
+  ghanaian_language_shs: ['Linguistic Structure', 'Oral Literature', 'Cultural Practices', 'Creative Writing', 'Social Values of Ghana', 'Phonology']
 }
 
 export function generateExamSeed(userId, subject) {

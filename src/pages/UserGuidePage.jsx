@@ -23,34 +23,34 @@ export default function UserGuidePage() {
     {
       icon: <UserPlus className="text-blue-600" size={24} />,
       title: "1. Create Your Account",
-      description: "Start by registering with your name, email, and role (Student or Teacher). Your first mock exam is completely free—no credit card required!",
+      description: "Sign up with your name and email. Your first mock exam is completely free—no payment needed!",
       link: "/register",
       linkText: "Register Free"
     },
     {
       icon: <Search className="text-purple-600" size={24} />,
       title: "2. Choose a Subject",
-      description: "From your dashboard, select any of the 35+ subjects for BECE or WASSCE, including Core subjects and specific SHS Electives.",
+      description: "Go to your dashboard and pick any subject you want to practice, like Maths, English, or Science.",
     },
     {
       icon: <Zap className="text-gold-600" size={24} />,
       title: "3. Generate Your Exam",
-      description: "Click 'Generate Exam'. Our AI engine creates a unique, official-standard BECE or WASSCE paper for you in less than 60 seconds.",
+      description: "Click 'Generate Exam' and we will create a unique, standard paper for you in less than a minute.",
     },
     {
       icon: <Clock className="text-green-600" size={24} />,
       title: "4. Take the Timed Mock",
-      description: "Practice under real exam conditions. Click the 'Start Exam' button to begin your session. This helps you master time management before the actual national exams.",
+      description: "Practice like it's a real exam. Set your timer and start solving questions to improve your speed.",
     },
     {
       icon: <FileText className="text-orange-600" size={24} />,
-      title: "5. Review Marking Scheme",
-      description: "Once finished, immediately access the full marking scheme with detailed explanations to see exactly where you can improve.",
+      title: "5. Check Your Answers",
+      description: "After finishing, see the marking scheme and explanations to learn from your mistakes immediately.",
     },
     {
       icon: <BarChart className="text-indigo-600" size={24} />,
-      title: "6. Track Your Progress",
-      description: "Use your performance tracker to see your score trends and readiness score for each subject.",
+      title: "6. Track Your Scores",
+      description: "Use your performance tracker to see if you are improving and getting ready for the final exam.",
     }
   ]
 

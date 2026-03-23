@@ -21,11 +21,11 @@ export default function Footer() {
               Ghana's leading mock exams platform. Helping JHS and SHS students excel in national examinations (BECE and WASSCE).
             </p>
             <a
-              href="mailto:info@anystudents.com"
+              href="mailto:info@mockexams.anystudents.com"
               className="inline-flex items-center gap-1.5 text-sm font-body hover:text-gold-400 transition-colors"
             >
               <Mail size={14} />
-              info@anystudents.com
+              info@mockexams.anystudents.com
             </a>
           </div>
 
@@ -36,8 +36,8 @@ export default function Footer() {
               <Link to="/user-guide" className="block hover:text-gold-400 transition-colors">User Guide</Link>
               <Link to="/how-it-works" className="block hover:text-gold-400 transition-colors">How it Works</Link>
               <Link to="/pricing" className="block hover:text-gold-400 transition-colors">Pricing — Standard Practice</Link>
+              <Link to="/study-time" className="block hover:text-gold-400 transition-colors">Study Time & Focus</Link>
               <Link to="/register" className="block hover:text-gold-400 transition-colors">Free Mock Exam</Link>
-              <Link to="/login" className="block hover:text-gold-400 transition-colors">Login</Link>
             </div>
           </div>
 

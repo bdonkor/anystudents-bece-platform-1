@@ -106,7 +106,7 @@ export default function PrivacyPolicyPage() {
               <section>
                 <h2 className="text-2xl font-display font-semibold text-brand-700 mt-8 mb-4">7. Your Rights</h2>
                 <p>
-                  You have the right to access, correct, or delete your personal information at any time. To exercise these rights, please contact us at <a href="mailto:info@anystudents.com" className="text-gold-600 hover:text-gold-700 underline">info@anystudents.com</a>
+                  You have the right to access, correct, or delete your personal information at any time. To exercise these rights, please contact us at <a href="mailto:info@mockexams.anystudents.com" className="text-gold-600 hover:text-gold-700 underline">info@mockexams.anystudents.com</a>
                 </p>
               </section>
 
@@ -136,7 +136,7 @@ export default function PrivacyPolicyPage() {
                 <p>If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us:</p>
                 <div className="bg-slate-50 border border-slate-200 rounded-lg p-6 mt-4">
                   <p className="font-semibold text-brand-800">AnyStudents Mock Exams</p>
-                  <p>Email: <a href="mailto:info@anystudents.com" className="text-gold-600 hover:text-gold-700 underline">info@anystudents.com</a></p>
+                  <p>Email: <a href="mailto:info@mockexams.anystudents.com" className="text-gold-600 hover:text-gold-700 underline">info@mockexams.anystudents.com</a></p>
                   <p>Website: <a href="https://mockexams.anystudents.com" className="text-gold-600 hover:text-gold-700 underline">mockexams.anystudents.com</a></p>
                   <p className="mt-2 text-sm text-slate-600">Location: Ghana</p>
                 </div>

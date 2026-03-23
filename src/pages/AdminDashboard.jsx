@@ -29,7 +29,7 @@ export default function AdminDashboard() {
     exams: 'pending'
   })
   const [emailModal, setEmailModal] = useState({ show: false, user: null, subject: '', message: '' })
-  const [userModal, setUserModal] = useState({ show: false, user: null, exams: [], payments: [], loading: false })
+  const [userModal, setUserModal] = useState({ show: false, user: null, exams: [], payments: [], loading: false, tab: 'overview' })
 
   useEffect(() => {
     if (profile) {
@@ -130,7 +130,7 @@ export default function AdminDashboard() {
   }
 
   async function handleViewUser(user) {
-    setUserModal({ show: true, user, exams: [], payments: [], loading: true })
+    setUserModal({ show: true, user, exams: [], payments: [], loading: true, tab: 'overview' })
     
     try {
       // Fetch user's exams
@@ -848,156 +848,216 @@ export default function AdminDashboard() {
 
         {/* USER PROFILE MODAL */}
         {userModal.show && userModal.user && (
-          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-brand-900/60 backdrop-blur-md animate-fade-in overflow-y-auto">
-            <div className="card max-w-2xl w-full shadow-2xl animate-fade-up my-auto max-h-[90vh] flex flex-col bg-cream/95 border border-white/50 overflow-hidden rounded-3xl">
+          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-brand-950/60 backdrop-blur-md animate-fade-in overflow-hidden">
+            <div className="w-full max-w-2xl bg-white rounded-[2.5rem] shadow-2xl animate-fade-up flex flex-col max-h-[90vh] overflow-hidden border border-white/20">
               
-              {/* Profile Header Card */}
-              <div className="bg-white p-8 border-b border-gray-100 flex flex-col md:flex-row items-center md:items-start gap-6 relative shrink-0">
-                <div className="absolute top-0 right-0 p-4">
-                   <button onClick={() => setUserModal({ show: false, user: null, exams: [], payments: [], loading: false })} 
-                     className="w-10 h-10 bg-gray-50 text-gray-400 hover:bg-red-50 hover:text-red-500 rounded-full flex items-center justify-center transition-all shadow-sm">
-                    <XCircle size={24} />
-                  </button>
-                </div>
+              {/* Header: Unified Brand Style with Prominent Role Badge */}
+              <div className="relative shrink-0 p-8 sm:p-10 text-center border-b border-slate-100 bg-slate-50/30">
+                <button 
+                  onClick={() => setUserModal({ ...userModal, show: false })} 
+                  className="absolute top-6 right-6 w-10 h-10 bg-white text-slate-400 hover:bg-red-50 hover:text-red-500 rounded-full flex items-center justify-center transition-all shadow-sm border border-slate-100 group"
+                >
+                  <XCircle size={24} className="group-hover:rotate-90 transition-transform" />
+                </button>
 
-                <div className="w-24 h-24 bg-gradient-to-tr from-brand-600 to-indigo-600 text-white rounded-3xl flex items-center justify-center font-display font-black text-4xl shadow-lg ring-4 ring-white">
-                  {(userModal.user.full_name || userModal.user.email || '?').charAt(0).toUpperCase()}
-                </div>
-                
-                <div className="text-center md:text-left pt-2">
-                  <h3 className="font-display font-black text-3xl text-ink leading-none mb-2">{userModal.user.full_name || 'Anonymous Student'}</h3>
-                  <p className="text-gray-500 font-body mb-4 flex items-center justify-center md:justify-start gap-2">
-                     <Mail size={14} className="text-brand-400" /> {userModal.user.email}
-                  </p>
-                  <div className="flex flex-wrap items-center justify-center md:justify-start gap-2">
-                    <span className="bg-brand-100 text-brand-700 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider border border-brand-200">
+                <div className="flex flex-col items-center">
+                  <div className="relative mb-4">
+                    <div className="w-24 h-24 bg-gradient-to-tr from-brand-600 to-indigo-600 text-white rounded-[2rem] flex items-center justify-center font-display font-black text-4xl shadow-xl">
+                      {(userModal.user.full_name || userModal.user.email || '?').charAt(0).toUpperCase()}
+                    </div>
+                    {/* Persistent Role Badge in Header */}
+                    <div className={`absolute -bottom-2 -right-2 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg border-2 border-white ${
+                      userModal.user.role === 'admin' ? 'bg-purple-600 text-white' : 
+                      userModal.user.role === 'teacher' ? 'bg-blue-600 text-white' : 
+                      'bg-emerald-600 text-white'
+                    }`}>
                       {userModal.user.role}
-                    </span>
-                    <span className="bg-purple-100 text-purple-700 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider border border-purple-200">
-                      {userModal.user.level?.toUpperCase() || 'JHS'}
-                    </span>
-                    {userModal.user.program && (
-                      <span className="bg-blue-100 text-blue-700 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider border border-blue-200">
-                        {userModal.user.program}
-                      </span>
-                    )}
-                    {userModal.user.is_suspended ? (
-                      <span className="bg-red-100 text-red-700 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider border border-red-200">
-                        Suspended
-                      </span>
-                    ) : (
-                      <span className="bg-green-100 text-green-700 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider border border-green-200">
-                         {userModal.user.subscription_status === 'active' ? 'Gold Member' : 'Free Entry'}
-                      </span>
-                    )}
+                    </div>
+                  </div>
+
+                  <h3 className="font-display font-black text-2xl text-slate-900 leading-none mb-1">{userModal.user.full_name || 'Anonymous Student'}</h3>
+                  <p className="text-slate-400 font-body text-xs flex items-center gap-1.5 mb-6">
+                     <Mail size={12} className="text-brand-400" /> {userModal.user.email}
+                  </p>
+
+                  {/* High-End Tab Switcher */}
+                  <div className="grid grid-cols-3 w-full max-w-sm bg-slate-100/50 p-1 rounded-2xl border border-slate-200">
+                    {['overview', 'exams', 'payments'].map((t) => (
+                      <button
+                        key={t}
+                        onClick={() => setUserModal({ ...userModal, tab: t })}
+                        className={`capitalize py-2 text-[10px] font-black rounded-xl transition-all ${userModal.tab === t ? 'bg-white text-brand-700 shadow-sm border border-slate-100' : 'text-slate-400 hover:text-slate-600'}`}
+                      >
+                        {t}
+                      </button>
+                    ))}
                   </div>
                 </div>
               </div>
 
-              <div className="flex-1 overflow-y-auto p-8 space-y-8 custom-scrollbar">
-                {/* Stats Row */}
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-                  <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-                    <div className="text-[10px] text-gray-400 font-black uppercase tracking-widest mb-2">Member Since</div>
-                    <div className="text-lg font-bold text-ink">{new Date(userModal.user.created_at).toLocaleDateString('en-GH', { month: 'long', year: 'numeric' })}</div>
-                  </div>
-                  <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-                    <div className="text-[10px] text-gray-400 font-black uppercase tracking-widest mb-2">Investment</div>
-                    <div className="text-lg font-bold text-gold-600">GH₵{(userModal.payments.reduce((sum, p) => sum + p.amount, 0)).toFixed(2)}</div>
-                  </div>
-                  <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 col-span-2 md:col-span-1">
-                    <div className="text-[10px] text-gray-400 font-black uppercase tracking-widest mb-2">Academics</div>
-                    <div className="text-lg font-bold text-purple-600">{userModal.exams.length} Exams</div>
-                  </div>
-                </div>
-
+              {/* Dynamic Content Panel */}
+              <div className="flex-1 overflow-y-auto px-8 sm:px-10 py-8 custom-scrollbar">
                 {userModal.loading ? (
-                  <div className="flex flex-col items-center justify-center py-20 bg-white/40 rounded-3xl border border-dashed border-gray-200">
-                    <div className="w-12 h-12 rounded-full border-4 border-brand-500 border-t-transparent animate-spin mb-4" />
-                    <p className="font-bold text-brand-700 text-sm animate-pulse">Syncing student profile...</p>
+                  <div className="flex flex-col items-center justify-center py-20 animate-pulse">
+                     <div className="w-10 h-10 border-4 border-brand-500 border-t-transparent rounded-full animate-spin mb-4" />
+                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Streaming Activity Logs...</p>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {/* Exams Card */}
-                    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                      <div className="bg-purple-50 px-5 py-4 border-b border-purple-100 flex items-center justify-between">
-                        <h4 className="font-display font-bold text-purple-900 text-sm flex items-center gap-2">
-                          <BookOpen size={16} /> Exam History
-                        </h4>
-                        <span className="bg-purple-200 text-purple-700 text-[10px] font-bold px-2 py-0.5 rounded-md">
-                          {userModal.exams.length}
-                        </span>
+                  <div className="animate-fade-in">
+                    {userModal.tab === 'overview' && (
+                      <div className="space-y-6">
+                        {/* Status Grid */}
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="bg-slate-50 p-6 rounded-3xl border border-slate-100">
+                             <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">Member Since</div>
+                             <div className="text-lg font-bold text-slate-900">{new Date(userModal.user.created_at).toLocaleDateString()}</div>
+                          </div>
+                          <div className="bg-slate-50 p-6 rounded-3xl border border-slate-100">
+                             <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">Subscription</div>
+                             <div className="text-lg font-bold text-brand-700">{userModal.user.subscription_status === 'active' ? 'Standard Member' : 'Free Entry'}</div>
+                          </div>
+                        </div>
+
+                        {/* Interactive Management Section */}
+                        <div className="bg-brand-50/30 p-6 rounded-[2rem] border border-brand-100 space-y-4">
+                           <div className="flex items-center justify-between">
+                              <div className="text-[10px] font-black text-brand-900 uppercase tracking-widest">Role Authority</div>
+                              <select 
+                                value={userModal.user.role}
+                                onChange={async (e) => {
+                                  const newRole = e.target.value
+                                  setLoading(true)
+                                  const { error } = await supabase.from('profiles').update({ role: newRole }).eq('id', userModal.user.id)
+                                  if (!error) {
+                                    setUserModal({ ...userModal, user: { ...userModal.user, role: newRole } })
+                                    setUsers(users.map(u => u.id === userModal.user.id ? { ...u, role: newRole } : u))
+                                    setActionMsg(`Account promoted to ${newRole} authority successfully.`)
+                                  }
+                                  setLoading(false)
+                                }}
+                                className="bg-white border border-brand-200 text-brand-900 text-[10px] font-black px-3 py-1.5 rounded-xl uppercase tracking-widest focus:ring-2 focus:ring-brand-500 transition-all outline-none"
+                              >
+                                <option value="student">Student Account</option>
+                                <option value="teacher">Teacher Authority</option>
+                                <option value="admin">Admin Overlord</option>
+                              </select>
+                           </div>
+                           
+                           {/* Quick Access Link to Dashboard View */}
+                           <div className="flex items-center justify-between pt-4 border-t border-brand-100/50">
+                              <div className="text-[10px] font-black text-brand-900 uppercase tracking-widest">Direct Access</div>
+                              <Link 
+                                to={userModal.user.role === 'admin' ? '/admin' : userModal.user.role === 'teacher' ? '/teacher' : '/student'}
+                                className="flex items-center gap-1.5 text-brand-700 hover:text-brand-900 text-[10px] font-black uppercase tracking-widest transition-all group"
+                              >
+                                Enter User Dashboard <TrendingUp size={12} className="group-hover:translate-x-1 transition-transform" />
+                              </Link>
+                           </div>
+                        </div>
+
+                        {/* Activity Summaries */}
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between p-4 bg-white border border-slate-100 rounded-2xl">
+                             <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center">
+                                   <BookOpen size={18} />
+                                </div>
+                                <span className="text-xs font-bold text-slate-700 uppercase">Academic Yield</span>
+                             </div>
+                             <span className="text-lg font-black text-slate-900">{userModal.exams.length} Papers</span>
+                          </div>
+                          <div className="flex items-center justify-between p-4 bg-white border border-slate-100 rounded-2xl">
+                             <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center">
+                                   <DollarSign size={18} />
+                                </div>
+                                <span className="text-xs font-bold text-slate-700 uppercase">Financial Status</span>
+                             </div>
+                             <span className="text-lg font-black text-slate-900">GH₵{(userModal.payments.reduce((sum, p) => sum + p.amount, 0)).toFixed(2)}</span>
+                          </div>
+                        </div>
+                        
+                        <div className="pt-6 border-t border-slate-100">
+                           <div className="flex flex-wrap gap-2 justify-center">
+                                <span className="text-[9px] font-black bg-gold-50 text-gold-700 px-3 py-1 rounded-full border border-gold-100 uppercase tracking-widest">{userModal.user.level?.toUpperCase() || 'JHS'} Standard</span>
+                                {userModal.user.program && <span className="text-[9px] font-black bg-blue-50 text-blue-700 px-3 py-1 rounded-full border border-blue-100 uppercase tracking-widest">{userModal.user.program}</span>}
+                                {userModal.user.is_suspended && <span className="text-[9px] font-black bg-red-50 text-red-700 px-3 py-1 rounded-full border border-red-100 uppercase tracking-widest">Restricted Account</span>}
+                           </div>
+                        </div>
                       </div>
-                      <div className="divide-y divide-gray-50 max-h-72 overflow-y-auto">
+                    )}
+
+                    {userModal.tab === 'exams' && (
+                      <div className="space-y-3">
                         {userModal.exams.length === 0 ? (
-                          <div className="p-8 text-center text-gray-400 italic text-xs">No records found.</div>
+                           <div className="py-20 text-center text-slate-300 font-black uppercase text-xs italic tracking-widest">No Exam Records</div>
                         ) : (
                           userModal.exams.map(ex => (
-                            <div key={ex.id} className="px-5 py-3 hover:bg-gray-50 flex justify-between items-center transition-colors">
-                              <span className="font-bold text-xs text-ink">{ex.subject}</span>
-                              <span className="text-[10px] text-gray-400 font-mono">{new Date(ex.created_at).toLocaleDateString()}</span>
+                            <div key={ex.id} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl hover:bg-white border border-transparent hover:border-slate-100 transition-all">
+                              <div>
+                                <div className="text-xs font-black text-slate-900 uppercase tracking-tight">{ex.subject}</div>
+                                <div className="text-[10px] text-slate-400 font-mono mt-0.5">{new Date(ex.created_at).toLocaleDateString()}</div>
+                              </div>
+                              <div className="w-8 h-8 flex items-center justify-center text-slate-300">
+                                 <BookOpen size={16} />
+                              </div>
                             </div>
                           ))
                         )}
                       </div>
-                    </div>
+                    )}
 
-                    {/* Payments Card */}
-                    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                      <div className="bg-gold-50 px-5 py-4 border-b border-gold-100 flex items-center justify-between">
-                        <h4 className="font-display font-bold text-gold-900 text-sm flex items-center gap-2">
-                          <DollarSign size={16} /> Payment Logs
-                        </h4>
-                        <span className="bg-gold-200 text-gold-700 text-[10px] font-bold px-2 py-0.5 rounded-md">
-                          {userModal.payments.length}
-                        </span>
-                      </div>
-                      <div className="divide-y divide-gray-50 max-h-72 overflow-y-auto">
+                    {userModal.tab === 'payments' && (
+                      <div className="space-y-3">
                         {userModal.payments.length === 0 ? (
-                          <div className="p-8 text-center text-gray-400 italic text-xs">No records found.</div>
+                           <div className="py-20 text-center text-slate-300 font-black uppercase text-xs italic tracking-widest">No Payment Records</div>
                         ) : (
                           userModal.payments.map(pay => (
-                            <div key={pay.id} className="px-5 py-3 hover:bg-gray-50 flex justify-between items-center transition-colors">
-                              <div>
-                                <div className="font-black text-xs text-emerald-600">GH₵{Number(pay.amount).toFixed(2)}</div>
-                                <div className="text-[9px] text-gray-400 uppercase font-black">{pay.status}</div>
+                            <div key={pay.id} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl hover:bg-white border border-transparent hover:border-slate-100 transition-all">
+                              <div className="flex items-center gap-4">
+                                <div className="w-10 h-10 bg-emerald-100 text-emerald-700 rounded-xl flex items-center justify-center text-[10px] font-black">GH</div>
+                                <div>
+                                  <div className="text-xs font-black text-slate-900">GH₵{pay.amount}</div>
+                                  <div className={`text-[9px] font-black uppercase tracking-widest mt-0.5 ${pay.status === 'success' ? 'text-emerald-500' : 'text-amber-500'}`}>{pay.status}</div>
+                                </div>
                               </div>
-                              <span className="text-[10px] text-gray-400 font-mono">{new Date(pay.created_at).toLocaleDateString()}</span>
+                              <span className="text-[10px] text-slate-400 font-mono">{new Date(pay.created_at).toLocaleDateString()}</span>
                             </div>
                           ))
                         )}
                       </div>
-                    </div>
+                    )}
                   </div>
                 )}
               </div>
               
-              <div className="p-8 bg-gray-50 border-t border-gray-100 flex flex-col sm:flex-row gap-4 shrink-0">
+              {/* Footer Actions */}
+              <div className="shrink-0 p-8 sm:p-10 bg-slate-50 border-t border-slate-100 flex flex-col sm:flex-row gap-4">
                 <button 
                   onClick={() => {
-                    setUserModal({ show: false, user: null, exams: [], payments: [], loading: false })
+                    setUserModal({ ...userModal, show: false })
                     handleOpenEmail(userModal.user)
                   }}
-                  className="bg-brand-700 text-white hover:bg-brand-800 px-6 py-4 rounded-2xl font-black text-sm flex items-center justify-center gap-2 shadow-lg shadow-brand-500/20 transition-all active:scale-95 flex-1"
+                  className="bg-brand-900 text-white hover:bg-black px-8 py-5 rounded-[1.5rem] font-black text-[11px] flex items-center justify-center gap-3 transition-all active:scale-[0.98] flex-1 uppercase tracking-widest shadow-xl shadow-brand-900/10"
                 >
-                  <Mail size={18} /> Compose Direct message
+                  <Mail size={16} /> Secure Mail
                 </button>
                 {userModal.user.role !== 'admin' && (
                   userModal.user.is_suspended ? (
                     <button onClick={() => {
                         handleUnsuspend(userModal.user.id)
-                        setUserModal({ show: false, user: null, exams: [], payments: [], loading: false })
+                        setUserModal({ ...userModal, show: false })
                       }}
-                      className="bg-white border-2 border-blue-500 text-blue-600 hover:bg-blue-50 px-6 py-4 rounded-2xl font-black text-sm flex-1 transition-all">
-                      Re-activate Account
+                      className="bg-white border-2 border-brand-900 text-brand-900 hover:bg-brand-50 px-8 py-5 rounded-[1.5rem] font-black text-[11px] flex-1 transition-all uppercase tracking-widest">
+                      Un-restrict Access
                     </button>
                   ) : (
                     <button onClick={() => {
                         handleSuspend(userModal.user.id)
-                        setUserModal({ show: false, user: null, exams: [], payments: [], loading: false })
+                        setUserModal({ ...userModal, show: false })
                       }}
-                      className="bg-white border-2 border-red-500 text-red-600 hover:bg-red-50 px-6 py-4 rounded-2xl font-black text-sm flex-1 transition-all">
-                      Suspend Account
+                      className="bg-red-50 text-red-600 border-2 border-red-100 hover:bg-red-600 hover:text-white px-8 py-5 rounded-[1.5rem] font-black text-[11px] flex-1 transition-all uppercase tracking-widest">
+                      Revoke Access
                     </button>
                   )
                 )}

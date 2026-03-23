@@ -150,12 +150,27 @@ export default function PricingPage() {
           >
             <Star size={12} className="fill-current" /> Simple, transparent pricing
           </span>
-          <h1 className="font-display text-4xl md:text-6xl font-bold text-white leading-tight mb-5">
+          <h1 className="font-display text-3xl sm:text-4xl md:text-6xl font-bold text-white leading-tight mb-5">
             Invest in Your <span style={{ color: '#f5b400' }}>Academic Success</span>
           </h1>
-          <p className="font-body text-lg md:text-xl leading-relaxed" style={{ color: 'rgba(255,255,255,0.6)' }}>
+          <p className="font-body text-lg md:text-xl leading-relaxed mb-10" style={{ color: 'rgba(255,255,255,0.6)' }}>
             One plan, full access, every subject. Cancel anytime.
           </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-white/40 text-[10px] md:text-sm font-mono tracking-widest uppercase">
+            <div className="flex items-center gap-2 sm:border-r sm:border-white/10 sm:pr-8">
+              <Shield size={16} className="text-gold-400" />
+              <span>100% Secure Checkout</span>
+            </div>
+            <div className="flex items-center gap-2 sm:border-r sm:border-white/10 sm:pr-8">
+              <BadgeCheck size={16} className="text-gold-400" />
+              <span>Standard Mock Exams</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Star size={16} className="text-gold-400 fill-current" />
+              <span>10,000+ Students</span>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -274,9 +289,17 @@ export default function PricingPage() {
                 </button>
               )}
 
-              {/* Paystack badge */}
-              <div className="flex items-center justify-center mt-5 text-[11px] font-mono font-bold tracking-tight md:tracking-widest uppercase" style={{ color: 'rgba(255,255,255,0.35)' }}>
-                <span className="text-center">Secured by Paystack · Mobile Money Accepted</span>
+              {/* Trust & Paystack badge */}
+              <div className="mt-8 flex items-center justify-center gap-6 pt-6 border-t border-white/5">
+                <img src="/images/trust-badge.png" alt="Trust Badge" className="h-14 w-auto object-contain opacity-90 drop-shadow-[0_0_15px_rgba(245,180,0,0.1)]" />
+                <div className="text-left">
+                  <p className="text-[10px] font-mono font-bold tracking-widest uppercase text-gold-400 mb-1">Guaranteed Success</p>
+                  <p className="text-[11px] font-body text-white/40 leading-tight max-w-[140px]">Trusted by thousands of Ghanaian Students</p>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-center mt-6 text-[10px] font-mono font-bold tracking-widest uppercase" style={{ color: 'rgba(255,255,255,0.25)' }}>
+                <span>Secured by Paystack · MoMo Accepted</span>
               </div>
             </div>
           </div>
@@ -417,7 +440,7 @@ export default function PricingPage() {
             style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(245,180,0,0.08) 0%, transparent 70%)' }}
           />
           <div className="relative">
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-4">
+            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
               Ready to Pass Your Exams?
             </h2>
             <p className="font-body text-lg mb-8" style={{ color: 'rgba(255,255,255,0.55)' }}>

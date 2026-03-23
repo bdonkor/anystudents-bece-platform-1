@@ -20,6 +20,9 @@ const RefundPolicyPage = lazy(() => import('./pages/RefundPolicyPage'))
 const DisclaimerPage = lazy(() => import('./pages/DisclaimerPage'))
 const UserGuidePage = lazy(() => import('./pages/UserGuidePage'))
 const HowItWorksPage = lazy(() => import('./pages/HowItWorksPage'))
+const BlogPage = lazy(() => import('./pages/BlogPage'))
+const BlogPostPage = lazy(() => import('./pages/BlogPostPage'))
+const StudyTimePage = lazy(() => import('./pages/StudyTimePage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 
 function LoadingScreen() {
@@ -72,6 +75,9 @@ function AppRoutes() {
         <Route path="/disclaimer" element={<DisclaimerPage />} />
         <Route path="/user-guide" element={<UserGuidePage />} />
         <Route path="/how-it-works" element={<HowItWorksPage />} />
+        <Route path="/blog" element={<BlogPage />} />
+        <Route path="/blog/:slug" element={<BlogPostPage />} />
+        <Route path="/study-time" element={<StudyTimePage />} />
 
         <Route path="/student" element={
           <ProtectedRoute><StudentDashboard /></ProtectedRoute>

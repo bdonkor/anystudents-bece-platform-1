@@ -121,23 +121,37 @@ export default function HomePage() {
       <Navbar />
 
       {/* HERO */}
-      <section className="bg-brand-700 text-white relative overflow-hidden" style={{ backgroundColor: '#0f172a' }}>
-        <div className="absolute inset-0 opacity-5"
-          style={{ backgroundImage: 'radial-gradient(circle at 30% 50%, #f5b400 0%, transparent 60%), radial-gradient(circle at 70% 20%, #334155 0%, transparent 50%)' }} />
-        <div className="relative max-w-7xl mx-auto px-6 py-24 md:py-32 text-center">
+      <section className="bg-brand-900 text-white relative overflow-hidden flex flex-col items-center justify-center min-h-[85vh]">
+        {/* Background Video */}
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="/AnyStudents mock exams oficial video.mp4" type="video/mp4" />
+        </video>
+        
+        {/* Dark Overlay for Text Legibility */}
+        <div className="absolute inset-0 bg-brand-900/80 mix-blend-multiply" />
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-900 via-transparent to-transparent opacity-90" />
+
+        {/* Hero Content Layer */}
+        <div className="relative max-w-7xl mx-auto px-6 pt-24 pb-16 md:pt-44 md:pb-32 text-center">
           <div className="inline-flex items-center gap-2 bg-gold-500/10 border border-gold-500/20 rounded-full px-4 py-1.5 mb-8 animate-fade-in">
             <span className="text-gold-400 text-[10px] md:text-sm font-mono tracking-wide uppercase">Ready Mock Exams Anytime</span>
           </div>
 
-          <h1 className="font-display text-4xl md:text-7xl font-bold text-white leading-[1.1] mb-8 animate-fade-up">
+          <h1 className="font-display text-3xl sm:text-4xl md:text-7xl font-bold text-white leading-[1.1] mb-8 animate-fade-up">
             <span className="text-gold-400">Generate Mock Exams.</span><br />
-            Pass BECE & WASSCE<br />
+            Pass Your BECE & WASSCE<br />
             with Confidence
           </h1>
 
           <p className="font-body text-lg md:text-xl text-white/70 max-w-3xl mx-auto mb-12 leading-relaxed animate-fade-up"
              style={{ animationDelay: '0.1s' }}>
-            Practice Official-Standard BECE and WASSCE questions instantly. Unique papers, full marking schemes, and real-time performance tracking for JHS and SHS students.
+            Join thousands of smart teenage students across Ghana systematically preparing with AnyStudents tailored mock exams.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up mb-12" style={{ animationDelay: '0.2s' }}>
@@ -164,7 +178,7 @@ export default function HomePage() {
 
       {/* STATS */}
       <section className="bg-white border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-6 py-10">
+        <div className="max-w-7xl mx-auto px-6 py-6 md:py-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {STATS.map(stat => (
               <div key={stat.label} className="text-center">
@@ -189,10 +203,10 @@ export default function HomePage() {
             className={`w-full bg-white border-2 rounded-2xl p-4 md:p-5 flex items-center justify-between shadow-sm transition-all duration-200 
                         ${isDropdownOpen ? 'border-brand-600 shadow-md' : 'border-gray-200 hover:border-brand-400'}`}
           >
-            <div className="flex items-center gap-4">
-              <span className="text-3xl">{selectedSubject.icon}</span>
+            <div className="flex items-center gap-3 md:gap-4">
+              <span className="text-2xl md:text-3xl">{selectedSubject.icon}</span>
               <div className="text-left">
-                <div className="font-display font-bold text-lg text-ink">{selectedSubject.name}</div>
+                <div className="font-display font-bold text-base md:text-lg text-ink">{selectedSubject.name}</div>
                 <div className="text-xs text-gray-500 font-body">Official Standard Mock Exam</div>
               </div>
             </div>

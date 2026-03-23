@@ -225,7 +225,7 @@ export default function TermsOfUsePage() {
                 <p>If you have any questions about these Terms, please contact us:</p>
                 <div className="bg-slate-50 border border-slate-200 rounded-lg p-6 mt-4">
                   <p className="font-semibold text-brand-800">AnyStudents Mock Exams</p>
-                  <p>Email: <a href="mailto:info@anystudents.com" className="text-gold-600 hover:text-gold-700 underline">info@anystudents.com</a></p>
+                  <p>Email: <a href="mailto:info@mockexams.anystudents.com" className="text-gold-600 hover:text-gold-700 underline">info@mockexams.anystudents.com</a></p>
                   <p>Website: <a href="https://mockexams.anystudents.com" className="text-gold-600 hover:text-gold-700 underline">mockexams.anystudents.com</a></p>
                   <p className="mt-2 text-sm text-slate-600">Location: Ghana</p>
                 </div>

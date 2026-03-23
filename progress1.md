@@ -230,7 +230,22 @@ VITE_SUBSCRIPTION_AMOUNT=   # Amount in kobo (default: 10000 = GH₵100)
 - Fixed Exam Logs bug (missing icon import)
 - Optimized Home Page testimonials (First names + Cities) and Hero messaging ("Create Mock Exams Anytime")
 - High-performance UI with code splitting and SEO optimization for BECE & WASSCE keywords
-- Weekly progress reports for guardians/parents (via Resend Edge Function)
+- **Email System:** Transitioned from mailto to Resend API for automated reports; further transactional emails can be added
+3. **Mailchimp Integration:** Automatically sync new student signups to a Mailchimp Audience for automated marketing and newsletters.
+
+---
+
+## Build Commands
+
+```bash
+npm run dev     # Development server
+npm run build   # Production build
+npm run preview # Preview production build
+```
+
+---
+
+## March 21, 2026 - Mailchimp Automation, Weekly Progress Reports Setup, and Profile Export Guide.
 
 ---
 
