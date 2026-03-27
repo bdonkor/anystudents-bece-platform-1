@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
-import { Menu, X, LogOut, LayoutDashboard, ChevronDown } from 'lucide-react'
+import { Menu, X, LogOut, LayoutDashboard, ChevronDown, Shield } from 'lucide-react'
 
 export default function Navbar() {
   const { user, profile, signOut } = useAuth()
@@ -61,7 +61,8 @@ export default function Navbar() {
               src="/images/anystudents official logo.png"
               alt="AnyStudents Mock Exams Logo"
               decoding="async"
-              loading="lazy"
+              width="240"
+              height="80"
               className="h-14 md:h-20 w-auto object-contain group-hover:scale-105 transition-transform"
             />
 
@@ -85,7 +86,17 @@ export default function Navbar() {
                 ${resourcesOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}>
                 <Link to="/user-guide" className="block px-4 py-2 text-sm text-white/80 hover:text-gold-400 hover:bg-white/5 transition-colors font-body">User Guide</Link>
                 <Link to="/how-it-works" className="block px-4 py-2 text-sm text-white/80 hover:text-gold-400 hover:bg-white/5 transition-colors font-body">How It Works</Link>
-                <Link to="/study-time" className="block px-4 py-2 text-sm text-white/80 hover:text-gold-400 hover:bg-white/5 transition-colors font-body">Study Timer</Link>
+                <Link to="/study-time" className="block px-4 py-2 text-sm text-white/80 hover:text-gold-400 hover:bg-white/5 transition-colors font-body flex items-center gap-1">Study Timer <span className="text-[10px] bg-gold-500 text-brand-900 px-2 py-0.5 rounded ml-1 font-black tracking-tighter animate-pulse shadow-[0_0_10px_rgba(234,179,8,0.5)]">FREE</span></Link>
+                <Link to="/subject-game" className="block px-4 py-2 text-sm text-white/80 hover:text-gold-400 hover:bg-white/5 transition-colors font-body flex items-center gap-1">Subject Game</Link>
+                <Link 
+                  to="/distinction-hub" 
+                  className="block px-4 py-3 text-sm text-gold-400 font-bold bg-gold-400/5 hover:bg-gold-400/10 transition-all border-l-2 border-gold-400/50 my-1"
+                >
+                  Distinction Skills Hub 
+                  <span className="text-[10px] bg-gold-500 text-brand-900 px-2 py-0.5 rounded ml-2 font-black tracking-tighter animate-pulse shadow-[0_0_10px_rgba(234,179,8,0.5)]">
+                    BONUS
+                  </span>
+                </Link>
               </div>
             </div>
 
@@ -94,10 +105,23 @@ export default function Navbar() {
 
             {user ? (
               <div className="flex items-center gap-3">
-                <Link to={dashboardHref} className={`flex items-center gap-2 ${desktopLinkClass(dashboardHref)}`}>
-                  <LayoutDashboard size={18} />
-                  {profile?.role === 'admin' ? 'Admin' : profile?.role === 'teacher' ? 'Teacher Dashboard' : 'Dashboard'}
-                </Link>
+                {profile?.role === 'admin' ? (
+                  <div className="flex items-center gap-4">
+                    <Link to="/admin" className={`flex items-center gap-2 ${desktopLinkClass('/admin')}`}>
+                      <Shield size={18} className="text-brand-400" />
+                      Admin
+                    </Link>
+                    <Link to="/student" className={`flex items-center gap-2 ${desktopLinkClass('/student')}`}>
+                      <LayoutDashboard size={18} />
+                      Student View
+                    </Link>
+                  </div>
+                ) : (
+                  <Link to={dashboardHref} className={`flex items-center gap-2 ${desktopLinkClass(dashboardHref)}`}>
+                    <LayoutDashboard size={18} />
+                    {profile?.role === 'teacher' ? 'Teacher Dashboard' : 'Dashboard'}
+                  </Link>
+                )}
                 <div className="h-5 w-px bg-white/20" />
                 <span className="text-white/60 text-base font-body">{profile?.full_name?.split(' ')[0] || 'User'}</span>
                 <button onClick={handleSignOut}
@@ -129,17 +153,22 @@ export default function Navbar() {
           <div className="py-1">
             <button 
               onClick={() => setMobileResourcesOpen(!mobileResourcesOpen)}
-              className="w-full flex items-center justify-between text-gold-500/80 font-black uppercase tracking-widest text-[10px] py-2 px-0 hover:text-gold-400 transition-colors"
+              className={`w-full flex items-center justify-between text-gold-500 font-black uppercase tracking-widest text-[14px] py-3 px-4 transition-all rounded-lg border-2 mb-2
+                ${mobileResourcesOpen 
+                  ? 'bg-gold-500 text-brand-900 border-gold-500 shadow-[0_0_15px_rgba(234,179,8,0.3)]' 
+                  : 'bg-gold-500/10 border-gold-500/30'}`}
             >
               Resources 
-              <ChevronDown size={14} className={`transition-transform duration-200 ${mobileResourcesOpen ? 'rotate-180' : ''}`} />
+              <ChevronDown size={18} className={`transition-transform duration-200 ${mobileResourcesOpen ? 'rotate-180' : ''}`} />
             </button>
             
             {mobileResourcesOpen && (
               <div className="space-y-1 pl-4 animate-in slide-in-from-top-1 duration-200">
                 <Link to="/user-guide" onClick={() => setMenuOpen(false)} className={mobileLinkClass('/user-guide')}>User Guide</Link>
                 <Link to="/how-it-works" onClick={() => setMenuOpen(false)} className={mobileLinkClass('/how-it-works')}>How It Works</Link>
-                <Link to="/study-time" onClick={() => setMenuOpen(false)} className={mobileLinkClass('/study-time')}>Study Timer</Link>
+                <Link to="/study-time" onClick={() => setMenuOpen(false)} className={`${mobileLinkClass('/study-time')} flex items-center gap-2`}>Study Timer <span className="text-[10px] bg-gold-500 text-brand-900 px-2 py-0.5 rounded font-black tracking-tighter">FREE</span></Link>
+                <Link to="/subject-game" onClick={() => setMenuOpen(false)} className={`${mobileLinkClass('/subject-game')} flex items-center gap-2`}>Subject Game</Link>
+                <Link to="/distinction-hub" onClick={() => setMenuOpen(false)} className={mobileLinkClass('/distinction-hub')}>Distinction Skills Hub (Bonus)</Link>
               </div>
             )}
           </div>
@@ -148,9 +177,20 @@ export default function Navbar() {
           <Link to="/blog" onClick={() => setMenuOpen(false)} className={mobileLinkClass('/blog')}>Blog</Link>
           {user ? (
             <>
-              <Link to={dashboardHref} onClick={() => setMenuOpen(false)} className={mobileLinkClass(dashboardHref)}>
-                {profile?.role === 'admin' ? 'Admin' : profile?.role === 'teacher' ? 'Teacher Dashboard' : 'Dashboard'}
-              </Link>
+              {profile?.role === 'admin' ? (
+                <>
+                  <Link to="/admin" onClick={() => setMenuOpen(false)} className={mobileLinkClass('/admin')}>
+                    Admin Control
+                  </Link>
+                  <Link to="/student" onClick={() => setMenuOpen(false)} className={mobileLinkClass('/student')}>
+                    Student View
+                  </Link>
+                </>
+              ) : (
+                <Link to={dashboardHref} onClick={() => setMenuOpen(false)} className={mobileLinkClass(dashboardHref)}>
+                  {profile?.role === 'teacher' ? 'Teacher Dashboard' : 'Dashboard'}
+                </Link>
+              )}
               <button onClick={handleSignOut} className="block w-full text-left text-red-400 py-2 font-body">Sign Out</button>
             </>
           ) : (

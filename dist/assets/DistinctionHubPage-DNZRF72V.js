@@ -1,4 +1,4 @@
-import{r as m,j as e,h as p,ao as y,L as g,i as u,p as v}from"./framework-Dx3Qxv-b.js";import{u as k}from"./index-DfFFCOSy.js";import{N as h}from"./Navbar-BSIVuEvd.js";import{F as b}from"./Footer-DNzt4b6S.js";import"./vendor-CIYvVnD_.js";import"./supabase-D4iqXWAT.js";const w=`
+import{r as m,j as e,h as p,ao as y,L as g,i as u,p as v}from"./framework-Dx3Qxv-b.js";import{u as k}from"./index-DAmEKv67.js";import{N as h}from"./Navbar-Bdm2K_QZ.js";import{F as b}from"./Footer-DNzt4b6S.js";import"./vendor-CIYvVnD_.js";import"./supabase-D4iqXWAT.js";const w=`
   #sd-root {
     --sd-primary: #0f172a;
     --sd-gold: #f5b400;
