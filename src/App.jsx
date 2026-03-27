@@ -1,13 +1,14 @@
-import { Suspense, lazy } from 'react'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { useEffect, Suspense, lazy } from 'react'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
+import { fbq } from './lib/pixel'
 
-// Lazy load pages for better performance
-import HomePage from './pages/HomePage'
-import LoginPage from './pages/LoginPage'
-import RegisterPage from './pages/RegisterPage'
-import ForgotPasswordPage from './pages/ForgotPasswordPage'
-import ResetPasswordPage from './pages/ResetPasswordPage'
+// Lazy load all pages for maximum performance
+const HomePage = lazy(() => import('./pages/HomePage'))
+const LoginPage = lazy(() => import('./pages/LoginPage'))
+const RegisterPage = lazy(() => import('./pages/RegisterPage'))
+const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage'))
+const ResetPasswordPage = lazy(() => import('./pages/ResetPasswordPage'))
 const StudentDashboard = lazy(() => import('./pages/StudentDashboard'))
 const TeacherDashboard = lazy(() => import('./pages/TeacherDashboard'))
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard'))
@@ -23,7 +24,23 @@ const HowItWorksPage = lazy(() => import('./pages/HowItWorksPage'))
 const BlogPage = lazy(() => import('./pages/BlogPage'))
 const BlogPostPage = lazy(() => import('./pages/BlogPostPage'))
 const StudyTimePage = lazy(() => import('./pages/StudyTimePage'))
+const DistinctionHubPage = lazy(() => import('./pages/DistinctionHubPage'))
+const SubjectGamePage = lazy(() => import('./pages/SubjectGamePage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
+
+/**
+ * PixelTracker - Triggers a Facebook Pixel PageView on every route change
+ */
+function PixelTracker() {
+  const location = useLocation();
+
+  useEffect(() => {
+    // Standard PageView for every route change
+    fbq('track', 'PageView');
+  }, [location]);
+
+  return null;
+}
 
 function LoadingScreen() {
   return (
@@ -60,6 +77,7 @@ function AppRoutes() {
 
   return (
     <Suspense fallback={<LoadingScreen />}>
+      <PixelTracker />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={user ? <Navigate to={getDashboardPath()} replace /> : <LoginPage />} />
@@ -78,6 +96,8 @@ function AppRoutes() {
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/:slug" element={<BlogPostPage />} />
         <Route path="/study-time" element={<StudyTimePage />} />
+        <Route path="/distinction-hub" element={<DistinctionHubPage />} />
+        <Route path="/subject-game" element={<SubjectGamePage />} />
 
         <Route path="/student" element={
           <ProtectedRoute><StudentDashboard /></ProtectedRoute>
